@@ -1,1 +1,41 @@
-<h2>Our friends who are looking for a house</h2>
+<section class="main-pets section container">
+  <h2 class="section__header">Our friends who<br>are looking for a house</h2>
+  <div class="section__content">
+    <div class="main-pets__slider main-pets-slider">
+      <div class="main-pets-slider__prev">
+        <button class="button button_circle">&#8592;</button>
+      </div>
+      <ul class="main-pets-slider__list">
+        <li class="main-pets-slider__list-item pets-slider-card">
+          <div class="pets-slider-card__img-container">
+            <img src="<%= require('../../assets/pictures/pets/katrine.png') %>" alt="charly">
+          </div>
+          <h3 class="pets-slider-card__title">Katrine</h3>
+          <button class="pets-slider-card__button button">Learn more</button>
+        </li>
+
+        <li class="main-pets-slider__list-item pets-slider-card">
+          <div class="pets-slider-card__img-container">
+            <img src="<%= require('../../assets/pictures/pets/jennifer.png') %>" alt="charly">
+          </div>
+          <h3 class="pets-slider-card__title">Jennifer</h3>
+          <button class="pets-slider-card__button button">Learn more</button>
+        </li>
+
+        <li class="main-pets-slider__list-item pets-slider-card">
+          <div class="pets-slider-card__img-container">
+            <img src="<%= require('../../assets/pictures/pets/woody.png') %>" alt="charly">
+          </div>
+          <h3 class="pets-slider-card__title">Woody</h3>
+          <button class="pets-slider-card__button button">Learn more</button>
+        </li>
+      </ul>
+      <div class="main-pets-slider__next">
+        <button class="button button_circle">&#8594;</button>
+      </div>      
+    </div>
+
+    <button class="main-pets__button button button_filled">Get to know the rest</button>
+
+  </div>
+</section>

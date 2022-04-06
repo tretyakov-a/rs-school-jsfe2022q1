@@ -1,0 +1,36 @@
+.main-pets {
+  background-color: var(--color-light-l);
+
+  &__slider {
+    margin-bottom: 60px;
+  }
+
+  &__button {
+    margin: 0 auto;
+  }
+}
+
+.main-pets-slider {
+  display: flex;
+
+  &__prev, &__next {
+    display: flex;
+    align-items: center;
+    flex-basis: 105px;
+  }
+
+  &__prev {
+    justify-content: flex-start;
+  }
+
+  &__next {
+    justify-content: flex-end;
+  }
+
+  &__list {
+    display: flex;
+    justify-content: space-between;
+
+    flex-grow: 1;
+  }
+}
