@@ -5,6 +5,7 @@
 }
 
 body {
+  position: relative;
   font-family: var(--main-font);
   color: var(--dark-text-color);
   background-color: var(--bg-color);
@@ -44,4 +45,29 @@ ul {
   max-width: calc(var(--container-width) + 2 * var(--container-padding));
   margin: 0 auto;
   padding: 0 var(--container-padding);
+}
+
+.logo {
+  display: block;
+  text-decoration: none;
+
+  &__title {
+    font-family: var(--header-font);
+    text-transform: capitalize;
+    color: var(--color-primary);
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 35px;  
+    letter-spacing: 0.06em;
+  }
+
+  &__subtitle {
+    font-family: var(--main-font);
+    color: var(--color-light-xl);
+    font-size: 13px;
+    line-height: 15px;
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin-top: 10px;
+  }
 }
