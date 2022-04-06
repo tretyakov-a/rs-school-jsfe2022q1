@@ -11,8 +11,9 @@ body {
   background-color: var(--bg-color);
 }
 
-h1, h2 {
+h1, h2, h3 {
   font-family: var(--header-font);
+  font-weight: normal;
 }
 
 h1 {
@@ -69,5 +70,32 @@ ul {
     letter-spacing: 0.1em;
     text-align: center;
     margin-top: 10px;
+  }
+}
+
+.button {
+  display: block;
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+
+  border-radius: 100px;
+  padding: 0 45px;
+  line-height: 52px;
+  font-family: var(--header-font);
+  font-size: 17px;
+  letter-spacing: 0.06em;
+  color: var(--color-dark-3xl);
+  border: 2px solid var(--color-primary);
+  transition: 0.2s;
+
+  &_filled {
+    border: none;
+    background-color: var(--color-primary);
+  }
+
+  &:hover {
+    background-color: var(--color-primary-light);
   }
 }
