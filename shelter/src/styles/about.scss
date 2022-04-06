@@ -1,0 +1,31 @@
+.about {
+  display: flex;
+
+
+  .section__header {
+    margin-bottom: 0px;
+    max-width: 370px;
+  }
+
+  &__pets {
+    flex-basis: 595px;
+    display: flex;
+    justify-content: center;
+
+    img {
+      display: block;
+    }
+  }
+
+  &__text {
+
+    p {
+      max-width: 430px;
+      margin-top: 25px;
+
+      font-size: 15px;
+      line-height: 24px;
+      color: var(--color-dark-xl);
+    }
+  } 
+}

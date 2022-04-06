@@ -48,6 +48,24 @@ ul {
   padding: 0 var(--container-padding);
 }
 
+.section {
+  padding-top: 80px;
+  padding-bottom: 100px;
+
+  &__header {
+    margin-bottom: 60px;
+    font-family: var(--header-font);
+    font-size: 35px;
+    line-height: 45px;
+    letter-spacing: 0.06em;
+    color: var(--color-dark-l);
+  }
+
+  &__content {
+    
+  }
+}
+
 .logo {
   display: block;
   text-decoration: none;
