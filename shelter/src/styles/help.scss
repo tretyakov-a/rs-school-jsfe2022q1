@@ -1,0 +1,33 @@
+.help {
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 120px;
+    row-gap: 55px;
+  }
+
+  &__list-item {
+    height: 113px;
+
+    &-icon {
+      height: 60px;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 30px;
+      
+      img {
+        display: inline-block;
+      }
+    }
+
+    &-title {
+      font-size: 20px;
+      line-height: 23px;
+      letter-spacing: 0.06em;
+      color: var(--color-dark-l);
+      text-align: center;
+    }
+  }
+}
