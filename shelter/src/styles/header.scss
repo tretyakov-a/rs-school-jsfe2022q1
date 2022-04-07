@@ -17,6 +17,31 @@
   }
 }
 
+.header_pets {
+  padding: 30px 0px;
+  position: sticky;
+  background-color: var(--color-light-xl);
+
+  .logo {
+    &__title {
+      color: var(--color-dark-l);
+    }
+
+    &__subtitle {
+      color: var(--color-dark-3xl);
+    }
+  }
+
+  .header-menu {
+    &__link {
+      color: var(--color-dark-l);
+  
+      &:hover, &_active { 
+        color: var(--color-light-3xl);
+      }
+    }
+  }
+}
 
 .header-menu {
   display: flex;

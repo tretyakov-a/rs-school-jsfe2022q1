@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   position: relative;
   font-family: var(--main-font);
@@ -26,12 +30,7 @@ h2 {
 
 a {
   text-decoration: none;
-  color: var(--dark-text-color);
   transition: 0.2s;
-}
-
-a:hover {
-  color: var(--main-color);
 }
 
 img {

@@ -1,1 +1,49 @@
-<h2>Our friends who are looking for a house</h2>
+<section class="pets section container" id="pets">
+  <h2 class="section__header">Our friends who<br>are looking for a house</h2>
+  <div class="section__content">
+    <div class="pets__slider pets-slider">
+      <div class="pets-slider__prev">
+        <button class="button button_circle">
+          <svg width="14" height="6" viewBox="0 0 14 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2V4H3V6L0 3L3 0V2H14Z"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="pets-slider__list">
+        <li class="pets-slider__list-item pets-slider-card">
+          <div class="pets-slider-card__img-container">
+            <img src="<%= require('../../assets/pictures/pets/katrine.png') %>" alt="charly">
+          </div>
+          <h3 class="pets-slider-card__title">Katrine</h3>
+          <button class="pets-slider-card__button button">Learn more</button>
+        </li>
+
+        <li class="pets-slider__list-item pets-slider-card">
+          <div class="pets-slider-card__img-container">
+            <img src="<%= require('../../assets/pictures/pets/jennifer.png') %>" alt="charly">
+          </div>
+          <h3 class="pets-slider-card__title">Jennifer</h3>
+          <button class="pets-slider-card__button button">Learn more</button>
+        </li>
+
+        <li class="pets-slider__list-item pets-slider-card">
+          <div class="pets-slider-card__img-container">
+            <img src="<%= require('../../assets/pictures/pets/woody.png') %>" alt="charly">
+          </div>
+          <h3 class="pets-slider-card__title">Woody</h3>
+          <button class="pets-slider-card__button button">Learn more</button>
+        </li>
+      </ul>
+      <div class="pets-slider__next">
+        <button class="button button_circle">
+          <svg width="14" height="6" viewBox="0 0 14 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 4V2L11 2V0L14 3L11 6V4L0 4Z"/>
+          </svg>
+        </button>
+      </div>      
+    </div>
+
+    <button class="pets__button button button_filled">Get to know the rest</button>
+
+  </div>
+</section>

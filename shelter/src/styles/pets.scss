@@ -1,4 +1,4 @@
-.main-pets {
+.pets {
   background-color: var(--color-light-l);
 
   &__slider {
@@ -7,11 +7,10 @@
 
   &__button {
     margin: 0 auto;
-    width: fit-content;
   }
 }
 
-.main-pets-slider {
+.pets-slider {
   display: flex;
 
   &__prev, &__next {
