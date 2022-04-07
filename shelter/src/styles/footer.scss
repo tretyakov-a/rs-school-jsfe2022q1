@@ -1,17 +1,31 @@
 .footer {
-  display: flex;
-  padding-top: 56px;
-
   height: var(--footer-height);
-  background: url("../assets/pictures/footer-puppy.png") no-repeat bottom right var(--container-padding),
-              url("../assets/pictures/hero/noise_transparent@2x.png"),
+  background: url("../assets/pictures/hero/noise_transparent@2x.png"),
               radial-gradient(110.67% 538.64% at 5.73% 50%, #513D2F 0%, #1A1A1C 100%),
               #211F20;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  &__info-container {
+    flex: 0 1 740px;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 56px;
+  }
+
+  &__dog {
+    flex: 0 0 300px;
+    align-items: flex-end;
+    background: url("../assets/pictures/footer-puppy.png") no-repeat bottom right;
+  }
 }
 
 .footer-info {
   max-width: 302px;
-  margin-right: 13.33%;
 
   &__title {
     font-size: 35px;

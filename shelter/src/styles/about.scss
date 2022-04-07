@@ -1,5 +1,8 @@
 .about {
-  display: flex;
+
+  &__container {
+    display: flex;
+  }
 
   &__pets {
     flex-basis: 49.58%;

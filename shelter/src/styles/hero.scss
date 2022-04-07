@@ -1,18 +1,26 @@
 .hero {
-  position: relative;
   height: 908px;
   padding-top: 180px;
-  background: url("../assets/pictures/hero/start-screen-puppy.png") no-repeat bottom right var(--container-padding),
-              url("../assets/pictures/hero/noise_transparent@2x.png"),
+  background: url("../assets/pictures/hero/noise_transparent@2x.png"),
               radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%),
               // url("../assets//pictures/hero/start-screen-background.jpg") no-repeat top left,
               #211F20;
 
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+  }
+
   &__inner {
-    position: absolute;
-    top: calc(180px + 163px);
+    padding-top: 163px;
     left: var(--container-padding);
-    width: 460px;
+    flex-basis: 38.33%;
+  }
+
+  &__dog {
+    flex-basis: 58.16%;
+    background: url("../assets/pictures/hero/start-screen-puppy.png") no-repeat bottom right;
   }
 
   &__title {

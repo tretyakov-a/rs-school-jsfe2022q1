@@ -1,6 +1,9 @@
 .donation {
-  display: flex;
   background-color: var(--color-light-l);
+
+  &__container {
+    display: flex;
+  }
 
   &__pets {
     flex-basis: 56.5%;
