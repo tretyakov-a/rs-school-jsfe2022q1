@@ -1,76 +1,49 @@
 .footer {
-  height: var(--footer-height);
-  margin-top: 20px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  padding-top: 56px;
 
-  &__github-link {
-    margin-right: 40px;
-  }
-  
-  &__github-link:hover {
-    color: var(--highlight-color);
-  }
-  
-  .logo {
-    display: block;
-    width: 120px;
-    margin-right: 40px;
+  height: var(--footer-height);
+  background: url("../assets/pictures/footer-puppy.png") no-repeat bottom right var(--container-padding),
+              url("../assets/pictures/hero/noise_transparent@2x.png"),
+              radial-gradient(110.67% 538.64% at 5.73% 50%, #513D2F 0%, #1A1A1C 100%),
+              #211F20;
+}
+
+.footer-info {
+  max-width: 302px;
+  margin-right: 13.33%;
+
+  &__title {
+    font-size: 35px;
+    line-height: 45px;
+    letter-spacing: 0.06em;
+    color: var(--color-light-xl);
   }
 
-  &__github-link {
-    text-align: right;
-    margin-top: 10px;
-    color: var(--dark-text-color);
+  &__row {
+    height: 32px;
+    margin-top: 40px;
     display: flex;
     align-items: center;
+    text-decoration: none;
 
-    a {
-      display: inline-flex;
-      align-items: center;
-      transition: 0.2s;
+    &-icon {
+      height: 100%;
+      margin-right: 20px;
 
-      i {
-        margin-right: 5px;
-      }
-
-      img {
-        width: 16px;
-        height: 16px;
-        display: inline-block;
-        margin-right: 5px;
+      svg {
+        fill: var(--color-primary);
       }
     }
 
-    a:hover {
-      color: var(--light-text-color);
-    }
-  }
+    &-content {
+      font-family: var(--header-font);
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 23px;
+      letter-spacing: 0.06em;
 
-  &__logo {
-    display: block;
-    width: 120px;
-    margin-right: 40px;
-
-    .st0, .st1, .st2, .st3, .st4, .st5, .st6, .st8, .st9 {
-      fill: var(--bg-color);
-      stroke: var(--dark-text-color);
-    }
-
-    // JS background
-    .st1 {
-      fill: var(--main-color);
-    }
-    // JS oval background
-    .st7 {
-      fill: var(--bg-color);
-    }
-    // RS SCHOOL
-    .logo-path {
-      fill: var(--bg-color);
-      stroke: var(--dark-text-color);
-      stroke-width: 4px;
+      color: var(--color-primary);
     }
   }
 }

@@ -101,6 +101,7 @@ ul {
   border: none;
   outline: none;
   background: none;
+  text-decoration: none;
   cursor: pointer;
 
   border-radius: 100px;
@@ -121,9 +122,34 @@ ul {
 
   &_circle {
     width: 52px;
+    height: 52px;
     padding: 0px;
     text-align: center;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-dark-3xl);
+
+    svg {
+      fill: var(--color-dark-3xl);
+    }
+  }
+
+  &_circle-active {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  &_circle-inactive {
+    cursor: default;
+    pointer-events: none;
+    background-color: transparent;
+    border-color: var(--color-dark-s);
+
+    svg {
+      fill: var(--color-dark-s);
+    }
   }
 
   &:hover {
