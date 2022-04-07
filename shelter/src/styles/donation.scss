@@ -1,0 +1,56 @@
+.donation {
+  display: flex;
+  background-color: var(--color-light-l);
+
+  &__pets {
+    flex-basis: 56.5%;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 30px;
+
+    img {
+      display: block;
+      object-fit: contain;
+      max-width: 505px;
+    }
+  }
+
+  &__text {
+  } 
+
+  &__info, &__credit-card, &__description {
+    margin-top: 20px;
+  }
+
+  &__info {
+    font-family: var(--header-font);
+    font-size: 15px;
+    line-height: 17px;
+    letter-spacing: 0.06em;
+    color: var(--color-dark-l);
+  }
+
+  &__credit-card {
+    display: inline-block;
+    padding-left: 60px;
+    padding-right: 15px;
+    font-family: var(--header-font);
+    font-size: 20px;
+    line-height: 43px;
+    letter-spacing: 0.06em;
+    color: var(--color-dark-l);
+    border-radius: 9px;
+    background: url("../assets/svg/donation/credit-card.svg") no-repeat left 15px center,
+                var(--color-primary);
+  }
+
+  &__description {
+    max-width: 380px;
+    font-family: var(--main-font-italic);
+    font-style: italic;
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--color-dark-m);
+  }
+}
