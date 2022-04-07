@@ -44,16 +44,10 @@
 }
 
 .header-menu {
+  width: 443px;
   display: flex;
   justify-content: space-between;
   height: 27px;
-
-  &__item {
-    
-    &:not(:last-child) {
-      margin-right: 35px;
-    }
-  }
 
   &__link {
     font-family: var(--main-font);
@@ -83,3 +77,14 @@
   }
 }
 
+@media (max-width: var(--adaptive-width-pc)) {
+  
+}
+
+@media (max-width: var(--adaptive-width-tablet)) {
+
+}
+
+@media (max-width: var(--adaptive-width-phone)) {
+
+}

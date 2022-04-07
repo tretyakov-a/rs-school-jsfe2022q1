@@ -7,7 +7,8 @@
   &__pets {
     flex-basis: 49.58%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
+    padding-right: 119px;
 
     img {
       display: block;
@@ -15,6 +16,8 @@
   }
 
   &__text {
+
+    padding-top: 15px;
 
     p {
       max-width: 430px;
