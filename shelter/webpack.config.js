@@ -89,7 +89,7 @@ module.exports = (env) => {
       static: isDev,
       watchFiles: [
         './src/templates',
-        './src/index.ejs'
+        './src/pages'
       ]
     },
     module: {

@@ -1,10 +1,6 @@
 .pets {
   background-color: var(--color-light-l);
 
-  &__slider {
-    margin-bottom: 60px;
-  }
-
   &__button {
     margin: 0 auto;
   }
@@ -12,25 +8,20 @@
 
 .pets-slider {
   display: flex;
-
-  &__prev, &__next {
-    display: flex;
-    align-items: center;
-    flex-basis: 105px;
-  }
-
-  &__prev {
-    justify-content: flex-start;
-  }
-
-  &__next {
-    justify-content: flex-end;
-  }
+  flex-direction: column;
 
   &__list {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 30px;
+    column-gap: 40px;
+  }
 
-    flex-grow: 1;
+  &__controls {
+    display: flex;
+    justify-content: center;
+    column-gap: 20px;
+    margin-top: 60px;
   }
 }

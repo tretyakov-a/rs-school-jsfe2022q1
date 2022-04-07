@@ -123,6 +123,8 @@ ul {
     width: 52px;
     height: 52px;
     padding: 0px;
+    font-size: 20px;
+    line-height: 23px;
     text-align: center;
     border-radius: 50%;
     display: flex;
@@ -136,6 +138,8 @@ ul {
   }
 
   &_circle-active {
+    cursor: default;
+    pointer-events: none;
     background-color: var(--color-primary);
     border-color: var(--color-primary);
   }
