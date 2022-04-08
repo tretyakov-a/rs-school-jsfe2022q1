@@ -19,6 +19,7 @@
       
       img {
         display: inline-block;
+        height: 100%;
       }
     }
 
@@ -30,4 +31,43 @@
       text-align: center;
     }
   }
+}
+
+@media (max-width: $adaptive-width-pc) {
+  .help {
+    &__list {
+      column-gap: 0px;
+    }
+
+    &__list-item {
+      flex-basis: 33.33%;
+    }
+  }
+}
+
+@media (max-width: $adaptive-width-tablet) {
+  .help {
+    &__list {
+      row-gap: 30px;
+      justify-content: flex-start;
+    }
+
+    &__list-item {
+      flex-basis: 50%;      
+
+      &-icon {
+        height: 50px;
+        margin-bottom: 20px;
+      }
+
+      &-title {
+        font-size: 15px;
+        line-height: 17px;
+      }
+    }
+  }
+}
+
+@media (max-width: $adaptive-width-phone) {
+
 }

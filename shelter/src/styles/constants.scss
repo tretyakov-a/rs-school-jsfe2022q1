@@ -23,20 +23,24 @@
   --footer-height: 350px;
   
   --font-size: 15px;
-
-  --adaptive-width-pc: 1024px;
-  --adaptive-width-tablet: 768px;
-  --adaptive-width-phone: 420px;
 }
 
-@media (max-width: var(--adaptive-width-pc)) {
+$adaptive-width-pc: 1279px;
+$adaptive-width-tablet: 767px;
+$adaptive-width-phone: 319px;
 
+@media (max-width: $adaptive-width-pc) {
+  :root {
+    --container-padding: 30px;
+  }
 }
 
-@media (max-width: var(--adaptive-width-tablet)) {
-
+@media (max-width: $adaptive-width-tablet) {
+  :root {
+    --container-padding: 10px;
+  }
 }
 
-@media (max-width: var(--adaptive-width-phone)) {
+@media (max-width: $adaptive-width-phone) {
 
 }

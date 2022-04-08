@@ -71,8 +71,10 @@ ul {
 }
 
 .logo {
+  width: 184px;
   display: block;
   text-decoration: none;
+  overflow: visible;
 
   &__title {
     font-family: var(--header-font);
@@ -82,6 +84,7 @@ ul {
     font-size: 32px;
     line-height: 36px;
     letter-spacing: 0.06em;
+    white-space: nowrap;
   }
 
   &__subtitle {
@@ -160,4 +163,24 @@ ul {
     background-color: var(--color-primary-light);
     border-color: var(--color-primary-light);
   }
+}
+
+@media (max-width: $adaptive-width-pc) {
+}
+
+@media (max-width: $adaptive-width-tablet) {
+  .section {
+    padding-top: 42px;
+    padding-bottom: 42px;
+  
+    &__header {
+      font-size: 25px;
+      line-height: 32px;
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: $adaptive-width-phone) {
+
 }

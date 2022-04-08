@@ -3,7 +3,6 @@
   padding-top: 180px;
   background: url("../assets/pictures/hero/noise_transparent@2x.png"),
               radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%),
-              // url("../assets//pictures/hero/start-screen-background.jpg") no-repeat top left,
               #211F20;
 
   &__container {
@@ -14,18 +13,18 @@
 
   &__inner {
     padding-top: 163px;
-    left: var(--container-padding);
     flex-basis: 38.33%;
   }
 
   &__dog {
     flex-basis: 58.16%;
     background: url("../assets/pictures/hero/start-screen-puppy.png") no-repeat bottom right;
+    background-size: contain;
   }
 
   &__title {
     font-family: var(--header-font);
-    width: 310px;
+    max-width: 310px;
     font-size: 44px;
     line-height: 57px;
     color: var(--color-light-xl);
@@ -43,4 +42,65 @@
   &__button {
     display: inline-block;
   }
+}
+
+@media (max-width: $adaptive-width-pc) {
+  .hero {
+    height: auto;
+    padding-top: 150px;
+
+    &__container {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__inner {
+      max-width: 460px;
+      padding-top: 0px;
+      flex-basis: auto;
+      margin-bottom: 100px;
+    }
+    
+    &__dog {
+      flex-basis: auto;
+      height: 593px;
+      width: 100%;
+    }
+
+    &__button {
+      display: block;
+      margin: 0 auto;
+      width: fit-content;
+    }
+  }
+}
+
+@media (max-width: $adaptive-width-tablet) {
+  .hero {
+    &__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 105px;
+    }
+
+    &__title {
+      max-width: 200px;
+      font-size: 25px;
+      line-height: 32px;
+      text-align: center;
+    }
+  
+    &__content {
+      text-align: center;
+    }
+  
+    &__dog {
+      height: 272px;
+    }
+  }
+}
+
+@media (max-width: $adaptive-width-phone) {
+
 }

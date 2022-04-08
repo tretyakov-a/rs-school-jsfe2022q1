@@ -27,5 +27,50 @@
       line-height: 24px;
       color: var(--color-dark-xl);
     }
-  } 
+  }
+}
+
+@media (max-width: $adaptive-width-pc) {
+  .about {
+    &__container {
+      flex-direction: column-reverse;
+      align-items: center;
+    }
+
+    &__pets {
+      flex-basis: 408px;
+      height: 408px;
+      padding-right: 0px;
+      align-items: center;
+
+      img {
+        height: 100%;
+      }
+    }
+  
+    &__text {
+      max-width: 437px;
+      margin-bottom: 80px;
+    }
+  }
+}
+
+@media (max-width: $adaptive-width-tablet) {
+  .about {
+    
+    &__pets {
+      flex-basis: 354px;
+      height: 354px;
+    }
+
+    &__text {
+      margin-bottom: 42px;
+      padding: 0 15px;
+      text-align: justify;
+    }
+  }
+}
+
+@media (max-width: $adaptive-width-phone) {
+
 }

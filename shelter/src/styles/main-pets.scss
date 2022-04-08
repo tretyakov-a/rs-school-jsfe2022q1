@@ -31,7 +31,52 @@
   &__list {
     display: flex;
     justify-content: space-between;
-
+    column-gap: 40px;
+    row-gap: 30px;
     flex-grow: 1;
   }
+}
+
+
+@media (max-width: $adaptive-width-pc) {
+  .main-pets {
+
+  }
+
+  .main-pets-slider {
+    &__list {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+}
+
+@media (max-width: $adaptive-width-tablet) {
+  .main-pets {
+    &__slider {
+      margin-bottom: 42px;
+      padding-bottom: 72px;
+    }
+  }
+
+  .main-pets-slider {
+    position: relative;
+
+    &__prev, &__next {
+      position: absolute;
+      bottom: 0;
+    }
+
+    &__prev {
+      left: 58px;
+    }
+
+    &__next {
+      right: 58px;
+    }
+  }
+}
+
+@media (max-width: $adaptive-width-phone) {
+
 }
