@@ -166,6 +166,9 @@ ul {
 }
 
 @media (max-width: $adaptive-width-pc) {
+  .section {
+    
+  }
 }
 
 @media (max-width: $adaptive-width-tablet) {
@@ -177,6 +180,7 @@ ul {
       font-size: 25px;
       line-height: 32px;
       text-align: center;
+      margin-bottom: 42px;
     }
   }
 }

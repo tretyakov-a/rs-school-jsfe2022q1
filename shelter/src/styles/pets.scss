@@ -10,6 +10,7 @@
 .pets-slider {
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   &__list {
     display: flex;
@@ -21,8 +22,25 @@
 
   &__controls {
     display: flex;
-    justify-content: center;
-    column-gap: 20px;
+    justify-content: space-between;
     margin-top: 60px;
+    max-width: 340px;
+    width: 100%;
   }
+}
+
+@media (max-width: $adaptive-width-pc) {
+  .pets {
+    padding-bottom: 76px;
+  }
+}
+
+@media (max-width: $adaptive-width-tablet) {
+  .pets {
+    padding-bottom: 42px;
+  }
+}
+
+@media (max-width: $adaptive-width-phone) {
+
 }
