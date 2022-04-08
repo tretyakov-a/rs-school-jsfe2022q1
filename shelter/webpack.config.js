@@ -61,7 +61,7 @@ module.exports = (env) => {
 
   return {
     context: path.resolve(__dirname, 'src'),
-    entry: ['./index.js'],
+    entry: ['./js/index.js'],
     output: {
       filename: fileName('js'),
       path: path.resolve(__dirname, 'dist'),

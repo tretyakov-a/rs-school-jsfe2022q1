@@ -1,3 +1,7 @@
+@mixin anim($name, $fn: ease-in, $duration: 0.4s) {
+  animation: $name $duration $fn forwards;
+}
+
 .header {
   width: 100%;
   position: absolute;
@@ -11,7 +15,7 @@
     align-items: center;
   }
 
-  &__menu-container {
+  &__nav {
     display: flex;
     justify-content: space-between;
   }
@@ -66,20 +70,217 @@
       color: var(--color-light-l);
     }
   }
+
+  @keyframes menuSlideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes menuSlideOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
 }
 
-
 .burger {
+  $hamburger-size: 30px;
+  $vertical-padding: 4px;
+  $line-height: 2px;
+  $bg-color: var(--color-primary);
+  $center: $hamburger-size / 2 - $line-height / 2;
+
+  width: $hamburger-size;
+  height: $hamburger-size;
+  padding: $vertical-padding 0;
   display: none;
-  width: 30px;
-  height: 22px;
-  flex-direction: column;
-  justify-content: space-between;
-  
+  cursor: pointer;
+  z-index: 10;
+  position: relative;
+  background: transparent;
+  border: none;
+  outline: none;
+
   &__line {
-    width: 100%;
-    height: 2px;
-    background-color: var(--color-primary);
+    width: $hamburger-size;
+    height: $line-height;
+    background: $bg-color;
+    position: absolute;
+    left: 0px;
+    transform-origin: left;
+
+    &:nth-child(1) {
+      top: $vertical-padding;         
+    }
+
+    &:nth-child(2) {
+      top: $center;
+    }
+
+    &:nth-child(3) {
+      top: $hamburger-size - $vertical-padding - $line-height;
+    }
+  }
+
+  @mixin lineCenterPosition {
+    transform: rotate(0deg);
+    top: $center;
+    left: 0px;
+  }
+
+  @mixin lineVerticalPosition {
+    transform: rotate(90deg);
+    left: $center;
+    top: 0px;
+  }
+
+  @mixin topLineStartPosition {
+    top: $vertical-padding;
+    left: 0px;
+  }
+
+  @mixin topLineEndPosition {
+    transform: rotate(90deg);
+    left: $vertical-padding;
+    top: 0px;
+  }
+
+  @mixin bottomLineStartPosition {
+    top: $hamburger-size - $vertical-padding - $line-height;
+    left: 0px;
+  }
+
+  @mixin bottomLineEndPosition {
+    transform: rotate(90deg);
+    left: $hamburger-size - $vertical-padding - $line-height;
+    top: 0px;
+  }
+
+  @keyframes burgerToVerticalTopLine {
+    0% {
+      @include topLineStartPosition;
+    }
+    33% {
+      @include lineCenterPosition;
+    }
+    66% {
+      @include lineVerticalPosition;
+    }
+    100% {
+      @include topLineEndPosition;
+    }
+  }
+
+  @keyframes burgerToVerticalBottomLine {
+    0% {
+      @include bottomLineStartPosition;
+    }
+    33% {
+      @include lineCenterPosition;
+    }
+    66% {
+      @include lineVerticalPosition;
+    }
+    100% {
+      @include bottomLineEndPosition;
+    }
+  }
+
+  @keyframes verticalToBurgerTopLine {
+    0% {
+      @include topLineEndPosition;
+    }
+    33% {
+      @include lineVerticalPosition;
+    }
+    66% {
+      @include lineCenterPosition;
+    }
+    100% {
+      @include topLineStartPosition;
+    }
+  }
+
+  @keyframes verticalToBurgerBottomLine {
+    0% {
+      @include bottomLineEndPosition;
+    }
+    33% {
+      @include lineVerticalPosition;
+    }
+    66% {
+      @include lineCenterPosition;
+    }
+    100% {
+      @include bottomLineStartPosition;
+    }
+  }
+
+  @keyframes burgerToVerticalCentralLine {
+    0% {
+      @include lineCenterPosition;
+    }
+    33% {
+      @include lineCenterPosition;
+    }
+    66% {
+      @include lineVerticalPosition;
+    }
+    100% {
+      @include lineVerticalPosition;
+    }
+  }
+
+  @keyframes verticalToBurgerCentralLine {
+    0% {
+      @include lineVerticalPosition;
+    }
+    33% {
+      @include lineVerticalPosition;
+    }
+    66% {
+      @include lineCenterPosition;
+    }
+    100% {
+      @include lineCenterPosition;
+    }
+  }
+
+  @keyframes lineScaleIn {
+    from {
+      top: $center;
+      transform: scaleX(0);
+      background: $bg-color;
+    }
+    to {
+      top: $center;
+      transform: scaleX(100%);
+      background: $bg-color;
+    }
+  }
+
+  @keyframes lineScaleOut {
+    from {
+      top: $center;
+      transform: scaleX(100%);
+      background: $bg-color;
+    }
+    to {
+      top: $center;
+      transform: scaleX(0);
+      background: $bg-color;
+    }
   }
 }
 
@@ -97,17 +298,141 @@
 
     .logo {
       margin-right: 43px;
+      z-index: 2;
+    }
+
+    @keyframes overlayFadeIn {
+      from {
+        background: transparent;
+      }
+      to {
+        background: rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    @keyframes overlayFadeOut {
+      from {
+        background: rgba(0, 0, 0, 0.5);
+      }
+      to {
+        background: transparent;
+      }
+    }
+
+    &__menu-container {
+      display: none;
+      justify-content: flex-end;
+      width: auto;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 1;
+      background: rgba(41, 41, 41, 0.6);
+      transition: 0.4s;
+    }
+
+    &__container {
+
+      &_show, &_hide {
+        position: fixed;
+        right: 0;
+
+        .header__menu-container {
+          display: flex;
+        }
+
+        .header-menu {
+          overflow-y: auto;
+          display: flex;
+        }
+      }
+
+      &_show {
+        .header__menu-container {
+          @include anim(overlayFadeIn);
+        }
+
+        .header-menu {
+          @include anim(menuSlideIn);
+        }
+
+        .burger {
+          &__line:nth-child(1) {
+            @include anim(burgerToVerticalTopLine);            
+          }
+    
+          &__line:nth-child(2) {
+            @include anim(burgerToVerticalCentralLine);
+          }
+    
+          &__line:nth-child(3) {
+            @include anim(burgerToVerticalBottomLine);
+          }
+        }
+      }
+
+      &_hide {
+        .header__menu-container {
+          @include anim(overlayFadeOut);
+        }
+
+        .header-menu {
+          @include anim(menuSlideOut);
+        }
+
+        .burger {
+          &__line:nth-child(1) {
+            @include anim(verticalToBurgerTopLine);
+          }
+    
+          &__line:nth-child(2) {
+            @include anim(verticalToBurgerCentralLine);
+          }
+    
+          &__line:nth-child(3) {
+            @include anim(verticalToBurgerBottomLine);
+          }
+        }
+      }
     }
   }
 
   .header-menu {
     display: none;
+    position: absolute;
+    padding: 120px 0;
+    top: 0;
+    right: 0;
+    width: 320px;
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 40px;
+    background: var(--color-dark-3xl);
+
+    &__item {
+
+    }
+
+    &__link {
+      font-size: 32px;
+      line-height: 51px;
+    }
   }
 
   .burger {
-    display: flex;
+    display: block;
     margin-right: 43px;
+
+    &_fixed {
+      position: fixed;
+    }
   }
+
+  
 }
 
 @media (max-width: $adaptive-width-phone) {
