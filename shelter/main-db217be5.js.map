@@ -1,1 +1,0 @@
-{"version":3,"file":"main-db217be5.js","mappings":"mBAEAA,QAAQC,IAAI,iB","sources":["webpack:///./index.js"],"sourcesContent":["import './styles/index.scss';\n\nconsole.log('Hello world!');"],"names":["console","log"],"sourceRoot":""}
