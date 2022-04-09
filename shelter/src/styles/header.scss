@@ -63,7 +63,19 @@
     transition: 0.2s;
 
     &_active {
-      border-bottom: 3px solid var(--color-primary);
+      position: relative;
+      
+      &::after {
+        content: "";
+        display: block;
+        height: 3px;
+        width: 100%;
+        position: absolute;
+        z-index: 1;
+        left: 0px;
+        bottom: -2px;
+        background-color: var(--color-primary);
+      }
     }
 
     &:hover, &_active { 
@@ -310,7 +322,8 @@
   .header-menu {
     display: none;
     position: absolute;
-    padding: 120px 0;
+    padding-top: 150px;
+    padding-bottom: 120px;
     top: 0;
     right: 0;
     width: 320px;

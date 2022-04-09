@@ -40,7 +40,7 @@
     }
 
     &__list-item {
-      flex-basis: 33.33%;
+      flex-basis: 32.5%;
     }
   }
 }
@@ -50,10 +50,12 @@
     &__list {
       row-gap: 30px;
       justify-content: flex-start;
+      column-gap: 6%;
     }
 
     &__list-item {
-      flex-basis: 50%;      
+      flex-basis: 47%;
+      height: 87px;  
 
       &-icon {
         height: 50px;

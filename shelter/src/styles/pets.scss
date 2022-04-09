@@ -32,12 +32,32 @@
 @media (max-width: $adaptive-width-pc) {
   .pets {
     padding-bottom: 76px;
+
+    .section__header {
+      margin-bottom: 30px;
+    }
+  }
+
+  .pets-slider {
+    &__controls {
+      margin-top: 39px;
+    }
   }
 }
 
 @media (max-width: $adaptive-width-tablet) {
   .pets {
     padding-bottom: 42px;
+
+    .section__header {
+      margin-bottom: 42px;
+    }
+  }
+
+  .pets-slider {
+    &__controls {
+      margin-top: 41px;
+    }
   }
 }
 

@@ -81,6 +81,7 @@
 
     &__info-container {
       flex-basis: auto;
+      padding: 0 15px;
       padding-top: 30px;
       justify-content: space-around;
     }
@@ -101,6 +102,8 @@
       justify-content: flex-start;
       align-items: center;
       row-gap: 40px;
+      padding: 0px;
+      padding-top: 30px;
     }
 
     &__dog {
@@ -121,6 +124,13 @@
       font-size: 25px;
       line-height: 32px;
       max-width: 270px;
+    }
+  }
+
+  .footer-info:nth-child(2) {
+    .footer-info__row {
+      justify-content: flex-start;
+      margin-top: 47px;
     }
   }
 }
