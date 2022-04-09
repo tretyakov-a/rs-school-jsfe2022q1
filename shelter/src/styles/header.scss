@@ -100,6 +100,7 @@
   $line-height: 2px;
   $bg-color: var(--color-primary);
   $center: $hamburger-size / 2 - $line-height / 2;
+  $third-line-top: $hamburger-size - $vertical-padding - $line-height;
 
   width: $hamburger-size;
   height: $hamburger-size;
@@ -129,7 +130,7 @@
     }
 
     &:nth-child(3) {
-      top: $hamburger-size - $vertical-padding - $line-height;
+      top: $third-line-top;
     }
   }
 
@@ -145,142 +146,53 @@
     top: 0px;
   }
 
-  @mixin topLineStartPosition {
-    top: $vertical-padding;
+  @mixin lineStartPosition($top) {
+    top: $top;
     left: 0px;
   }
 
-  @mixin topLineEndPosition {
+  @mixin lineEndPosition($left) {
     transform: rotate(90deg);
-    left: $vertical-padding;
+    left: $left;
     top: 0px;
   }
 
-  @mixin bottomLineStartPosition {
-    top: $hamburger-size - $vertical-padding - $line-height;
-    left: 0px;
+  @keyframes horizontalToVerticalTopLine {
+    0% { @include lineStartPosition($vertical-padding); }
+    33% { @include lineCenterPosition; }
+    66% { @include lineVerticalPosition; }
+    100% { @include lineEndPosition($vertical-padding); }
+  }
+  
+  @keyframes verticalToHorizontalTopLine {
+    0% { @include lineEndPosition($vertical-padding); }
+    33% { @include lineVerticalPosition; }
+    66% { @include lineCenterPosition; }
+    100% { @include lineStartPosition($vertical-padding); }
   }
 
-  @mixin bottomLineEndPosition {
-    transform: rotate(90deg);
-    left: $hamburger-size - $vertical-padding - $line-height;
-    top: 0px;
+  @keyframes horizontalToVerticalBottomLine {
+    0% { @include lineStartPosition($third-line-top); }
+    33% { @include lineCenterPosition; }
+    66% { @include lineVerticalPosition; }
+    100% { @include lineEndPosition($third-line-top); }
   }
 
-  @keyframes burgerToVerticalTopLine {
-    0% {
-      @include topLineStartPosition;
-    }
-    33% {
-      @include lineCenterPosition;
-    }
-    66% {
-      @include lineVerticalPosition;
-    }
-    100% {
-      @include topLineEndPosition;
-    }
+  @keyframes verticalToHorizontalBottomLine {
+    0% { @include lineEndPosition($third-line-top); }
+    33% { @include lineVerticalPosition; }
+    66% { @include lineCenterPosition; }
+    100% { @include lineStartPosition($third-line-top); }
   }
 
-  @keyframes burgerToVerticalBottomLine {
-    0% {
-      @include bottomLineStartPosition;
-    }
-    33% {
-      @include lineCenterPosition;
-    }
-    66% {
-      @include lineVerticalPosition;
-    }
-    100% {
-      @include bottomLineEndPosition;
-    }
+  @keyframes horizontalToVerticalCentralLine {
+    0%, 33% { @include lineCenterPosition; }
+    66%, 100% { @include lineVerticalPosition; }
   }
 
-  @keyframes verticalToBurgerTopLine {
-    0% {
-      @include topLineEndPosition;
-    }
-    33% {
-      @include lineVerticalPosition;
-    }
-    66% {
-      @include lineCenterPosition;
-    }
-    100% {
-      @include topLineStartPosition;
-    }
-  }
-
-  @keyframes verticalToBurgerBottomLine {
-    0% {
-      @include bottomLineEndPosition;
-    }
-    33% {
-      @include lineVerticalPosition;
-    }
-    66% {
-      @include lineCenterPosition;
-    }
-    100% {
-      @include bottomLineStartPosition;
-    }
-  }
-
-  @keyframes burgerToVerticalCentralLine {
-    0% {
-      @include lineCenterPosition;
-    }
-    33% {
-      @include lineCenterPosition;
-    }
-    66% {
-      @include lineVerticalPosition;
-    }
-    100% {
-      @include lineVerticalPosition;
-    }
-  }
-
-  @keyframes verticalToBurgerCentralLine {
-    0% {
-      @include lineVerticalPosition;
-    }
-    33% {
-      @include lineVerticalPosition;
-    }
-    66% {
-      @include lineCenterPosition;
-    }
-    100% {
-      @include lineCenterPosition;
-    }
-  }
-
-  @keyframes lineScaleIn {
-    from {
-      top: $center;
-      transform: scaleX(0);
-      background: $bg-color;
-    }
-    to {
-      top: $center;
-      transform: scaleX(100%);
-      background: $bg-color;
-    }
-  }
-
-  @keyframes lineScaleOut {
-    from {
-      top: $center;
-      transform: scaleX(100%);
-      background: $bg-color;
-    }
-    to {
-      top: $center;
-      transform: scaleX(0);
-      background: $bg-color;
-    }
+  @keyframes verticalToHorizontalCentralLine {
+    0%, 33% { @include lineVerticalPosition; }
+    66%, 100% { @include lineCenterPosition; }
   }
 }
 
@@ -334,11 +246,7 @@
     }
 
     &__container {
-
       &_show, &_hide {
-        position: fixed;
-        right: 0;
-
         .header__menu-container {
           display: flex;
         }
@@ -360,15 +268,15 @@
 
         .burger {
           &__line:nth-child(1) {
-            @include anim(burgerToVerticalTopLine);            
+            @include anim(horizontalToVerticalTopLine);            
           }
     
           &__line:nth-child(2) {
-            @include anim(burgerToVerticalCentralLine);
+            @include anim(horizontalToVerticalCentralLine);
           }
     
           &__line:nth-child(3) {
-            @include anim(burgerToVerticalBottomLine);
+            @include anim(horizontalToVerticalBottomLine);
           }
         }
       }
@@ -384,21 +292,21 @@
 
         .burger {
           &__line:nth-child(1) {
-            @include anim(verticalToBurgerTopLine);
+            @include anim(verticalToHorizontalTopLine);
           }
     
           &__line:nth-child(2) {
-            @include anim(verticalToBurgerCentralLine);
+            @include anim(verticalToHorizontalCentralLine);
           }
     
           &__line:nth-child(3) {
-            @include anim(verticalToBurgerBottomLine);
+            @include anim(verticalToHorizontalBottomLine);
           }
         }
       }
     }
   }
-
+  
   .header-menu {
     display: none;
     position: absolute;
@@ -413,13 +321,15 @@
     row-gap: 40px;
     background: var(--color-dark-3xl);
 
-    &__item {
-
-    }
-
     &__link {
       font-size: 32px;
       line-height: 51px;
+    }
+  }
+
+  .header_pets {
+    .header-menu {
+      background-color: var(--color-light-xl);
     }
   }
 
@@ -431,8 +341,6 @@
       position: fixed;
     }
   }
-
-  
 }
 
 @media (max-width: $adaptive-width-phone) {
