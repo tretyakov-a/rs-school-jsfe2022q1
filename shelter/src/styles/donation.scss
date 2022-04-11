@@ -48,6 +48,11 @@
     border-radius: 9px;
     background: url("../assets/svg/donation/credit-card.svg") no-repeat left 15px center,
                 var(--color-primary);
+    transition: 0.2s;
+
+    &:hover {
+      background-color: var(--color-primary-light);
+    }
   }
 
   &__description {

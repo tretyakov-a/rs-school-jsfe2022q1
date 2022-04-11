@@ -4,39 +4,49 @@
     <div class="section__content">
       <div class="main-pets__slider main-pets-slider">
         <div class="main-pets-slider__prev">
-          <button class="button button_circle">
+          <button class="button button_circle" data-slider="btn-prev">
             <svg width="14" height="6" viewBox="0 0 14 6" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14 2V4H3V6L0 3L3 0V2H14Z"/>
             </svg>
           </button>
         </div>
-        <ul class="main-pets-slider__list">
-          <li class="main-pets-slider__list-item pets-slider-card">
-            <div class="pets-slider-card__img-container">
-              <img src="<%= require('../../assets/pictures/pets/katrine.png') %>" alt="charly">
-            </div>
-            <h3 class="pets-slider-card__title">Katrine</h3>
-            <button class="pets-slider-card__button button">Learn more</button>
-          </li>
-  
-          <li class="main-pets-slider__list-item pets-slider-card">
-            <div class="pets-slider-card__img-container">
-              <img src="<%= require('../../assets/pictures/pets/jennifer.png') %>" alt="charly">
-            </div>
-            <h3 class="pets-slider-card__title">Jennifer</h3>
-            <button class="pets-slider-card__button button">Learn more</button>
-          </li>
-  
-          <li class="main-pets-slider__list-item pets-slider-card">
-            <div class="pets-slider-card__img-container">
-              <img src="<%= require('../../assets/pictures/pets/woody.png') %>" alt="charly">
-            </div>
-            <h3 class="pets-slider-card__title">Woody</h3>
-            <button class="pets-slider-card__button button">Learn more</button>
-          </li>
-        </ul>
+        <div class="main-pets-slider__slide-wrapper" data-slider="slide-wrapper">
+          <div class="main-pets-slider__slide-container" data-slider="slide-container">
+            <ul class="main-pets-slider__slide">
+              <li class="main-pets-slider__list-item">
+                <div class="pet-card">
+                  <div class="pet-card__img-container">
+                    <img src="<%= require('../../assets/pictures/pets/katrine.png') %>" alt="charly">
+                  </div>
+                  <h3 class="pet-card__title">Katrine</h3>
+                  <button class="pet-card__button button">Learn more</button>
+                </div>
+              </li>
+      
+              <li class="main-pets-slider__list-item">
+                <div class="pet-card">
+                  <div class="pet-card__img-container">
+                    <img src="<%= require('../../assets/pictures/pets/jennifer.png') %>" alt="charly">
+                  </div>
+                  <h3 class="pet-card__title">Jennifer</h3>
+                  <button class="pet-card__button button">Learn more</button>
+                </div>            
+              </li>
+      
+              <li class="main-pets-slider__list-item">
+                <div class="pet-card">
+                  <div class="pet-card__img-container">
+                    <img src="<%= require('../../assets/pictures/pets/woody.png') %>" alt="charly">
+                  </div>
+                  <h3 class="pet-card__title">Woody</h3>
+                  <button class="pet-card__button button">Learn more</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
         <div class="main-pets-slider__next">
-          <button class="button button_circle">
+          <button class="button button_circle" data-slider="btn-next">
             <svg width="14" height="6" viewBox="0 0 14 6" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M0 4V2L11 2V0L14 3L11 6V4L0 4Z"/>
             </svg>
