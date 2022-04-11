@@ -3,6 +3,7 @@
 
 @import "constants";
 @import "fonts";
+@import "mixins";
 @import "general";
 @import "header";
 @import "footer";
@@ -13,3 +14,5 @@
 @import "main-pets";
 @import "help";
 @import "donation";
+@import "modal";
+@import "pet-full-card";

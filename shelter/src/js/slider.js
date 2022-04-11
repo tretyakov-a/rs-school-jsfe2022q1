@@ -1,5 +1,6 @@
 import petCard from '../templates/pet-card.ejs';
 import { getRandomInt } from './helpers';
+import { showModal } from './modal';
 
 const container = document.querySelector('.main-pets-slider');
 const slideContainer = container.querySelector('[data-slider="slide-container"');
@@ -112,8 +113,15 @@ function handeTransitionEnd() {
   removePreviousSlide();
 }
 
+function handleSliderContainerClick(e) {
+  const el = e.target.closest(`[data-card-index]`);
+  if (el) {
+    showModal(el.dataset.cardIndex);
+  }
+}
+
 export default function init(data) {
-  petCards = data.map(item => `<li class="main-pets-slider__list-item">${petCard(item)}</li>`);
+  petCards = data.map((item, index) => `<li class="main-pets-slider__list-item" data-card-index="${index}">${petCard(item)}</li>`);
   cardsPerSlide = getCardsPerSlide();
 
   slideContainer.innerHTML = '';
@@ -124,4 +132,5 @@ export default function init(data) {
   nextBtn.addEventListener('click', handleNextBtnClick);
   prevBtn.addEventListener('click', handlePrevBtnClick);
   slideContainer.addEventListener('transitionend', handeTransitionEnd);
+  slideContainer.addEventListener('click', handleSliderContainerClick);
 }

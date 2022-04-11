@@ -1,0 +1,16 @@
+<div class="pet-full-card">
+  <div class="pet-full-card__img">
+    <img src="<%= locals.img %>" alt="pet portrait">
+  </div>
+  <div class="pet-full-card__text">
+    <h3 class="pet-full-card__title"><%= locals.name %></h3>
+    <h4 class="pet-full-card__subtitle"><%= locals.type %> - <%= locals.breed %></h4>
+    <p class="pet-full-card__description"><%= locals.description %></p>
+    <ul class="pet-full-card__list">
+      <li class="pet-full-card__list-item"><b>Age:</b> <%= locals.age %></li>
+      <li class="pet-full-card__list-item"><b>Inoculations:</b> <%= locals.inoculations %></li>
+      <li class="pet-full-card__list-item"><b>Diseases:</b> <%= locals.diseases %></li>
+      <li class="pet-full-card__list-item"><b>Parasites:</b> <%= locals.parasites %></li>
+    </ul>
+  </div>
+</div>

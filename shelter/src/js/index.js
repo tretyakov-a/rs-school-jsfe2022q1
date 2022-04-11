@@ -3,6 +3,7 @@ import '../styles/index.scss';
 import { importAll } from './helpers';
 import initHeaderMenu from './header-menu';
 import initSlider from './slider';
+import { initModal } from './modal';
 
 const petsImagePaths = importAll(require.context('../assets/pictures/pets', false, /.png$/));
 Object.keys(petsImagePaths).forEach(key => {
@@ -17,6 +18,7 @@ petsData.forEach(item => {
 })
 
 initHeaderMenu();
+initModal(petsData);
 
 if (document.querySelector('.main-pets-slider')) {
   initSlider(petsData);

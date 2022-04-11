@@ -44,17 +44,4 @@ function hide() {
   
 export default function initHeaderMenu() {
   hamburgerButton.addEventListener('click', handleHamburgerButtonClick);
-
-  // let observer = new IntersectionObserver(
-  //   (entries, observer) => { 
-  //     entries.forEach(entry => {
-  //       const { top } = entry.target.getBoundingClientRect();
-  //       const method = headerContainer.offsetHeight < Math.abs(top) ? 'add' : 'remove';
-  //       hamburgerButton.classList[method]('menu-hamburger_fixed');
-  //       topButton.classList[method]('top-button_show');
-  //     });
-  //   }
-  // );
-
-  // observer.observe(headerContainer);
 }
