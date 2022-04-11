@@ -54,9 +54,43 @@
 }
 
 @media (max-width: $adaptive-width-pc) {
+  .pet-full-card {
+    &__text {
+      padding: 10px;
+    }
+  
+    &__description {
+      font-size: 13px;
+      line-height: 14px;
+      margin: 20px 0px;
+    }
 
+    &__list {
+      &-item {
+        margin-bottom: 6px;
+      }
+    }
+  }
 }
 
 @media (max-width: $adaptive-width-tablet) {
+  .pet-full-card {
+    &__img {
+      display: none;
+    }
+    
+    &__title, &__subtitle {
+      text-align: center;
+    }
 
+    &__description {
+      margin-bottom: 24px;
+    }
+
+    &__list {
+      &-item {
+        margin-bottom: 6px;
+      }
+    }
+  }
 }

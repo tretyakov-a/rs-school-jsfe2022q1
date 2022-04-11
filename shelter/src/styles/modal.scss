@@ -55,7 +55,7 @@
     display: flex;
 
     max-width: 900px;
-    height: 500px;
+    // height: 500px;
   }
 
   &__close-btn {
@@ -78,5 +78,15 @@
 }
 
 @media (max-width: $adaptive-width-tablet) {
+  .modal {
+    padding: 0 40px;
 
+    &__close-btn {
+      right: -30px;
+    }
+
+    &__window {
+      max-width: 320px;
+    }
+  }
 }
