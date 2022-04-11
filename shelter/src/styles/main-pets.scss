@@ -29,9 +29,10 @@
   }
 
   &__slide-wrapper {
-    width: 100%;
+    // width: 100%;
     height: 435px;
     position: relative;
+    flex-grow: 1;
     overflow: hidden;
   }
 
@@ -39,7 +40,6 @@
     position: absolute;
     left: 0px;
     display: flex;
-    flex-grow: 1;
   }
 
   &__slide {
