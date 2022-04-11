@@ -358,14 +358,14 @@
 
 }
 
-@media (max-height: 560px) {
+@media (max-height: 560px) and (max-width: $adaptive-width-tablet) {
   .header-menu {
     row-gap: 10px;
   }
 }
 
 
-@media (max-height: 440px) {
+@media (max-height: 440px) and (max-width: $adaptive-width-tablet) {
   .header-menu {
     padding-top: 120px;
   }

@@ -2,13 +2,13 @@ import petCard from '../templates/pet-card.ejs';
 import { getRandomInt } from './helpers';
 import { showModal } from './modal';
 
-const container = document.querySelector('.main-pets-slider');
-const slideContainer = container.querySelector('[data-slider="slide-container"');
-const slideWrapper = container.querySelector('[data-slider="slide-wrapper"');
-const prevBtn = container.querySelector('[data-slider="btn-prev"');
-const nextBtn = container.querySelector('[data-slider="btn-next"');
+let container = null;
+let slideContainer = null;
+let slideWrapper = null;
+let prevBtn = null;
+let nextBtn = null;
 
-const transition = 'left linear 0.4s';
+const transition = 'left ease-out 0.4s';
 let isTransition = false;
 const currentCardIds = [];
 let currentSlide = null;
@@ -121,6 +121,12 @@ function handleSliderContainerClick(e) {
 }
 
 export default function init(data) {
+  container = document.querySelector('.main-pets-slider');
+  slideContainer = container.querySelector('.main-pets-slider__slide-container');
+  slideWrapper = container.querySelector('.main-pets-slider__slide-wrapper');
+  prevBtn = container.querySelector('.main-pets-slider__next button');
+  nextBtn = container.querySelector('.main-pets-slider__prev button');
+
   petCards = data.map((item, index) => `<li class="main-pets-slider__list-item" data-card-index="${index}">${petCard(item)}</li>`);
   cardsPerSlide = getCardsPerSlide();
 
