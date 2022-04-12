@@ -1,8 +1,10 @@
+
 .main-pets {
   background-color: var(--color-light-l);
 
   &__slider {
-    margin-bottom: 60px;
+    margin-bottom: 60px - $shadow-size;
+    margin-top: -$shadow-size;
   }
 
   &__button {
@@ -17,7 +19,7 @@
   &__prev, &__next {
     display: flex;
     align-items: center;
-    flex-basis: 105px;
+    flex-basis: 105px - $shadow-size;
   }
 
   &__prev {
@@ -30,7 +32,7 @@
 
   &__slide-wrapper {
     // width: 100%;
-    height: 435px;
+    height: 435px + $shadow-size * 2;
     position: relative;
     flex-grow: 1;
     overflow: hidden;
@@ -39,6 +41,7 @@
   &__slide-container {
     position: absolute;
     left: 0px;
+    padding: $shadow-size;
     display: flex;
   }
 
@@ -47,6 +50,7 @@
     justify-content: space-between;
     column-gap: 40px;
     row-gap: 30px;
+    margin-right: $shadow-size;
   }
 }
 
@@ -67,7 +71,7 @@
 @media (max-width: $adaptive-width-tablet) {
   .main-pets {
     &__slider {
-      margin-bottom: 42px;
+      margin-bottom: 42px - $shadow-size;
       padding-bottom: 71px;
     }
   }

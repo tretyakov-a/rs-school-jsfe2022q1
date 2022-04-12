@@ -26,9 +26,12 @@
   --font-size: 15px;
 }
 
+$shadow-size: 35px;
+
 $adaptive-width-pc: 1279px;
 $adaptive-width-tablet: 767px;
 $adaptive-width-phone: 319px;
+
 
 @media (max-width: $adaptive-width-pc) {
   :root {

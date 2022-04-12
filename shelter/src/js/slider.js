@@ -8,6 +8,7 @@ let slideWrapper = null;
 let prevBtn = null;
 let nextBtn = null;
 
+const shadowSize = 35;
 const transition = 'left ease-out 0.4s';
 let isTransition = false;
 const currentCardIds = [];
@@ -23,7 +24,7 @@ function getCardsPerSlide() {
 function generateSlide() {
   const slide = document.createElement('ul');
   slide.classList.add('main-pets-slider__slide');
-  slide.style.width = slideWrapper.offsetWidth + 'px';
+  slide.style.width = slideWrapper.offsetWidth - shadowSize * 2 + 'px';
   slide.innerHTML = generateSlideContent();
   return slide;
 }
@@ -68,7 +69,7 @@ function updateSlider(rnd, position = 'afterbegin') {
   }
 
   setTimeout(() => {
-    currentSlide.style.width = `${slideWrapper.offsetWidth}px`;
+    currentSlide.style.width = `${slideWrapper.offsetWidth - shadowSize * 2}px`;
   });
 }
 
@@ -85,7 +86,7 @@ function handleWindowResize() {
     cardsPerSlide = newCardPerSlide;
     updateSlider(false);
   }
-  currentSlide.style.width = `${slideWrapper.offsetWidth}px`;
+  currentSlide.style.width = `${slideWrapper.offsetWidth - shadowSize * 2}px`;
 }
 
 function addSlide(start, end, position) {
@@ -98,21 +99,23 @@ function addSlide(start, end, position) {
   
   setTimeout(() => {
     isTransition = true;
+    slideContainer.style.pointerEvents = 'none';
     slideContainer.style.transition = transition;
     slideContainer.style.left = end;
   });
 }
 
-function handlePrevBtnClick() {
-  addSlide('0px', `-${slideWrapper.offsetWidth}px`, 'beforeend');
+function handleNextBtnClick() {
+  addSlide('0px', `-${slideWrapper.offsetWidth - shadowSize}px`, 'beforeend');
 }
 
-function handleNextBtnClick() {
-  addSlide(`-${slideWrapper.offsetWidth}px`, '0px', 'afterbegin');
+function handlePrevBtnClick() {
+  addSlide(`-${slideWrapper.offsetWidth - shadowSize}px`, '0px', 'afterbegin');
 }
 
 function handeTransitionEnd() {
   isTransition = false;
+  slideContainer.style.pointerEvents = 'all';
   slideContainer.style.transition = '';
   slideContainer.style.left = '0px';
   removePreviousSlide();
@@ -129,8 +132,8 @@ export default function init(data) {
   container = document.querySelector('.main-pets-slider');
   slideContainer = container.querySelector('.main-pets-slider__slide-container');
   slideWrapper = container.querySelector('.main-pets-slider__slide-wrapper');
-  prevBtn = container.querySelector('.main-pets-slider__next button');
-  nextBtn = container.querySelector('.main-pets-slider__prev button');
+  prevBtn = container.querySelector('.main-pets-slider__prev button');
+  nextBtn = container.querySelector('.main-pets-slider__next button');
 
   petCards = data.map((item, index) => `<li class="main-pets-slider__list-item" data-card-index="${index}">${petCard(item)}</li>`);
   

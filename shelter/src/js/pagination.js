@@ -10,6 +10,7 @@ let controls = null;
 let pageNumber = null;
 let controlBtns = {};
 
+const shadowSize = 35;
 const transition = 'left ease-out 0.4s';
 let isTransition = false;
 let petsData = null;
@@ -30,7 +31,7 @@ function generatePage(pageIndex) {
   list.innerHTML = generatePageContent(pageIndex);
   const page = document.createElement('div');
   page.classList.add('pets-paginator__page');
-  page.style.width = pageWrapper.offsetWidth + 'px';
+  page.style.width = `${pageWrapper.offsetWidth - shadowSize * 2}px`;
   page.setAttribute('data-page-index', pageIndex);
   page.appendChild(list);
   return page;
@@ -68,7 +69,7 @@ function updatePages() {
 
   setTimeout(() => {
     pages.forEach(page => {
-      page.style.width = `${pageWrapper.offsetWidth}px`;
+      page.style.width = `${pageWrapper.offsetWidth - shadowSize * 2}px`;
     });
   });
 }
@@ -81,10 +82,10 @@ function handleWindowResize() {
     changePage(0, true);
   }
   pages.forEach(page => {
-    page.style.width = `${pageWrapper.offsetWidth}px`;
+    page.style.width = `${pageWrapper.offsetWidth - shadowSize * 2}px`;
   });
 
-  const offset = activePage * pageWrapper.offsetWidth;
+  const offset = activePage * (pageWrapper.offsetWidth - shadowSize);
   pageContainer.style.left = `-${offset}px`;
 }
 
@@ -105,11 +106,12 @@ function changePage(index, isCardsPerPageChanged = false) {
 }
 
 function movePage(isCardsPerPageChanged = false) {
-  const offset = activePage * pageWrapper.offsetWidth;
+  const offset = activePage * (pageWrapper.offsetWidth - shadowSize);
   
   setTimeout(() => {
     if (!isCardsPerPageChanged) {
       isTransition = true;
+      pageContainer.style.pointerEvents = 'none';
       pageContainer.style.transition = transition;
     }
     pageContainer.style.left = `-${offset}px`;
@@ -118,6 +120,7 @@ function movePage(isCardsPerPageChanged = false) {
 
 function handeTransitionEnd() {
   isTransition = false;
+  pageContainer.style.pointerEvents = 'all';
   pageContainer.style.transition = '';
 }
 
