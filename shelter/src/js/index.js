@@ -18,13 +18,15 @@ petsData.forEach(item => {
   item.img = petsImagePaths[name];
 })
 
-initHeaderMenu();
-initModal(petsData);
-
-if (document.querySelector('.pets-paginator')) {
-  initPagination(petsData);
-}
-
-if (document.querySelector('.main-pets-slider')) {
-  initSlider(petsData);
-}
+document.addEventListener('DOMContentLoaded', () => {
+  initHeaderMenu();
+  initModal(petsData);
+  
+  if (document.querySelector('.pets-paginator')) {
+    initPagination(petsData);
+  }
+  
+  if (document.querySelector('.main-pets-slider')) {
+    initSlider(petsData);
+  }
+});

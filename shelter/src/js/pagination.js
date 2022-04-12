@@ -47,18 +47,6 @@ function getPagesNumber() {
   return Math.floor(petsData.length / cardsPerPage);
 }
 
-function generatePages() {
-  const pagesNumber = getPagesNumber();
-  
-  pageContainer.innerHTML = '';
-  pages.length = 0;
-  for (let i = 0; i < pagesNumber; i += 1)  {
-    const page = generatePage(i);
-    pages.push(page);
-    pageContainer.appendChild(page);
-  }
-}
-
 function generatePetsData(data) {
   const petsData = [];
   for (let i = 0; i < 6; i += 1) {
@@ -68,14 +56,28 @@ function generatePetsData(data) {
 }
 
 function updatePages() {
-  generatePages();
+  const pagesNumber = getPagesNumber();
+  
+  pageContainer.innerHTML = '';
+  pages.length = 0;
+  for (let i = 0; i < pagesNumber; i += 1)  {
+    const page = generatePage(i);
+    pages.push(page);
+    pageContainer.appendChild(page);
+  }
+
+  setTimeout(() => {
+    pages.forEach(page => {
+      page.style.width = `${pageWrapper.offsetWidth}px`;
+    });
+  });
 }
 
 function handleWindowResize() {
   const newCardsPerPage = getCardsPerSlide();
   if (cardsPerPage !== newCardsPerPage) {
     cardsPerPage = newCardsPerPage;
-    generatePages();
+    updatePages();
     changePage(0, true);
   }
   pages.forEach(page => {

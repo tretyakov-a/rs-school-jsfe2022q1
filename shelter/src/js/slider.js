@@ -12,7 +12,7 @@ const transition = 'left ease-out 0.4s';
 let isTransition = false;
 const currentCardIds = [];
 let currentSlide = null;
-let cardsPerSlide = 3;
+let cardsPerSlide = 0;
 let petCards = null;
 
 function getCardsPerSlide() {
@@ -62,9 +62,14 @@ function updateSlider(rnd, position = 'afterbegin') {
   rnd ? generateRandomCardIds() : generateInitialCardIds();
   currentSlide = generateSlide();
   slideContainer.insertAdjacentElement(position, currentSlide);
+
   if (!rnd) {
     removePreviousSlide();
   }
+
+  setTimeout(() => {
+    currentSlide.style.width = `${slideWrapper.offsetWidth}px`;
+  });
 }
 
 function removePreviousSlide() {
@@ -99,11 +104,11 @@ function addSlide(start, end, position) {
 }
 
 function handlePrevBtnClick() {
-  addSlide(`-${slideWrapper.offsetWidth}px`, '0px', 'afterbegin');
+  addSlide('0px', `-${slideWrapper.offsetWidth}px`, 'beforeend');
 }
 
 function handleNextBtnClick() {
-  addSlide('0px', `-${slideWrapper.offsetWidth}px`, 'beforeend');
+  addSlide(`-${slideWrapper.offsetWidth}px`, '0px', 'afterbegin');
 }
 
 function handeTransitionEnd() {
@@ -128,10 +133,10 @@ export default function init(data) {
   nextBtn = container.querySelector('.main-pets-slider__prev button');
 
   petCards = data.map((item, index) => `<li class="main-pets-slider__list-item" data-card-index="${index}">${petCard(item)}</li>`);
-  cardsPerSlide = getCardsPerSlide();
-
+  
   slideContainer.innerHTML = '';
-
+  
+  cardsPerSlide = getCardsPerSlide();
   updateSlider(false);
 
   window.addEventListener('resize', handleWindowResize);
