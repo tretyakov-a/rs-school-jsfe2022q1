@@ -10,6 +10,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    overflow: hidden;
   }
 
   &__nav {
@@ -59,7 +60,7 @@
     line-height: 24px;
     transition: 0.2s;
 
-    &_active {
+    &_active, &:active {
       position: relative;
       cursor: default;
       
@@ -215,12 +216,63 @@
 @media (max-width: $adaptive-width-tablet) {
   .header {
     &__container {
-      justify-content: flex-end;
+      // justify-content: flex-end;
+      position: relative;
+      height: 60px;
     }
 
+    &__nav {
+      position: absolute;
+      right: var(--container-padding);
+    }
+
+    $logo-start-position: calc(100% - (var(--container-padding) + 184px));
+    $logo-end-position: calc(320px - (var(--container-padding) + 184px));
+    $logo-out-position: calc(-1 * (var(--container-padding) + 184px));
+
     .logo {
-      margin-right: 43px;
+      position: absolute;
+      right: $logo-start-position;
+      // margin-right: 43px;
       z-index: 2;
+    }
+    
+    @keyframes logoRelocateToMenu {
+      0% {
+        opacity: 1;
+        right: $logo-start-position;
+      }
+      50% {
+        opacity: 0;
+        right: 100%;
+      }
+      66% {
+        opacity: 0;
+        right: $logo-out-position;
+      }
+      100% {
+        opacity: 1;
+        right: $logo-end-position;
+      }
+    }
+    
+    @keyframes logoRelocateBack {
+      0% {
+        opacity: 1;
+        right: $logo-end-position;
+      }
+      66% {
+        opacity: 0;
+        right: $logo-out-position;
+      }
+      70% {
+        opacity: 0;
+        right: 100%;
+      }
+      100% {
+        opacity: 1;
+        right: $logo-start-position;
+      }
     }
 
     @keyframes overlayFadeIn {
@@ -257,6 +309,7 @@
 
     &__container {
       &_show, &_hide {
+
         .header__menu-container {
           display: flex;
         }
@@ -268,6 +321,10 @@
       }
 
       &_show {
+        .logo {
+          @include anim(logoRelocateToMenu, $duration: 0.6s);
+        }
+
         .header__menu-container {
           @include anim(overlayFadeIn);
         }
@@ -292,6 +349,10 @@
       }
 
       &_hide {
+        .logo {
+          @include anim(logoRelocateBack);
+        }
+
         .header__menu-container {
           @include anim(overlayFadeOut);
         }

@@ -1,6 +1,6 @@
 <header class="header <%= locals && locals.page %>">
   <div class="header__container container">
-    <a class="logo" href="#">
+    <a class="logo" href="<% if (locals.page === 'header_pets') { %> ./ <% } else { %>#<% } %>">
       <h1 class="logo__title">Cozy House</h1>
       <div class="logo__subtitle">
         Shelter for pets in Boston
