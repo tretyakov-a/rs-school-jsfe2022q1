@@ -65,6 +65,10 @@
       // flex-wrap: wrap;
       justify-content: center;
     }
+    
+    &__prev, &__next {
+      flex-basis: auto;
+    }
   }
 }
 
@@ -81,7 +85,7 @@
 
     &__prev, &__next {
       position: absolute;
-      bottom: 0;
+      bottom: $shadow-size;
     }
 
     &__prev {

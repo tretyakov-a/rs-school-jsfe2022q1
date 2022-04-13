@@ -10,17 +10,17 @@ let controls = null;
 let pageNumber = null;
 let controlBtns = {};
 
-const shadowSize = 35;
+let shadowSize = 35;
 const transition = 'left ease-out 0.4s';
 let isTransition = false;
 let petsData = null;
-let cardsPerPage = 8;
+let cardsPerPage = 0;
 let activePage = 0;
 const pages = [];
 
 const btnInactiveModificator = 'button_circle-inactive';
 
-function getCardsPerSlide() {
+function getCardsPerPage() {
   const width = window.visualViewport.width;
   return width >= 1280 ? 8 : width >= 768 ? 6 : 3;
 }
@@ -32,6 +32,7 @@ function generatePage(pageIndex) {
   const page = document.createElement('div');
   page.classList.add('pets-paginator__page');
   page.style.width = `${pageWrapper.offsetWidth - shadowSize * 2}px`;
+  page.style.marginRight = `${shadowSize}px`;
   page.setAttribute('data-page-index', pageIndex);
   page.appendChild(list);
   return page;
@@ -57,6 +58,12 @@ function generatePetsData(data) {
 }
 
 function updatePages() {
+  const newCardsPerPage = getCardsPerPage();
+  if (cardsPerPage === newCardsPerPage) {
+    return;
+  }
+  cardsPerPage = newCardsPerPage;
+  shadowSize = cardsPerPage === 3 ? 25 : 35;
   const pagesNumber = getPagesNumber();
   
   pageContainer.innerHTML = '';
@@ -66,7 +73,8 @@ function updatePages() {
     pages.push(page);
     pageContainer.appendChild(page);
   }
-
+  changePage(0, true);
+  
   setTimeout(() => {
     pages.forEach(page => {
       page.style.width = `${pageWrapper.offsetWidth - shadowSize * 2}px`;
@@ -75,12 +83,8 @@ function updatePages() {
 }
 
 function handleWindowResize() {
-  const newCardsPerPage = getCardsPerSlide();
-  if (cardsPerPage !== newCardsPerPage) {
-    cardsPerPage = newCardsPerPage;
-    updatePages();
-    changePage(0, true);
-  }
+  updatePages();
+
   pages.forEach(page => {
     page.style.width = `${pageWrapper.offsetWidth - shadowSize * 2}px`;
   });
@@ -158,7 +162,6 @@ export default function init(data) {
     return acc;
   }, {});
 
-  cardsPerPage = getCardsPerSlide();
   petsData = generatePetsData(data);
   updatePages();
 

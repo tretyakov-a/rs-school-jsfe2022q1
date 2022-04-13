@@ -13,6 +13,11 @@ body {
   font-family: var(--main-font);
   color: var(--dark-text-color);
   background-color: var(--bg-color);
+
+  &.no-y-scroll {
+    height: 100%;
+    overflow-y: hidden;
+  }
 }
 
 h1, h2, h3, h4 {
