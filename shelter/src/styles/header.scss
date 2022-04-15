@@ -66,9 +66,13 @@
     line-height: 24px;
     transition: 0.2s;
 
+    &_active {
+      cursor: default;
+      pointer-events: none;
+    }
+
     &_active, &:active {
       position: relative;
-      cursor: default;
       
       &::after {
         content: "";

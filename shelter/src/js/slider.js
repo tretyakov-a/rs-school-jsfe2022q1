@@ -113,12 +113,15 @@ function handlePrevBtnClick() {
   addSlide(`-${slideWrapper.offsetWidth - shadowSize}px`, '0px', 'afterbegin');
 }
 
-function handeTransitionEnd() {
-  isTransition = false;
+function handeTransitionEnd(e) {
+  if (!e.target.classList.contains('main-pets-slider__slide-container')) {
+    return;
+  }
   slideContainer.style.pointerEvents = 'all';
   slideContainer.style.transition = '';
   slideContainer.style.left = '0px';
   removePreviousSlide();
+  isTransition = false;
 }
 
 function handleSliderContainerClick(e) {
@@ -135,7 +138,7 @@ export default function init(data) {
   prevBtn = container.querySelector('.main-pets-slider__prev button');
   nextBtn = container.querySelector('.main-pets-slider__next button');
 
-  petCards = data.map((item, index) => `<li class="main-pets-slider__list-item" data-card-index="${index}">${petCard(item)}</li>`);
+  petCards = data.map((item, index) => `<li class="main-pets-slider__slide-item" data-card-index="${index}">${petCard(item)}</li>`);
   
   slideContainer.innerHTML = '';
   

@@ -8,7 +8,6 @@
 
   align-items: center;
   justify-content: center;
-  
 
   @keyframes modalFadeIn {
     from { background: transparent; }
@@ -56,6 +55,14 @@
 
     max-width: 900px;
     // height: 500px;
+
+
+    &:not(:hover) {
+      .modal__close-btn {
+        background-color: var(--color-primary-light);
+        border-color: var(--color-primary-light);
+      }
+    }
   }
 
   &__close-btn {

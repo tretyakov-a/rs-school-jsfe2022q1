@@ -41,7 +41,9 @@ function generatePage(pageIndex) {
 function generatePageContent(pageIndex) {
   const start = pageIndex * cardsPerPage;
   // const pageData = shuffle(petsData.slice(start, start + cardsPerPage));
-  const pageData = petsData.slice(start, start + cardsPerPage);
+  const pageData = start === 0
+    ? petsData.slice(start, start + cardsPerPage)
+    : shuffle(petsData.slice(start, start + cardsPerPage));
   return pageData.map((item, index) => `<li class="pets-paginator__list-item" data-card-index="${index}">${petCard(item)}</li>`).join('');
 }
 
