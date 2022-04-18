@@ -10,8 +10,8 @@ const animationDuration = 400;
 let petsData = null;
 
 function handleModalClick(e) {
-  const isClickOutsideWindow = !e.path.find(el => el.classList && el.classList.contains('modal__window'));
-  const isClickOnCloseBtn = e.path.find(el => el.classList && el.classList.contains('modal__close-btn'));
+  const isClickOutsideWindow = !e.target.closest('.modal__window');
+  const isClickOnCloseBtn = e.target.closest('.modal__close-btn');
 
   if (isClickOutsideWindow || isClickOnCloseBtn) {
     hideModal();

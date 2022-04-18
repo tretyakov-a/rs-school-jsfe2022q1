@@ -225,7 +225,6 @@
 @media (max-width: $adaptive-width-tablet) {
   .header {
     &__container {
-      // justify-content: flex-end;
       position: relative;
       height: 60px;
     }
@@ -242,7 +241,6 @@
     .logo {
       position: absolute;
       right: $logo-start-position;
-      // margin-right: 43px;
       z-index: 2;
     }
     
@@ -390,8 +388,6 @@
   .header-menu {
     display: none;
     position: absolute;
-    // padding-top: 120px;
-    // padding-bottom: 120px;
     top: 0;
     right: 0;
     width: 320px;
@@ -405,6 +401,12 @@
     &__link {
       font-size: 32px;
       line-height: 51px;
+
+      &_active {
+        cursor: pointer;
+        pointer-events: all;
+      }
+
     }
   }
 

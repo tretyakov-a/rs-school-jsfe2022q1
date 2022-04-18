@@ -165,20 +165,20 @@ ul {
     }
   }
 
-  &:hover {
-    background-color: var(--color-primary-light);
-    border-color: var(--color-primary-light);
-  }
-
   &:active {
     background-color: var(--color-primary);
   }
 }
 
-@media (max-width: $adaptive-width-pc) {
-  .section {
-    
+@media (hover: hover) {
+  .button:hover {
+    background-color: var(--color-primary-light);
+    border-color: var(--color-primary-light);
   }
+}
+
+@media (max-width: $adaptive-width-pc) {
+
 }
 
 @media (max-width: $adaptive-width-tablet) {
