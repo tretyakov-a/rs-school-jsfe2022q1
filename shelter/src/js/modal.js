@@ -3,7 +3,9 @@ import petFullCardTemplate from '../templates/pet-full-card.ejs';
 
 const modal = document.querySelector('.modal');
 const modalContent = modal.querySelector('.modal__content');
+const body = document.querySelector('body');
 
+const noScrollModificator = 'no-y-scroll';
 const modalShowModificator = 'modal_show';
 const modalHideModificator = 'modal_hide';
 const animationDuration = 400;
@@ -21,6 +23,7 @@ function handleModalClick(e) {
 function hideModal() {
   modal.classList.remove(modalShowModificator);
   modal.classList.add(modalHideModificator);
+  body.classList.remove(noScrollModificator);
 
   setTimeout(() => {
     modal.classList.remove(modalHideModificator);
@@ -30,6 +33,7 @@ function hideModal() {
 function showModal(cardIndex) {
   modalContent.innerHTML = petFullCardTemplate(petsData[cardIndex]);
   modal.classList.add(modalShowModificator);
+  body.classList.add(noScrollModificator);
 
   setTimeout(() => {
     modal.classList.remove(modalHideModificator);

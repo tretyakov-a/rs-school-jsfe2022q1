@@ -3,6 +3,7 @@ const hamburgerButton = headerNav.querySelector('.burger');
 const body = document.querySelector('body');
 const headerNavShowModificator = 'header__container_show';
 const headerNavHideModificator = 'header__container_hide';
+const noScrollModificator = 'no-y-scroll';
 const animationDuration = 400;
 
 function handleDocumentClick(e) {
@@ -24,7 +25,7 @@ function handleHamburgerButtonClick(e) {
 }
 
 function show() {
-  body.classList.add('no-y-scroll');
+  body.classList.add(noScrollModificator);
   headerNav.classList.add(headerNavShowModificator);
   setTimeout(() => {
     document.addEventListener('click', handleDocumentClick);
@@ -38,7 +39,7 @@ function hide() {
   setTimeout(() => {
     document.removeEventListener('click', handleDocumentClick);
     headerNav.classList.remove(headerNavHideModificator);
-    body.classList.remove('no-y-scroll');
+    body.classList.remove(noScrollModificator);
   }, animationDuration);
 }
 

@@ -68,31 +68,31 @@
 }
 
 @media (max-width: $adaptive-width-tablet) {
+}
+
+@media (max-width: 460px) {
   .main-pets {
+
     &__slider {
       margin-bottom: 42px - $pet-card-shadow-size;
       padding-bottom: 71px;
     }
+
+    .main-pets-slider {
+      position: relative;
+  
+      &__prev, &__next {
+        position: absolute;
+        bottom: $pet-card-shadow-size;
+      }
+  
+      &__prev {
+        left: 58px;
+      }
+  
+      &__next {
+        right: 58px;
+      }
+    }
   }
-
-  .main-pets-slider {
-    position: relative;
-
-    &__prev, &__next {
-      position: absolute;
-      bottom: $pet-card-shadow-size;
-    }
-
-    &__prev {
-      left: 58px;
-    }
-
-    &__next {
-      right: 58px;
-    }
-  }
-}
-
-@media (max-width: $adaptive-width-phone) {
-
 }

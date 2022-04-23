@@ -21,10 +21,14 @@ function getCardsPerSlide() {
   return width >= 1280 ? 3 : width >= 768 ? 2 : 1;
 }
 
+function getSlideWidth() {
+  return `${slideWrapper.offsetWidth - shadowSize * 2}px`;
+}
+
 function generateSlide() {
   const slide = document.createElement('ul');
   slide.classList.add('main-pets-slider__slide');
-  slide.style.width = slideWrapper.offsetWidth - shadowSize * 2 + 'px';
+  slide.style.width = getSlideWidth();
   slide.innerHTML = generateSlideContent();
   return slide;
 }
@@ -45,31 +49,20 @@ function generateRandomCardIds() {
   }
 }
 
-function generateInitialCardIds() {
-  currentCardIds.length = 0;
-  for (let i = 0; i < cardsPerSlide; i += 1) {
-    currentCardIds.push(i);
-  }
-}
-
 function generateSlideContent() {
   return currentCardIds.map(id => petCards[id]).join('');
 }
 
-function updateSlider(rnd, position = 'afterbegin') {
+function updateSlider(position = 'afterbegin') {
   if (currentSlide) {
     currentSlide.setAttribute('data-slider', 'previous-slide');
   }
-  rnd ? generateRandomCardIds() : generateInitialCardIds();
+  generateRandomCardIds();
   currentSlide = generateSlide();
   slideContainer.insertAdjacentElement(position, currentSlide);
 
-  if (!rnd) {
-    removePreviousSlide();
-  }
-
   setTimeout(() => {
-    currentSlide.style.width = `${slideWrapper.offsetWidth - shadowSize * 2}px`;
+    currentSlide.style.width = getSlideWidth();
   });
 }
 
@@ -84,16 +77,17 @@ function handleWindowResize() {
   const newCardPerSlide = getCardsPerSlide();
   if (cardsPerSlide !== newCardPerSlide) {
     cardsPerSlide = newCardPerSlide;
-    updateSlider(false);
+    updateSlider();
+    removePreviousSlide();
   }
-  currentSlide.style.width = `${slideWrapper.offsetWidth - shadowSize * 2}px`;
+  currentSlide.style.width = getSlideWidth();
 }
 
 function addSlide(start, end, position) {
   if (isTransition) {
     return;
   }
-  updateSlider(true, position);
+  updateSlider(position);
 
   slideContainer.style.left = start;
   
@@ -143,7 +137,7 @@ export default function init(data) {
   slideContainer.innerHTML = '';
   
   cardsPerSlide = getCardsPerSlide();
-  updateSlider(false);
+  updateSlider();
 
   window.addEventListener('resize', handleWindowResize);
   nextBtn.addEventListener('click', handleNextBtnClick);
