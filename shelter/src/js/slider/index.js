@@ -21,6 +21,7 @@ export default class Slider {
     
     this.currentSlide = null;
     this.prevSlide = null;
+    this.onUpdate = [];
     
     this.cards = this.data.map(this.renderListItem);
 
@@ -69,7 +70,6 @@ export default class Slider {
     this.currentSlide.style.width = this.getSlideWidth();
   }
 
-
   updateSlider() {
     const newCardsPerPage = this.getCardsPerSlide();
     if (this.cardsPerSlide === newCardsPerPage) {
@@ -78,8 +78,11 @@ export default class Slider {
     this.cardsPerSlide = newCardsPerPage;
     this.slideContainer.innerHTML = '';
     this.currentIndex = 0;
+
+    if (this.onUpdate.length > 0) {
+      this.onUpdate.forEach(cb => cb());
+    }
     this.createSlides();
-    // this.updateSlidesWidth();
     this.updateButtons();
     this.updateSlideNumber();
   }
