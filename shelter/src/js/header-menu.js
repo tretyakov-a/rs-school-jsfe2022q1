@@ -53,11 +53,19 @@ export default function initHeaderMenu() {
       entries.forEach(entry => {
         const { top } = entry.target.getBoundingClientRect();
         const method = header.offsetHeight < Math.abs(top) ? 'add' : 'remove';
-        // hamburgerButton.classList[method]('menu-hamburger_fixed');
         topButton.classList[method]('top-button_show');
       });
     }
   );
-
   observer.observe(header);
+
+  const stickyHeader = document.querySelector('.header_pets');
+  if (stickyHeader) {
+    let observer = new IntersectionObserver( 
+      ([e]) => e.target.classList.toggle('header_pets_sticky', e.intersectionRatio < 1),
+      {threshold: [1]}
+    );
+    
+    observer.observe(stickyHeader);
+  }
 }

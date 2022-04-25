@@ -45,7 +45,6 @@ export default class Carousel extends Slider {
   generateSlide = () => {
     const slide = document.createElement('ul');
     slide.classList.add(this.slideClass, this.mods.currSlide);
-    slide.style.width = this.getSlideWidth();
     slide.innerHTML = this.generateSlideContent();
     return slide;
   }

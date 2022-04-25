@@ -69,6 +69,7 @@ $column-gap: 40px;
   &__slide {
     position: absolute;
     left: $pet-card-shadow-size;
+    width: calc(100% - #{$pet-card-shadow-size} * 2);
     display: flex;
     justify-content: center;
     align-items: center;

@@ -56,18 +56,10 @@ export default class Slider {
   getCardsPerSlide = () => {
     return this.cardsPerSlide;
   }
-  
-  getSlideWidth = () => {
-    return `${this.slideContainer.offsetWidth - this.shadowSize * 2}px`;
-  }
 
   createSlides() {
     this.currentSlide = this.generateSlide();
     this.slideContainer.insertAdjacentElement('afterbegin', this.currentSlide);
-  }
-
-  updateSlidesWidth() {
-    this.currentSlide.style.width = this.getSlideWidth();
   }
 
   updateSlider() {
@@ -88,9 +80,7 @@ export default class Slider {
   }
   
   handleWindowResize = () => {
-    if (!this.updateSlider()) {
-      this.updateSlidesWidth();
-    }
+    this.updateSlider();
   }
 
   handleTransitionEnd = (e) => {

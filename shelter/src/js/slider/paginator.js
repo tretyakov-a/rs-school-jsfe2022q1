@@ -51,7 +51,6 @@ export default class Paginator extends Slider {
     list.innerHTML = this.generateSlideContent();
     const slide = document.createElement('div');
     slide.classList.add(this.slideClass, this.mods.currSlide);
-    slide.style.width = this.getSlideWidth();
     slide.append(list);
     return slide;
   }
