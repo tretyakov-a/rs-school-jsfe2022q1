@@ -2,9 +2,10 @@ import '../styles/index.scss';
 
 import { importAll } from './helpers';
 import initHeaderMenu from './header-menu';
-import initSlider from './slider';
-import { initModal } from './modal';
-import initPagination from './pagination';
+import Carousel from './slider/carousel';
+import Paginator from './slider/paginator';
+import { initModal, showModal } from './modal';
+import petCardTemplate from '../templates/pet-card.ejs';
 
 const petsImagePaths = importAll(require.context('../assets/pictures/pets', false, /.png$/));
 Object.keys(petsImagePaths).forEach(key => {
@@ -18,15 +19,21 @@ petsData.forEach(item => {
   item.img = petsImagePaths[name];
 })
 
+const sliderOptions = {
+  data: petsData,
+  cardTemplate: petCardTemplate,
+  handleCardClick: showModal
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   initHeaderMenu();
   initModal(petsData);
   
   if (document.querySelector('.pets-paginator')) {
-    initPagination(petsData);
+    const paginator = new Paginator('pets-paginator', sliderOptions)
   }
   
   if (document.querySelector('.main-pets-slider')) {
-    initSlider(petsData);
+    const carousel = new Carousel('main-pets-slider', sliderOptions);
   }
 });

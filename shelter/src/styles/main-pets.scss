@@ -31,26 +31,54 @@
     justify-content: flex-end;
   }
 
-  &__slide-wrapper {
+  &__container {
     height: 435px + $pet-card-shadow-size * 2;
     position: relative;
     flex-grow: 1;
     overflow: hidden;
-  }
 
-  &__slide-container {
-    position: absolute;
-    left: 0px;
     padding: $pet-card-shadow-size;
-    display: flex;
+
+    &_start {
+      .main-pets-slider__slide {
+        &_current {
+          opacity: 0.5;
+        }
+        &_previous {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    }
+
+    &_end {
+      pointer-events: none;
+
+      .main-pets-slider__slide {
+        &_current, &_previous {
+          transition: all ease-out 0.6s;
+        }
+        &_current {
+          z-index: 5;
+          opacity: 1;
+        }
+        &_previous {
+          z-index: 4;
+          opacity: 0;
+          transform: scale(0);
+        }
+      }
+    }
   }
 
   &__slide {
+    position: absolute;
+    left: $pet-card-shadow-size;
+
     display: flex;
     justify-content: space-between;
     column-gap: 40px;
     row-gap: 30px;
-    margin-right: $pet-card-shadow-size;
   }
 }
 
