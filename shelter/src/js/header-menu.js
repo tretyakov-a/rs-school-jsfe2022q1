@@ -1,3 +1,5 @@
+const header = document.querySelector('.header');
+const topButton = document.querySelector('.top-button');
 const headerNav = document.querySelector('.header__container');
 const hamburgerButton = headerNav.querySelector('.burger');
 const body = document.querySelector('body');
@@ -45,4 +47,17 @@ function hide() {
 
 export default function initHeaderMenu() {
   hamburgerButton.addEventListener('click', handleHamburgerButtonClick);
+
+  let observer = new IntersectionObserver(
+    (entries, observer) => { 
+      entries.forEach(entry => {
+        const { top } = entry.target.getBoundingClientRect();
+        const method = header.offsetHeight < Math.abs(top) ? 'add' : 'remove';
+        // hamburgerButton.classList[method]('menu-hamburger_fixed');
+        topButton.classList[method]('top-button_show');
+      });
+    }
+  );
+
+  observer.observe(header);
 }
