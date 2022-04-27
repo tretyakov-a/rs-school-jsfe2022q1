@@ -9,24 +9,38 @@
   align-items: center;
   justify-content: center;
 
+  background: rgba(41, 41, 41, 0.6);
+
   @keyframes modalFadeIn {
-    from { background: transparent; }
-    to { background: rgba(41, 41, 41, 0.6); }
-  }
-
-  @keyframes modalFadeOut {
-    from { background: rgba(41, 41, 41, 0.6); }
-    to { background: transparent; }
-  }
-
-  @keyframes modalWindowFadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
   }
 
-  @keyframes modalWindowFadeOut {
+  @keyframes modalFadeOut {
     from { opacity: 1; }
     to { opacity: 0; }
+  }
+
+  @keyframes modalWindowFadeIn {
+    from {
+      opacity: 0.6;
+      transform: scale(0.7);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes modalWindowFadeOut {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0.6;
+      transform: scale(0.7);
+    }
   }
 
   &_show, &_hide {

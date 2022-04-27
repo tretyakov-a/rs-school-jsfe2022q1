@@ -75,7 +75,7 @@ export default class Slider {
       this.onUpdate.forEach(cb => cb());
     }
     this.createSlides();
-    this.updateButtons();
+    this.updateButtons(0);
     this.updateSlideNumber();
   }
   
@@ -87,25 +87,19 @@ export default class Slider {
     if (!e.target.classList.contains(this.slideClass)) {
       return;
     }
+    this.currentSlide.removeEventListener('transitionend', this.handleTransitionEnd);
     this.removePreviousSlide();
-    this.isTransition = false;
     this.slideContainer.classList.remove(this.mods.end);
+    this.isTransition = false;
+    this.updateButtons();
   }
   
   animate(start) {
-    if (this.currentSlide) {
-      this.currentSlide.classList.replace(this.mods.currSlide, this.mods.prevSlide);
-      this.prevSlide = this.currentSlide;
-    }
-
-    this.createSlides();
-
-    this.currentSlide.addEventListener('transitionend', this.handleTransitionEnd, { once: true });
     this.currentSlide.style.left = start;
     this.slideContainer.classList.add(this.mods.start);
-  
+    this.currentSlide.addEventListener('transitionend', this.handleTransitionEnd);
+    
     setTimeout(() => {
-      this.isTransition = true;
       this.currentSlide.style.left = `${this.shadowSize}px`;
       this.slideContainer.classList.replace(this.mods.start, this.mods.end);
     });
@@ -118,30 +112,36 @@ export default class Slider {
   }
   
   updateButtons(index = this.currentIndex) {
-    if (this.isInfinite) {
-      return;
-    }
-    const lastPageIndex = this.getSlidesNumber() - 1;
-      
     const { btnInactive } = this.mods;
     const { first, prev, next, last } = this.btns;
-
     const addInactive = btn => btn.el && btn.el.classList.add(btnInactive);
-    const removeInactive = key => this.btns[key].el && this.btns[key].el.classList.remove(btnInactive);
+    const removeInactive = btn => btn.el && btn.el.classList.remove(btnInactive);
 
-    Object.keys(this.btns).forEach(removeInactive);
-    if (index === 0) {
-      [first, prev].forEach(addInactive);
-    } else if (index === lastPageIndex) {
-      [next, last].forEach(addInactive);
+    const method = this.isTransition ? addInactive : removeInactive;
+    [first, prev, next, last].forEach(method);
+
+    if (!this.isInfinite) {
+      const lastPageIndex = this.getSlidesNumber() - 1;
+      if (index === 0) {
+        [first, prev].forEach(addInactive);
+      } else if (index === lastPageIndex) {
+        [next, last].forEach(addInactive);
+      }
     }
   }
 
   changeSlide = (index) => {
+    this.isTransition = true;
+
     this.updateButtons(index);
     const offset = this.slideContainer.offsetWidth * (index < this.currentIndex ? -1 : 1); 
     this.currentIndex = index;
     this.updateSlideNumber();
+    if (this.currentSlide) {
+      this.currentSlide.classList.replace(this.mods.currSlide, this.mods.prevSlide);
+      this.prevSlide = this.currentSlide;
+    }
+    this.createSlides();
     this.animate(`${offset}px`);
   }
 

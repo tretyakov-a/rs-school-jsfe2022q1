@@ -35,7 +35,7 @@ h2 {
 
 a {
   text-decoration: none;
-  transition: 0.2s;
+  transition: 0.3s;
 }
 
 img {
@@ -119,13 +119,19 @@ ul {
   letter-spacing: 0.06em;
   color: var(--color-dark-3xl);
   border: 2px solid var(--color-primary);
-  transition: all ease-out 0.3s;
+  transition: all ease-out 0.3s, transform ease-out 0.2s;
+  -webkit-tap-highlight-color: transparent;
 
   &_filled {
     padding: 0 45px;
     border: none;
     line-height: 52px;
     background-color: var(--color-primary);
+  }
+
+  &:active {
+    background-color: var(--color-primary);
+    transform: scale(0.98);
   }
 
   &_circle {
@@ -143,6 +149,11 @@ ul {
 
     svg {
       fill: var(--color-dark-3xl);
+      transition: fill ease-out 0.3s;
+    }
+
+    &:active {
+      transform: scale(0.94);
     }
   }
 
@@ -163,10 +174,6 @@ ul {
     svg {
       fill: var(--color-dark-s);
     }
-  }
-
-  &:active {
-    background-color: var(--color-primary);
   }
 
 }

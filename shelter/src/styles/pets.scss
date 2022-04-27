@@ -37,11 +37,10 @@ $column-gap: 40px;
     &_start {
       .pets-paginator__slide {
         &_current {
-          opacity: 0.5;
+          opacity: 0;
         }
         &_previous {
           opacity: 1;
-          transform: scale(1);
         }
       }      
     }
@@ -51,7 +50,7 @@ $column-gap: 40px;
 
       .pets-paginator__slide {
         &_current, &_previous {
-          transition: all ease-out 0.6s;
+          transition: all ease-in 0.6s;
         }
         &_current {
           z-index: 5;
@@ -60,7 +59,6 @@ $column-gap: 40px;
         &_previous {
           z-index: 4;
           opacity: 0;
-          transform: scale(0);
         }
       }
     }

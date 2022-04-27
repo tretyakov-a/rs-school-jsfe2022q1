@@ -54,4 +54,13 @@ export default class Paginator extends Slider {
     slide.append(list);
     return slide;
   }
+
+  animate() {
+    this.slideContainer.classList.add(this.mods.start);
+    this.currentSlide.addEventListener('transitionend', this.handleTransitionEnd);
+    
+    setTimeout(() => {
+      this.slideContainer.classList.replace(this.mods.start, this.mods.end);
+    });
+  }
 }
