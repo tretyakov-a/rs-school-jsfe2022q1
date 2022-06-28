@@ -18,6 +18,10 @@
     "strict": true,
     "skipLibCheck": true,
     "noImplicitAny": true,
-    "noEmitOnError": true
+    "noEmitOnError": true,
+    "paths": {
+      "@common/*": ["common/*"],
+      "@view/*": ["components/view/*"],
+    } 
   }
 }
