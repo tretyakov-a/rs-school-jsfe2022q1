@@ -1,5 +1,5 @@
 import './sources.css';
-import { selectFrom } from '../../../common/utils';
+import { selectFrom } from '@common/utils';
 
 interface SourceData {
   id: string;
@@ -15,6 +15,7 @@ class Sources {
   draw(data: SourceData[]) {
     const fragment = document.createDocumentFragment();
     const sourceItemTemp = selectFrom(document)('#sourceItemTemp') as HTMLTemplateElement;
+    const sources = selectFrom(document)('.sources');
 
     data.forEach((item) => {
       const sourceClone = sourceItemTemp.content.cloneNode(true) as HTMLElement;
@@ -26,7 +27,8 @@ class Sources {
       fragment.append(sourceClone);
     });
 
-    selectFrom(document)('.sources').append(fragment);
+    sources.innerHTML = '';
+    sources.append(data.length === 0 ? 'No sources' : fragment);
   }
 }
 

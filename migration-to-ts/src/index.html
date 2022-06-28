@@ -11,6 +11,9 @@
 <body>
   <header>
     <h1>News Portal</h1>
+    <form class="source-filters">
+      <div class="source-filters__wrapper"></div>
+    </form>
   </header>
   <main>
     <div class="sources buttons"></div>
@@ -21,6 +24,20 @@
       Copyright <a href="https://newsapi.org">NewsAPI</a>
     </p>
   </footer>
+
+  <template id="selectFilterTemp">
+    <div class="source-filters__item">
+      <span class="source-filters__item-label">Category:</span>
+      <select name="category"></select>
+    </div>
+  </template>
+
+  <template id="searchFilterTemp">
+    <div class="source-filters__item">
+      <span class="source-filters__item-label">Search:</span>
+      <input type="text" name="search">
+    </div>
+  </template>
 
   <template id="sourceItemTemp">
     <div class="source__item">
@@ -47,8 +64,6 @@
       </div>
     </div>
   </template>
-
-  <script src="./index.js"></script>
 </body>
 
 </html>

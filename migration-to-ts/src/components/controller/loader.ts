@@ -1,6 +1,6 @@
-import { HttpCodes } from '../../common/constants';
-import { NewsData } from '../view/news/news';
-import { SourceData } from '../view/sources/sources';
+import { HttpCodes } from '@common/constants';
+import { NewsData } from '@view/news/news';
+import { SourceData } from '@view/sources/sources';
 
 
 type UrlOptions = {

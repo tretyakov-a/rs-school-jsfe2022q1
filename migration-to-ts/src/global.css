@@ -2,15 +2,20 @@ body {
   color: #fff;
   background: #17181c;
   font-family: sans-serif;
+  margin: 0;
 }
 
 header {
-  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
 }
 
 header h1 {
   font-size: 40px;
   font-weight: 800;
+  margin: 0;
 }
 
 footer {
@@ -36,4 +41,13 @@ footer .copyright a:hover {
 
 footer .copyright:before {
   content: '©';
+}
+
+
+@media (max-width: 900px) {
+  header {
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 2rem;
+  }
 }

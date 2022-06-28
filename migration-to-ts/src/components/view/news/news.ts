@@ -1,5 +1,5 @@
 import './news.css';
-import { selectFrom } from '../../../common/utils';
+import { selectFrom } from '@common/utils';
 
 interface NewsData {
   source: {
