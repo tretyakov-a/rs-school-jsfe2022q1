@@ -23,7 +23,8 @@ const baseConfig = {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
       '@common': path.resolve(__dirname, 'src/common'),
-      '@view': path.resolve(__dirname, 'src/components/view'),
+      '@views': path.resolve(__dirname, 'src/views'),
+      '@components': path.resolve(__dirname, 'src/components'),
     },
   },
   output: {

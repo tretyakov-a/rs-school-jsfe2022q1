@@ -21,7 +21,8 @@
     "noEmitOnError": true,
     "paths": {
       "@common/*": ["common/*"],
-      "@view/*": ["components/view/*"],
+      "@views/*": ["views/*"],
+      "@components/*": ["components/*"],
     } 
   }
 }
