@@ -1,22 +1,13 @@
 import './news.css';
 import { selectFrom } from '@common/utils';
+import { NewsData } from '@components/news';
+import { View, ViewOptions } from '@views/view';
 
-interface NewsData {
-  source: {
-    id: string;
-    name: string;
-  };
-  author: string;
-  title: string;
-  description: string;
-  url: string;
-  urlToImage: string;
-  publishedAt: string;
-  content: string;
-}
+export class NewsView extends View<NewsData> {
+  render(options: ViewOptions<NewsData>): void {
+    const { data } = options;
+    if (!data || super.render(options) || !Array.isArray(data)) return;
 
-class News {
-  draw(data: NewsData[]): void {
     const news = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;
 
     const fragment = document.createDocumentFragment();
@@ -44,13 +35,8 @@ class News {
 
       fragment.append(newsClone);
     });
-
-    selectFrom(document)('.news').innerHTML = '';
-    selectFrom(document)('.news').appendChild(fragment);
+    
+    (this.contentEl as HTMLElement).innerHTML = '';
+    this.contentEl?.append(data.length === 0 ? 'No news' : fragment);
   }
-}
-
-export {
-  NewsData,
-  News,
 }

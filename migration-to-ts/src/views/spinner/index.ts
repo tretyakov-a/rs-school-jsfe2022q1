@@ -1,12 +1,13 @@
 import './spinner.css';
-import { View } from '@view/view';
+import { View } from '@views/view';
 import { selectFrom } from '@common/utils';
 
-export class SpinnerView implements View<void> {
+export class SpinnerView extends View<void> {
   
-  draw(): HTMLElement {
+  render(): HTMLElement {
     const spinnerTemp = selectFrom(document)('#spinnerTemp') as HTMLTemplateElement;
     const spinnerClone = spinnerTemp.content.cloneNode(true) as HTMLElement;
-    return spinnerClone;
+    this.root = spinnerClone;
+    return this.root;
   }
 }

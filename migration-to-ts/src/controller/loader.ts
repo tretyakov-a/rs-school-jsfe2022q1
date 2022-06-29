@@ -1,7 +1,6 @@
 import { HttpCodes } from '@common/constants';
-import { NewsData } from '@view/news/news';
-import { SourceData } from '@view/sources/sources';
-
+import { NewsData } from '@components/news';
+import { SourceData } from '@components/sources';
 
 type UrlOptions = {
   sources?: string | null,

@@ -1,21 +1,15 @@
 import './sources.css';
 import { selectFrom } from '@common/utils';
+import { SourceData } from '@components/sources';
+import { View, ViewOptions } from '@views/view';
 
-interface SourceData {
-  id: string;
-  name: string;
-  description: string;
-  url: string;
-  category: string;
-  language: string;
-  country: string;
-}
-
-class Sources {
-  draw(data: SourceData[]) {
+export class SourcesView extends View<SourceData> {
+  render(options: ViewOptions<SourceData> ) {
+    const { data } = options;
+    if (!data || super.render(options) || !Array.isArray(data)) return;
+    
     const fragment = document.createDocumentFragment();
     const sourceItemTemp = selectFrom(document)('#sourceItemTemp') as HTMLTemplateElement;
-    const sources = selectFrom(document)('.sources__wrapper');
 
     data.forEach((item) => {
       const sourceClone = sourceItemTemp.content.cloneNode(true) as HTMLElement;
@@ -27,12 +21,7 @@ class Sources {
       fragment.append(sourceClone);
     });
 
-    sources.innerHTML = '';
-    sources.append(data.length === 0 ? 'No sources' : fragment);
+    (this.contentEl as HTMLElement).innerHTML = '';
+    this.contentEl?.append(data.length === 0 ? 'No sources' : fragment);
   }
 }
-
-export {
-  SourceData,
-  Sources,
-};
