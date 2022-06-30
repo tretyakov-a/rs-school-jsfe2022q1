@@ -1,3 +1,4 @@
+import './filters-form.css';
 import { View, ViewOptions } from '@views/view';
 
 export class FiltersFormView extends View<void> {

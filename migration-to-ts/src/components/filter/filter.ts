@@ -11,14 +11,14 @@ export class Filter extends Component<string | void> {
   protected name: FILTER_NAME;
   protected dataKey: keyof SourceData;
   protected value: string;
-  protected inputEl: HTMLElement;
+  protected inputEl: HTMLInputElement;
 
   constructor([ name, dataKey ]: FilterOptions, view: View<string | void>) {
     super({ view })
     this.value = DEFAULT_FILTER_OPTION;
     this.name = name;
     this.dataKey = dataKey;
-    this.inputEl = selectFrom(this.getRoot())(`[name="${this.name}"]`);
+    this.inputEl = selectFrom(this.getRoot())(`[name="${this.name}"]`) as HTMLInputElement;
   }
   
   public static getFilterData = (data: SourceData[], key: keyof SourceData): string[] => {
@@ -27,6 +27,11 @@ export class Filter extends Component<string | void> {
         ? [...acc, item[key]]
         : acc;
     }, []);
+  }
+
+  public resetDefault(): void {
+    this.value = '';
+    this.inputEl.value = '';
   }
 
   public check(dataItem: SourceData): boolean {

@@ -24,7 +24,7 @@
 
 .source-filters__item select,
 .source-filters__item input {
-  min-width: 100px;
+  min-width: 50px;
   background: #17181c;
   border: 2px solid #30c5ff;
   border-radius: 0.5rem;
@@ -40,7 +40,7 @@
   width: 100px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
   .source-filters__container {
     flex-wrap: wrap;
     justify-content: center;

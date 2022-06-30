@@ -40,7 +40,7 @@ class App extends Component<SourceData | NewsData | string | void> {
     });
 
     filtersForm.addEventListener('change', (e: Event) => {
-      const filters = (e as CustomEvent).detail as Filter[];
+      const filters = (e as CustomEvent<Filter[]>).detail;
       sources.update(this.sources.filter((item) => {
         return filters.reduce((acc, filter) => acc && filter.check(item), true);
       }))

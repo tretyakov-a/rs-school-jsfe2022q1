@@ -43,8 +43,30 @@ footer .copyright:before {
   content: '©';
 }
 
+.button {
+  padding: 1rem;
+  border: 1px solid #30c5ff;
+  background-color: transparent;
+  outline: none;
+  border-radius: 0.5rem;
+  transition: 0.25s;
+  cursor: pointer;
+  font: inherit;
+  color: #70d6ff;
+}
 
-@media (max-width: 900px) {
+@media (hover: hover) {
+  .button:hover {
+    color: #1d7597;
+  }
+}
+
+.button:active {
+  border-color: #1d7597;
+  color: #1d7597;
+}
+
+@media (max-width: 950px) {
   header {
     flex-direction: column;
     justify-content: center;
