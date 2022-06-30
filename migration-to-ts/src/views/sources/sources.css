@@ -1,19 +1,63 @@
 .sources {
-  padding: 0 1rem;
-  height: 120px;
+  height: 100px;
+  width: 100%;
   overflow: auto;
   font: 300 1em 'Fira Sans', sans-serif;
+  position: relative;
+}
+
+.sources::before,
+.sources::after {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 1;
+  width: 3rem;
+  height: 100%;
+  top: 0;
+  pointer-events: none;
+}
+
+.sources::before {
+  background: linear-gradient(90deg, rgba(23, 24, 28, 1) 0%, rgba(23, 24, 28, 0) 70%);
+  left: 0;
+}
+
+.sources::after {
+  background: linear-gradient(-90deg, rgba(23, 24, 28, 1) 0%, rgba(23, 24, 28, 0) 70%);
+  right: 0;
 }
 
 .sources__wrapper {
+  height: 100%;
+  overflow: auto;
+}
+
+.sources__wrapper::-webkit-scrollbar {
+  height: 0.5rem;
+
+}
+
+.sources__wrapper::-webkit-scrollbar-track {
+  background-color: #333;
+  border-radius: 3px;
+}
+
+.sources__wrapper::-webkit-scrollbar-thumb {
+  background-color: #30c5ff;
+  border-radius: 3px;
+}
+
+.sources__container {
   display: flex;
   flex-wrap: nowrap;
   column-gap: 1rem;
   height: 100%;
-  min-width: 100%;
+  min-width: calc(100% - 2rem);
   width: fit-content;
   align-items: center;
   justify-content: center;
+  padding: 0 1rem;
 }
 
 .source__item {

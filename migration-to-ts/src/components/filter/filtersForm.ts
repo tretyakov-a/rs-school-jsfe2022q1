@@ -10,7 +10,7 @@ export class FiltersForm extends Component<string | void> {
   constructor() {
     super(new FiltersFormView({
       root: '.source-filters', 
-      contentEl: '.source-filters__wrapper',
+      contentEl: '.source-filters__container',
     }));
     this.getRoot().addEventListener('change', this.onChange);
   }

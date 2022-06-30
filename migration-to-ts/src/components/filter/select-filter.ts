@@ -9,7 +9,7 @@ export class SelectFilter extends Filter {
     super(options, new SelectFilterView({
       data,
       name: options[0],
-      root: '.source-filters__wrapper',
+      root: '.source-filters__container',
     }));
 
     selectFrom(this.getRoot())(`[name="${this.name}"]`).addEventListener('change', this.onChange);

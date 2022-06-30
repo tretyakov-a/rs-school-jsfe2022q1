@@ -18,7 +18,7 @@ export class Sources extends Component<SourceData> {
     super(new SourcesView({
       data,
       root: '.sources',
-      contentEl: '.sources__wrapper'
+      contentEl: '.sources__container'
     }));
 
     this.view.getRoot()?.addEventListener('click', this.onClick);

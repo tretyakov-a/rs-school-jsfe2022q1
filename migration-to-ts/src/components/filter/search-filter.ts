@@ -6,7 +6,7 @@ import { selectFrom } from "@common/utils";
 export class SearchFilter extends Filter {
   constructor(...options: FilterOptions) {
     super(options, new SearchFilterView({
-      root: '.source-filters__wrapper',
+      root: '.source-filters__container',
     }));
 
     this.value = '';
