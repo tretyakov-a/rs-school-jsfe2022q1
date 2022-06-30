@@ -15,6 +15,10 @@ export class SearchFilter extends Filter {
     this.props.handlers?.onInput();
   }
 
+  public isDefaultValue(): boolean {
+    return this.value === '';
+  }
+  
   public check(dataItem: SourceData): boolean {
     return dataItem['name'].toLowerCase().includes(this.value.trim().toLowerCase());
   }

@@ -25,8 +25,11 @@ export class FiltersForm extends Component<SourceData> {
   }
 
   private handleResetBtnClick = (): void => {
-    this.getFilters().forEach((filter) => filter.resetDefault());
-    this.onChange();
+    const filters = this.getFilters();
+    if (!filters.reduce((acc, filter) => acc && filter.isDefaultValue(), true)) {
+      filters.forEach((filter) => filter.resetDefault());
+      this.onChange();
+    }
   }
 
   public update(sources: SourceData[]) {

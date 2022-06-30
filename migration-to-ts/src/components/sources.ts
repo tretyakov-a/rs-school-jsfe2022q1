@@ -1,6 +1,7 @@
 import { SourceResponseData } from "controller/loader";
 import { Component, ComponentProps } from "./component";
 import { Filter } from "./filter";
+import { selectFrom } from '@common/utils';
 
 export interface SourceData {
   id: string;
@@ -17,20 +18,27 @@ type GetSourceDataFunction = (callback: (data: SourceResponseData) => void) => v
 export class Sources extends Component<SourceData> {
   private sources: SourceData[];
   private getData: GetSourceDataFunction;
+  private activeItem: Element | null;
 
   constructor(props: ComponentProps<SourceData>, getData: GetSourceDataFunction) {
     super(props);
 
     this.sources = [];
+    this.activeItem = null;
     this.getData = getData;
     this.getRoot().addEventListener('click', this.onClick);
     this.update();
   }
 
   public applyFilters(filters: Filter[]) {
-    super.update(this.sources.filter((item) => {
+    const activeItemId = this.getSourceId(this.activeItem);
+    const filtredItems = this.sources.filter((item) => {
       return filters.reduce((acc, filter) => acc && filter.check(item), true);
-    }))
+    });
+    super.update(filtredItems);
+    if (filtredItems.find(({ id }) => id === activeItemId)) {
+      this.setActive(selectFrom(this.getRoot())(`[data-source-id=${activeItemId}]`));
+    }
   }
 
   public update(data?: SourceData[]): void {
@@ -45,11 +53,25 @@ export class Sources extends Component<SourceData> {
     });
   }
 
+  private getSourceId(el: Element | null): string {
+    return el === null ? '' : el.getAttribute('data-source-id') || '';
+  }
+
+  private setActive(el: Element): void {
+    this.activeItem?.classList.remove('source__item_active')
+    this.activeItem = el;
+    this.activeItem.classList.add('source__item_active');
+  }
+
   private onClick = (e: Event) => {
     const el = (e.target as HTMLElement).closest('.source__item');
     if (!el) return;
 
-    const sourceId = el.getAttribute('data-source-id') || '';
-    this.props.handlers?.onSourceClick(sourceId)
+    const sourceId = this.getSourceId(el);
+    const activeItemId = this.getSourceId(this.activeItem);
+    if (activeItemId !== sourceId) {
+      this.setActive(el);
+      this.props.handlers?.onSourceClick(sourceId);
+    }
   }
 }

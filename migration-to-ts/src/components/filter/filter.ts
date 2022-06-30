@@ -28,6 +28,10 @@ export class Filter extends Component<string> {
     }, []);
   }
 
+  public isDefaultValue(): boolean {
+    return this.value === DEFAULT_FILTER_OPTION;
+  }
+
   public resetDefault(): void {
     this.value = '';
     this.inputEl.value = '';
