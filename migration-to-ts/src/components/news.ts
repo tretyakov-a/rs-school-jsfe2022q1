@@ -1,5 +1,5 @@
-import { NewsView } from '@views/news';
-import { Component } from './component';
+import { NewsResponseData } from 'controller/loader';
+import { Component, ComponentProps } from './component';
 
 export interface NewsData {
   source: {
@@ -15,10 +15,24 @@ export interface NewsData {
   content: string;
 }
 
+type GetNewsDataFunction = (sourceId: string, callback: (data: NewsResponseData) => void) => void;
+
 export class News extends Component<NewsData> {
-  constructor(selector: string, data?: NewsData[]) {
-    super({
-      view: new NewsView({ data, root: selector }),
+  private news: NewsData[];
+  private getData: GetNewsDataFunction
+  
+  constructor(props: ComponentProps<NewsData>, getData: GetNewsDataFunction) {
+    super(props);
+    
+    this.news = [];
+    this.getData = getData;
+  }
+
+  public update(sourceId: string): void { 
+    this.onLoadingStart();
+    this.getData(sourceId, (data) => {
+      this.news = data.articles ? data.articles : [];
+      this.onLoadingEnd(this.news);
     });
   }
 }

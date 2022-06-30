@@ -11,7 +11,7 @@ class AppController extends AppLoader {
     );
   }
 
-  public getNews(sourceId: string, callback: (data: NewsResponseData) => void) {
+  public getNews(sourceId: string, callback: (data: NewsResponseData) => void): void {
     super.getResp(
       {
         endpoint: 'everything',

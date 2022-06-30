@@ -1,5 +1,6 @@
-import { SourcesView } from "@views/sources";
-import { Component } from "./component";
+import { SourceResponseData } from "controller/loader";
+import { Component, ComponentProps } from "./component";
+import { Filter } from "./filter";
 
 export interface SourceData {
   id: string;
@@ -11,19 +12,37 @@ export interface SourceData {
   country: string;
 }
 
-export type SourcesClickEvent = CustomEvent<{ sourceId: string }>;
+type GetSourceDataFunction = (callback: (data: SourceResponseData) => void) => void;
 
 export class Sources extends Component<SourceData> {
-  constructor(selector: string, data?: SourceData[]) {
-    super({
-      view: new SourcesView({
-        data,
-        root: selector,
-        contentEl: '.sources__container'
-      }),
-    });
+  private sources: SourceData[];
+  private getData: GetSourceDataFunction;
 
+  constructor(props: ComponentProps<SourceData>, getData: GetSourceDataFunction) {
+    super(props);
+
+    this.sources = [];
+    this.getData = getData;
     this.getRoot().addEventListener('click', this.onClick);
+    this.update();
+  }
+
+  public applyFilters(filters: Filter[]) {
+    super.update(this.sources.filter((item) => {
+      return filters.reduce((acc, filter) => acc && filter.check(item), true);
+    }))
+  }
+
+  public update(data?: SourceData[]): void {
+    if (data !== undefined) {
+      return super.update(data);
+    }
+    this.onLoadingStart();
+    this.getData((data) => {
+      this.sources = data.sources ? data.sources : [];
+      this.onLoadingEnd(this.sources);
+      this.props.handlers?.onDataLoad(this.sources);
+    });
   }
 
   private onClick = (e: Event) => {
@@ -31,8 +50,6 @@ export class Sources extends Component<SourceData> {
     if (!el) return;
 
     const sourceId = el.getAttribute('data-source-id') || '';
-
-    this.dispatchEvent(new CustomEvent('click', { detail: { sourceId } }));
+    this.props.handlers?.onSourceClick(sourceId)
   }
-
 }

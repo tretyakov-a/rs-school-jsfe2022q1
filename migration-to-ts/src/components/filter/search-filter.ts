@@ -1,10 +1,10 @@
 import { Filter, FilterOptions } from "./filter";
-import { SearchFilterView } from '@views/filters';
 import { SourceData } from "@components/sources";
+import { ComponentProps } from "@components/component";
 
 export class SearchFilter extends Filter {
-  constructor(root: string | HTMLElement, ...options: FilterOptions) {
-    super(options, new SearchFilterView({ root }));
+  constructor(props: ComponentProps<string>, ...options: FilterOptions) {
+    super(props, options);
 
     this.value = '';
     this.inputEl.addEventListener('input', this.onInput);
@@ -12,7 +12,7 @@ export class SearchFilter extends Filter {
 
   private onInput = (e: Event): void => {
     this.value = (e.target as HTMLInputElement).value;
-    this.dispatchEvent(new Event('change'));
+    this.props.handlers?.onInput();
   }
 
   public check(dataItem: SourceData): boolean {

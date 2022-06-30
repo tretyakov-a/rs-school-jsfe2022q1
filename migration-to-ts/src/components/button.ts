@@ -9,8 +9,6 @@ export class Button extends Component<string> {
   }
 
   private onClick = (): void => {
-    if (this.props.handlers) {
-      this.props.handlers.onResetBtnClick();
-    }
+    this.props.handlers?.onResetBtnClick();
   }
 }

@@ -1,19 +1,21 @@
 import { DrawData, View } from "@views/view";
 import { SpinnerView } from '@views/spinner';
+import { SourceData } from '@components/sources';
+import { NewsData } from "./news";
 
 export type ComponentProps<T> = {
   view: View<T>,
-  handlers?: Record<string, () => void>
+  handlers?: Record<string, Function>
 }
 
 export class Component<T> extends EventTarget {
-  protected components: Component<T>[];
+  protected components: Record<string, Component<SourceData | NewsData | string | void>>;
   protected props: ComponentProps<T>;
 
   constructor(props: ComponentProps<T>) {
     super();
 
-    this.components = [];
+    this.components = {};
     this.props = props;
   }
 
@@ -34,14 +36,15 @@ export class Component<T> extends EventTarget {
   }
 
   public onLoadingStart(): void {
-    this.update((new SpinnerView()).render());
+    this.view.render({ data: (new SpinnerView()).render()});
   }
 
   public onLoadingEnd(data: DrawData<T>): void {
-    this.update(data);
+    this.view.render({ data: '' });
+    this.view.render({ data });
   }
 
-  public update(data: DrawData<T>): void {
+  public update(data?: DrawData<T>): void {
     this.view.render({ data });
   }
 }

@@ -1,32 +1,27 @@
 import { FILTER_NAME } from "@common/constants";
-import { FiltersFormView } from "@views/filters/filters-form";
+import { SearchFilterView, ResetBtnView, SelectFilterView } from "@views/filters";
 import { SourceData } from "@components/sources";
 import { Component } from "../component";
-import { Filter } from "./filter";
-import { SearchFilter } from "./search-filter";
-import { SelectFilter } from "./select-filter";
+import { Filter, SearchFilter, SelectFilter } from ".";
 import { Button } from '../button';
-import { ResetBtnView } from '@views/filters/reset-btn';
+import { ComponentProps } from '@components/component';
 
-export class FiltersForm extends Component<string | void | SourceData> {
-  constructor(selector: string) {
-    super({
-      view: new FiltersFormView({
-        root: selector, 
-        contentEl: '.source-filters__container',
-      }),
-    });
+export class FiltersForm extends Component<SourceData> {
+  constructor(props: ComponentProps<SourceData>) {
+    super(props);
+
     this.getRoot().addEventListener('change', this.onChange);
+    this.onLoadingStart();
   }
 
   private getFilters(): Filter[] {
-    return this.components.filter((c) => c instanceof Filter) as Filter[];
+    return Object.keys(this.components)
+      .filter((key) => this.components[key] instanceof Filter)
+      .map((key) => this.components[key] as Filter);
   }
 
   private onChange = (): void => {
-    this.dispatchEvent(new CustomEvent<Filter[]>('change', {
-      detail: this.getFilters()
-    }));
+    this.props.handlers?.onFilterChange(this.getFilters());
   }
 
   private handleResetBtnClick = (): void => {
@@ -34,26 +29,32 @@ export class FiltersForm extends Component<string | void | SourceData> {
     this.onChange();
   }
 
-  public onLoadingEnd(sources: SourceData[]) {
-    super.onLoadingEnd('');
+  public update(sources: SourceData[]) {
+    super.update('');
     const { CATEGORY, COUNTRY, LANGUAGE, SEARCH } = FILTER_NAME;
     const root = this.getContentEl();
-    this.components.push(
-      ...[CATEGORY, COUNTRY, LANGUAGE].map((name) => {
-        const key = name as keyof SourceData;
-        return new SelectFilter(root, Filter.getFilterData(sources, key), name, key);
-      })
-    );
 
-    const searchFilter = new SearchFilter(root, SEARCH, 'name');
-    searchFilter.addEventListener('change', this.onChange);
-    this.components.push(searchFilter);
-    this.components.push(new Button({
+    [CATEGORY, COUNTRY, LANGUAGE].forEach((name) => {
+      const key = name as keyof SourceData;
+      this.components[`${name}Filter`] = new SelectFilter({
+        view: new SelectFilterView({
+          data: Filter.getFilterData(sources, key), name, root,
+        })
+      }, name, key);
+    })
+
+    this.components.searchFilter = new SearchFilter({
+      view: new SearchFilterView({ root }),
+      handlers: {
+        onInput: this.onChange
+      }
+    }, SEARCH, 'name');
+
+    this.components.resetBtn = new Button({
       view: new ResetBtnView({ root }),
       handlers: {
         onResetBtnClick: this.handleResetBtnClick
       }
-    }))
-    this.onChange();
+    });
   }
 }

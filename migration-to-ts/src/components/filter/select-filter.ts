@@ -1,15 +1,11 @@
 import { Filter, FilterOptions } from "./filter";
-import { SelectFilterView } from '@views/filters';
 import { SourceData } from "@components/sources";
 import { DEFAULT_FILTER_OPTION } from "@common/constants";
+import { ComponentProps } from "@components/component";
 
 export class SelectFilter extends Filter {
-  constructor(root: string | HTMLElement, data: string[], ...options: FilterOptions) {
-    super(options, new SelectFilterView({
-      data,
-      name: options[0],
-      root,
-    }));
+  constructor(props: ComponentProps<string>, ...options: FilterOptions) {
+    super(props, options);
 
     this.inputEl.addEventListener('change', this.onChange);
   }
