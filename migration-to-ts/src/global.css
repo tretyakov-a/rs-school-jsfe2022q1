@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   color: #fff;
   background: #17181c;
@@ -18,29 +22,45 @@ header h1 {
   margin: 0;
 }
 
-footer {
+.footer {
   height: 100px;
+  margin-top: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  column-gap: 2rem;
 }
 
-footer .copyright {
+.footer .copyright {
   font-size: 14px;
   color: #333;
   text-align: center;
 }
 
-footer .copyright a {
+.footer .copyright a {
   color: #444;
 }
 
-footer .copyright a:hover {
+.footer .copyright a:hover {
   color: #555;
 }
 
-footer .copyright:before {
+.footer .copyright:before {
   content: '©';
+}
+
+.footer__github-link {
+  color: #666;
+  text-decoration: none;
+  transition: 0.25s;
+}
+
+.footer__github-link:hover {
+  color: #777;
+}
+
+.footer__year {
+  color: #666;
 }
 
 .button {
@@ -64,6 +84,49 @@ footer .copyright:before {
 .button:active {
   border-color: #1d7597;
   color: #1d7597;
+}
+
+.rsschool-logo {
+  display: block;
+  width: 120px;
+}
+
+.rsschool-logo .st0,
+.rsschool-logo .st1,
+.rsschool-logo .st2,
+.rsschool-logo .st3,
+.rsschool-logo .st4,
+.rsschool-logo .st5,
+.rsschool-logo .st6,
+.rsschool-logo .st8,
+.rsschool-logo .st9 
+{
+  fill: #333;
+  stroke: #444;
+}
+
+.rsschool-logo .st1 {
+  fill: #333;
+}
+  
+.rsschool-logo .st7 {
+  fill: #70d6ff;
+}
+
+.rsschool-logo .logo-path {
+  fill: #70d6ff;
+  stroke: #444;
+  stroke-width: 4px;
+  transition: 0.1s ease-in;
+}
+
+@media (max-width: 550px) {
+  .footer {
+    flex-direction: column;
+    row-gap: 0.5rem;
+    height: auto;
+    padding-bottom: 1rem;
+  }
 }
 
 @media (max-width: 950px) {
