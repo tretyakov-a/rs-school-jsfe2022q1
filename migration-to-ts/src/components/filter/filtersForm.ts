@@ -6,12 +6,14 @@ import { Filter } from "./filter";
 import { SearchFilter } from "./search-filter";
 import { SelectFilter } from "./select-filter";
 
-export class FiltersForm extends Component<string | void> {
-  constructor() {
-    super(new FiltersFormView({
-      root: '.source-filters', 
-      contentEl: '.source-filters__container',
-    }));
+export class FiltersForm extends Component<string | void | SourceData> {
+  constructor(selector: string) {
+    super({
+      view: new FiltersFormView({
+        root: selector, 
+        contentEl: '.source-filters__container',
+      }),
+    });
     this.getRoot().addEventListener('change', this.onChange);
   }
 
@@ -19,19 +21,18 @@ export class FiltersForm extends Component<string | void> {
     this.dispatchEvent(new CustomEvent('change', { detail: this.components }));
   }
 
-  public initFilters(sources: SourceData[]) {
-    this.onLoadingEnd('');
-
+  public onLoadingEnd(sources: SourceData[]) {
+    super.onLoadingEnd('');
     const { CATEGORY, COUNTRY, LANGUAGE, SEARCH } = FILTER_NAME;
 
     this.components.push(
       ...[CATEGORY, COUNTRY, LANGUAGE].map((name) => {
         const key = name as keyof SourceData;
-        return new SelectFilter(Filter.getFilterData(sources, key), name, key);
+        return new SelectFilter(this.getContentEl(), Filter.getFilterData(sources, key), name, key);
       })
     );
 
-    const searchFilter = new SearchFilter(SEARCH, 'name');
+    const searchFilter = new SearchFilter(this.getContentEl(), SEARCH, 'name');
     searchFilter.addEventListener('change', this.onChange);
     this.components.push(searchFilter);
 

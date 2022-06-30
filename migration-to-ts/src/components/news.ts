@@ -16,7 +16,9 @@ export interface NewsData {
 }
 
 export class News extends Component<NewsData> {
-  constructor(data?: NewsData[]) {
-    super(new NewsView({ data, root: '.news' }));
+  constructor(selector: string, data?: NewsData[]) {
+    super({
+      view: new NewsView({ data, root: selector }),
+    });
   }
 }

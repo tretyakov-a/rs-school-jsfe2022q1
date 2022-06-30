@@ -1,17 +1,13 @@
 import { Filter, FilterOptions } from "./filter";
 import { SearchFilterView } from '@views/filters';
 import { SourceData } from "@components/sources";
-import { selectFrom } from "@common/utils";
 
 export class SearchFilter extends Filter {
-  constructor(...options: FilterOptions) {
-    super(options, new SearchFilterView({
-      root: '.source-filters__container',
-    }));
+  constructor(root: string | HTMLElement, ...options: FilterOptions) {
+    super(options, new SearchFilterView({ root }));
 
     this.value = '';
-
-    selectFrom(this.getRoot())(`[name="${this.name}"]`).addEventListener('input', this.onInput);
+    this.inputEl.addEventListener('input', this.onInput);
   }
 
   private onInput = (e: Event): void => {

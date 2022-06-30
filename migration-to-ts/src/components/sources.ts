@@ -14,14 +14,16 @@ export interface SourceData {
 export type SourcesClickEvent = CustomEvent<{ sourceId: string }>;
 
 export class Sources extends Component<SourceData> {
-  constructor(data?: SourceData[]) {
-    super(new SourcesView({
-      data,
-      root: '.sources',
-      contentEl: '.sources__container'
-    }));
+  constructor(selector: string, data?: SourceData[]) {
+    super({
+      view: new SourcesView({
+        data,
+        root: selector,
+        contentEl: '.sources__container'
+      }),
+    });
 
-    this.view.getRoot()?.addEventListener('click', this.onClick);
+    this.getRoot().addEventListener('click', this.onClick);
   }
 
   private onClick = (e: Event) => {

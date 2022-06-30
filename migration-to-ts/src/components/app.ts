@@ -12,20 +12,23 @@ class App extends Component<SourceData | NewsData | string | void> {
   private news: NewsData[];
   private sources: SourceData[];
 
-  constructor() {
-    super(new AppView({
-      root: 'main',
-    }));
-    // this.controller = new AppController();
+  constructor(selector: string) {
+    super({
+      view: new AppView({
+        root: selector,
+      }),
+    });
     this.controller = new DummyAppController();
     this.news = [];
     this.sources = [];
   }
 
   public start(): void {
-    const news = new News();
-    const sources = new Sources();
+    const news = new News('.news');
+    const sources = new Sources('.sources');
+    const filtersForm = new FiltersForm('.source-filters');
     sources.onLoadingStart();
+    filtersForm.onLoadingStart();
     
     sources.addEventListener('click', (e: Event) => {
       news.onLoadingStart();
@@ -35,9 +38,6 @@ class App extends Component<SourceData | NewsData | string | void> {
         news.onLoadingEnd(this.news);
       });
     });
-
-    const filtersForm = new FiltersForm();
-    filtersForm.onLoadingStart();
 
     filtersForm.addEventListener('change', (e: Event) => {
       const filters = (e as CustomEvent).detail as Filter[];
@@ -49,7 +49,7 @@ class App extends Component<SourceData | NewsData | string | void> {
     this.controller.getSources((data) => {
       this.sources = data.sources ? data.sources : [];
       sources.onLoadingEnd(this.sources);
-      filtersForm.initFilters(this.sources);
+      filtersForm.onLoadingEnd(this.sources);
     });
 
     this.components.push(news, sources, filtersForm);

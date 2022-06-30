@@ -5,8 +5,8 @@ export type DrawData<T> = T[] | HTMLElement | string;
 export type ViewOptions<T> = {
   data?: DrawData<T>;
   name?: string;
-  root?: string;
-  contentEl?: string;
+  root?: string | HTMLElement;
+  contentEl?: string | HTMLElement;
 }
 
 type HtmlElement = HTMLElement | null;
@@ -16,9 +16,14 @@ export class View<T> {
   protected contentEl: HtmlElement;
   
   constructor(options: ViewOptions<T> = {}) {
-    this.root = options.root ? selectFrom(document)(options.root) : null;
-    this.contentEl = options.contentEl
-      ? (this.root ? selectFrom(this.root)(options.contentEl) : selectFrom(document)(options.contentEl))
+    const { root, contentEl } = options;
+    this.root = root
+      ? typeof root === 'string' ? selectFrom(document)(root) : root
+      : null;
+    this.contentEl = contentEl
+      ? typeof contentEl === 'string'
+        ? selectFrom(this.root ? this.root : document)(contentEl)
+        : contentEl
       : this.root;
     this.render(options);
   }
@@ -34,7 +39,6 @@ export class View<T> {
   public render(options: ViewOptions<T>): boolean | void | HTMLElement {
     const { data } = options;
     if (data !== undefined && data instanceof Node) {
-      console.log(data);
       (this.contentEl as HTMLElement).innerHTML = '';
       this.contentEl?.append(data);
       return true;
