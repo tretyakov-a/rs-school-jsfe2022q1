@@ -1,0 +1,32 @@
+.news__pagination {
+  margin-top: 2rem;
+}
+
+.pagination { 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+
+.pagination__item {
+  width: 3rem;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  font-size: inherit;
+  border: 2px solid #30c5ff;
+  color: #70d6ff;
+  transition: 0.25s;
+  cursor: pointer
+}
+
+.pagination__item:active {
+  transform: translateY(2px);
+}
+
+.pagination__item:hover,
+.pagination__item_active {
+  border-color: #3fcc59;
+  color: #69db7e;
+}

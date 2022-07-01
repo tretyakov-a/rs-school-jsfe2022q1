@@ -1,5 +1,8 @@
 import { NewsResponseData } from 'controller/loader';
 import { Component, ComponentProps } from './component';
+import { NewsPaginationView } from '../views/news-pagination/index';
+import { DEFAULT_ITEMS_PER_PAGE } from '@common/constants';
+import { PaginationData, NewsPagination } from '@components/news-pagination';
 
 export interface NewsData {
   source: {
@@ -28,11 +31,37 @@ export class News extends Component<NewsData> {
     this.getData = getData;
   }
 
-  public update(sourceId: string): void { 
+  private handlePageChange = ({ currentPage, itemsPerPage }: PaginationData): void => {
+    const start = currentPage * itemsPerPage;
+    this.update(this.news.slice(start, start + itemsPerPage));
+  }
+
+  private onLoad = (data: NewsResponseData): void => {
+    this.news = data.articles ? data.articles : [];
+    const news = this.news.length >= DEFAULT_ITEMS_PER_PAGE ? this.news.slice(0, DEFAULT_ITEMS_PER_PAGE) : this.news;
+    this.onLoadingEnd(news);
+
+    const paginationData: PaginationData = {
+      currentPage: 0,
+      itemsNumber: this.news.length,
+      itemsPerPage: DEFAULT_ITEMS_PER_PAGE,
+    };
+    this.components.pagination = new NewsPagination(
+      {
+        view: new NewsPaginationView({ data: paginationData }),
+        handlers: {
+          onPageChange: this.handlePageChange
+        },
+      },
+      paginationData
+    )
+  }
+
+  public load(sourceId: string): void { 
     this.onLoadingStart();
-    this.getData(sourceId, (data) => {
-      this.news = data.articles ? data.articles : [];
-      this.onLoadingEnd(this.news);
-    });
+    if (this.components.pagination) {
+      this.components.pagination.update('');
+    }
+    this.getData(sourceId, this.onLoad);
   }
 }

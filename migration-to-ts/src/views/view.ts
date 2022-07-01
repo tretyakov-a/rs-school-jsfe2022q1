@@ -1,6 +1,6 @@
 import { selectFrom } from '../common/utils';
 
-export type DrawData<T> = T[] | HTMLElement | string;
+export type DrawData<T> = T[] | T | HTMLElement | string;
 
 export type ViewOptions<T> = {
   data?: DrawData<T>;

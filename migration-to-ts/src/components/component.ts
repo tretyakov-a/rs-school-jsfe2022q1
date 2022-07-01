@@ -2,6 +2,9 @@ import { DrawData, View } from "@views/view";
 import { SpinnerView } from '@views/spinner';
 import { SourceData } from '@components/sources';
 import { NewsData } from "./news";
+import { PaginationData } from '@components/news-pagination';
+
+type ComponentData = SourceData | NewsData | string | void | PaginationData;
 
 export type ComponentProps<T> = {
   view: View<T>,
@@ -9,7 +12,7 @@ export type ComponentProps<T> = {
 }
 
 export class Component<T> extends EventTarget {
-  protected components: Record<string, Component<SourceData | NewsData | string | void>>;
+  protected components: Record<string, Component<ComponentData>>;
   protected props: ComponentProps<T>;
 
   constructor(props: ComponentProps<T>) {

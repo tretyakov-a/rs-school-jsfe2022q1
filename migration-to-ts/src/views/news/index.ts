@@ -4,16 +4,22 @@ import { NewsData } from '@components/news';
 import { View, ViewOptions } from '@views/view';
 
 export class NewsView extends View<NewsData> {
+  constructor(options: ViewOptions<NewsData> = {}) {
+    super({
+      ...options,
+      root: '.news',
+      contentEl: '.news__container',
+    })
+  }
+
   render(options: ViewOptions<NewsData>): void {
     const { data } = options;
-    if (!data || super.render(options) || !Array.isArray(data)) return;
-
-    const news = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;
+    if (data === undefined || super.render(options) || !Array.isArray(data)) return;
 
     const fragment = document.createDocumentFragment();
     const newsItemTemp = selectFrom(document)('#newsItemTemp') as HTMLTemplateElement;
 
-    news.forEach((item, idx) => {
+    data.forEach((item, idx) => {
       const newsClone = newsItemTemp.content.cloneNode(true) as HTMLElement;
       const select = selectFrom(newsClone);
 
