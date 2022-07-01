@@ -18,6 +18,7 @@ export class MainView extends View<void> {
           </div>
         </div>
         <div class="news">
+          <div class="news__overlay"></div>
           <div class="news__container"></div>
           <div class="news__pagination pagination"></div>
         </div>

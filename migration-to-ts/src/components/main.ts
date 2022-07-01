@@ -2,8 +2,9 @@ import { MainView } from "@views/main";
 import AppController from "controller/controller";
 import { Component, ComponentHandler, ComponentHandlers } from "./component";
 import { Filter } from "./filter";
-import { News } from "./news";
+import { News, NewsLoadInitiator } from "./news";
 import { SourceData, Sources } from "./sources";
+import { DEFAULT_ITEMS_PER_PAGE, FIRST_PAGE } from '@common/constants';
 
 export class Main extends Component<void> {
   constructor(controller: AppController, handlers: ComponentHandlers = {}) {
@@ -34,7 +35,11 @@ export class Main extends Component<void> {
   }
   
   private handleSourceClick = (sourceId: string): void => {
-    (this.components.news as News).load(sourceId);
+    (this.components.news as News).load({
+      sources: sourceId,
+      page: FIRST_PAGE + 1,
+      pageSize: DEFAULT_ITEMS_PER_PAGE,
+    }, NewsLoadInitiator.Main);
   }
 
   private handleSourcesLoad = (sources: SourceData[]): void => {

@@ -1,10 +1,11 @@
-import { NewsResponseData } from 'controller/loader';
+import { NewsResponseData, UrlOptions } from 'controller/loader';
 import { Component, ComponentHandlers } from './component';
-import { NewsPaginationView } from '../views/news-pagination/index';
-import { DEFAULT_ITEMS_PER_PAGE } from '@common/constants';
+import { DEFAULT_ITEMS_PER_PAGE, MAX_TOTAL_RESULTS } from '@common/constants';
 import { PaginationData, NewsPagination } from '@components/news-pagination';
 import { NewsView } from '@views/news';
 import { GetNewsFunction } from 'controller/controller';
+import { NewsOverlay } from './news-overlay';
+import { RenderData } from '@views/view';
 
 export interface NewsData {
   source: {
@@ -20,9 +21,17 @@ export interface NewsData {
   content: string;
 }
 
+type UrlOptionsWOApiKey = Required<Omit<UrlOptions, 'apiKey'>>;
+
+export enum NewsLoadInitiator {
+  Main,
+  Pagination,
+}
+
 export class News extends Component<NewsData> {
   private news: NewsData[];
   private getData: GetNewsFunction
+  private requestUrlOptions: UrlOptionsWOApiKey | null;
   
   constructor(getData: GetNewsFunction, handlers: ComponentHandlers = {}) {
     super({
@@ -31,47 +40,69 @@ export class News extends Component<NewsData> {
     });
     
     this.news = [];
+    this.requestUrlOptions = null;
+
     this.getData = getData;
+    this.components = {
+      pagination: new NewsPagination({
+        onPageChange: this.handlePageChange
+      }),
+      overlay: new NewsOverlay(),
+    }
   }
 
   private handlePageChange = ({ currentPage, itemsPerPage }: PaginationData): void => {
-    const start = currentPage * itemsPerPage;
-    this.update(this.news.slice(start, start + itemsPerPage));
+    const { sources } = this.requestUrlOptions as UrlOptionsWOApiKey;
+    this.load({
+      sources,
+      page: currentPage + 1,
+      pageSize: itemsPerPage,
+    }, NewsLoadInitiator.Pagination);
   }
 
-  private onLoad = (err: Error | null, data: NewsResponseData | null): void => {
+  private onLoad = (
+    initiator: NewsLoadInitiator
+  ) => (
+    err: Error | null, data: NewsResponseData | null
+  ): void => {
+
     if (err !== null) return this.onLoadingEnd(err.message);
     if (data === null) return this.onLoadingEnd('Error');
 
     this.news = data.articles ? data.articles : [];
-    const totalResults = data.totalResults;
-    const news = this.news.length >= DEFAULT_ITEMS_PER_PAGE
-      ? this.news.slice(0, DEFAULT_ITEMS_PER_PAGE)
-      : this.news;
-    this.onLoadingEnd(news);
-
-    const paginationData: PaginationData = {
-      currentPage: 0,
-      itemsNumber: totalResults,
-      itemsPerPage: DEFAULT_ITEMS_PER_PAGE,
-    };
-
-    this.components.pagination = new NewsPagination(
-      {
-        view: new NewsPaginationView({ data: paginationData }),
-        handlers: {
-          onPageChange: this.handlePageChange
-        },
-      },
-      paginationData
-    )
+    this.onLoadingEnd(this.news);
+ 
+    if (initiator === NewsLoadInitiator.Main) {
+      const { page, pageSize } = this.requestUrlOptions as UrlOptionsWOApiKey;
+      const totalResults = data.totalResults < MAX_TOTAL_RESULTS
+        ? data.totalResults
+        : MAX_TOTAL_RESULTS;
+      
+      const paginationData: PaginationData = {
+        currentPage: page - 1,
+        itemsNumber: totalResults,
+        itemsPerPage: pageSize,
+      };
+      this.components.pagination.update(paginationData);
+    } else if (initiator === NewsLoadInitiator.Pagination) {
+      (this.components.overlay as NewsOverlay).hide();
+    }
   }
 
-  public load(sourceId: string): void { 
-    this.onLoadingStart();
-    if (this.components.pagination) {
-      this.components.pagination.update('');
+  public onLoadingStart(initiator?: NewsLoadInitiator): void {
+    if (!initiator) {
+      super.onLoadingStart();
     }
-    this.getData({ sources: sourceId }, this.onLoad);
+    if (initiator === NewsLoadInitiator.Main) {
+      this.components.pagination.update('');
+    } else if (initiator === NewsLoadInitiator.Pagination) {
+      (this.components.overlay as NewsOverlay).show();
+    }
+  }
+
+  public load(options: UrlOptionsWOApiKey, initiator: NewsLoadInitiator): void {
+    this.requestUrlOptions = options;
+    this.onLoadingStart(initiator);
+    this.getData(options, this.onLoad(initiator));
   }
 }

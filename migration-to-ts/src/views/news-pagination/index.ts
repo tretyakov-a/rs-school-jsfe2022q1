@@ -12,7 +12,7 @@ export class NewsPaginationView extends View<PaginationData> {
 
   public render(options: ViewOptions<PaginationData>): void {
     const { data } = options;
-    if (super.render(options)) return;
+    if (data === undefined || super.render(options)) return;
 
     const { currentPage, itemsNumber, itemsPerPage } = data as PaginationData;
     const pagesNumber = Math.ceil(itemsNumber / itemsPerPage);

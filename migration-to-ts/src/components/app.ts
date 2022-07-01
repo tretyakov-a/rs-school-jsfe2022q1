@@ -17,8 +17,8 @@ class App extends Component<void> {
         root: rootSelector,
       }),
     });
-    this.controller = new DummyAppController();
-    // this.controller = new AppController();
+    // this.controller = new DummyAppController();
+    this.controller = new AppController();
     this.components = {
       header: new Header({
         onFilterChange: this.handleFilterChange

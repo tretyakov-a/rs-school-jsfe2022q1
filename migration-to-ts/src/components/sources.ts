@@ -4,6 +4,7 @@ import { Filter } from "./filter";
 import { selectFrom } from '@common/utils';
 import { SourcesView } from '@views/sources';
 import { GetSourceFunction } from 'controller/controller';
+import { RenderData } from "@views/view";
 
 export interface SourceData {
   id: string;
@@ -50,7 +51,12 @@ export class Sources extends Component<SourceData> {
 
     this.sources = data.sources ? data.sources : [];
     this.onLoadingEnd(this.sources);
+  }
+
+  public onLoadingEnd(data: RenderData<SourceData>): void {
     (this.props.handlers?.onDataLoad as ComponentHandler<SourceData[]>)(this.sources);
+
+    super.onLoadingEnd(data);
   }
 
   public load(data?: SourceData[]): void {

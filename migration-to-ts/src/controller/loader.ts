@@ -6,7 +6,7 @@ import { ResponseCallback } from './controller';
 export type UrlOptions = {
   page?: number,
   pageSize?: number,
-  sources?: string | null,
+  sources?: string,
   apiKey?: string,
 };
 

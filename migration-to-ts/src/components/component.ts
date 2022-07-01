@@ -5,7 +5,7 @@ import { NewsData } from "./news";
 import { PaginationData } from '@components/news-pagination';
 import { Filter, FilterOptions } from "./filter/filter";
 
-type ComponentData = SourceData | NewsData | string | void | PaginationData | FilterOptions;
+type ComponentData = SourceData | NewsData | string | void | PaginationData | FilterOptions | HTMLElement;
 
 export type ComponentHandler<T> = (data: T) => void;
 export type ComponentHandlers = Record<string, ComponentHandler<string & Filter[] & SourceData[] & PaginationData>>
@@ -43,7 +43,7 @@ export class Component<T> extends EventTarget {
   }
 
   public onLoadingStart(): void {
-    this.view.render({ data: (new SpinnerView()).render()});
+    this.view.render({ data: (new SpinnerView()).render() });
   }
 
   public onLoadingEnd(data: RenderData<T>): void {
