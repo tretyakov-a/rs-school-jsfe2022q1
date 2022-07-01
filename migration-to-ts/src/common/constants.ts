@@ -1,6 +1,7 @@
-export enum HttpCodes {
+export enum HttpCode {
   UNAUTHORIZED = 401,
   NOT_FOUND = 404,
+  TOO_MANY_REQUESTS = 429,
 }
 
 export enum FILTER_NAME {

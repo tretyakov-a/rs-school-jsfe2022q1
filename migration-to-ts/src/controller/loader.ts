@@ -1,4 +1,4 @@
-import { HttpCodes } from '@common/constants';
+import { HttpError } from '@common/errors';
 import { NewsData } from '@components/news';
 import { SourceData } from '@components/sources';
 import { ResponseCallback } from './controller';
@@ -48,11 +48,11 @@ class Loader {
 
   private errorHandler(res: Response): Response {
     if (!res.ok) {
-      if (res.status === HttpCodes.UNAUTHORIZED || res.status === HttpCodes.NOT_FOUND)
-        console.log(`Sorry, but there is ${res.status} error: ${res.statusText}`);
-      throw Error(res.statusText);
+      throw new HttpError(res);
     }
-
+    if (!res.headers.get('Content-Type')?.includes('application/json')) {
+      throw new Error('Invalid content-type in response');
+    }
     return res;
   }
 
