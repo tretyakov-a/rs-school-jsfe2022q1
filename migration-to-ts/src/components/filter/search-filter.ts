@@ -18,6 +18,11 @@ export class SearchFilter extends Filter {
   public isDefaultValue(): boolean {
     return this.value === '';
   }
+
+  public resetDefault(): void {
+    this.value = '';
+    this.inputEl.value = '';
+  }
   
   public check(dataItem: SourceData): boolean {
     return dataItem['name'].toLowerCase().includes(this.value.trim().toLowerCase());

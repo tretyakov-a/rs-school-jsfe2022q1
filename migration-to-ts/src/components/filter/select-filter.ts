@@ -14,11 +14,6 @@ export class SelectFilter extends Filter {
     this.value = (e.target as HTMLSelectElement).value;
   }
 
-  public resetDefault(): void {
-    this.value = DEFAULT_FILTER_OPTION;
-    this.inputEl.value = this.value;
-  }
-
   public check(dataItem: SourceData): boolean {
     return super.check(dataItem)
       && (this.value === DEFAULT_FILTER_OPTION || this.value === dataItem[this.dataKey]);

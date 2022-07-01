@@ -3,8 +3,8 @@ import { SearchFilterView, ResetBtnView, SelectFilterView } from "@views/filters
 import { SourceData } from "@components/sources";
 import { Component } from "../component";
 import { Filter, SearchFilter, SelectFilter } from ".";
-import { Button } from '../button';
 import { ComponentProps } from '@components/component';
+import { ResetButton } from "@components/reset-button";
 
 export class FiltersForm extends Component<SourceData> {
   constructor(props: ComponentProps<SourceData>) {
@@ -53,7 +53,7 @@ export class FiltersForm extends Component<SourceData> {
       }
     }, SEARCH, 'name');
 
-    this.components.resetBtn = new Button({
+    this.components.resetBtn = new ResetButton({
       view: new ResetBtnView({ root }),
       handlers: {
         onResetBtnClick: this.handleResetBtnClick

@@ -33,8 +33,8 @@ export class Filter extends Component<string> {
   }
 
   public resetDefault(): void {
-    this.value = '';
-    this.inputEl.value = '';
+    this.value = DEFAULT_FILTER_OPTION;
+    this.inputEl.value = this.value;
   }
 
   public check(dataItem: SourceData): boolean {

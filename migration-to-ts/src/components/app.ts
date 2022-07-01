@@ -35,13 +35,15 @@ class App extends Component<void> {
   }
 
   public start(): void {
-    this.components.news = new News({
+    this.components.news = new News(
+      {
         view: new NewsView({ root: '.news' }),
       },
       this.controller.getNews.bind(this.controller)
     );
 
-    this.components.sources = new Sources({
+    this.components.sources = new Sources(
+      {
         view: new SourcesView({
           root: '.sources',
           contentEl: '.sources__container'
