@@ -1,5 +1,4 @@
-
-import { Component, ComponentProps } from '@components/component';
+import { Component, ComponentHandler, ComponentProps } from '@components/component';
 import { selectFrom } from '@common/utils';
 
 export type PaginationData = {
@@ -42,7 +41,7 @@ export class NewsPagination extends Component<PaginationData> {
     if (this.data.currentPage !== pageNumber) {
       this.data.currentPage = pageNumber;
       this.setActive(el);
-      this.props.handlers?.onPageChange(this.data);
+      (this.props.handlers?.onPageChange as ComponentHandler<PaginationData>)(this.data);
     }
   }
 }

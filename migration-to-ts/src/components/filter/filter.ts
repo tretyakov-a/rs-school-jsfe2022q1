@@ -1,22 +1,25 @@
-
 import { DEFAULT_FILTER_OPTION, FILTER_NAME } from '@common/constants';
 import { selectFrom } from '@common/utils';
 import { SourceData } from '@components/sources';
 import { Component, ComponentProps } from '../component';
 
-export type FilterOptions = [ FILTER_NAME, keyof SourceData ];
+export type FilterOptions = {
+  name: FILTER_NAME;
+  dataKey: keyof SourceData;
+  data?: string[];
+};
 
-export class Filter extends Component<string> {
+export class Filter extends Component<FilterOptions> {
   protected name: FILTER_NAME;
   protected dataKey: keyof SourceData;
   protected value: string;
   protected inputEl: HTMLInputElement;
 
-  constructor(props: ComponentProps<string>, [ name, dataKey ]: FilterOptions) {
+  constructor(props: ComponentProps<FilterOptions>, options: FilterOptions) {
     super(props)
     this.value = DEFAULT_FILTER_OPTION;
-    this.name = name;
-    this.dataKey = dataKey;
+    this.name = options.name;
+    this.dataKey = options.dataKey;
     this.inputEl = selectFrom(this.getRoot())(`[name="${this.name}"]`) as HTMLInputElement;
   }
   

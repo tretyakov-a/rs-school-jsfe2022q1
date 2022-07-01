@@ -4,7 +4,7 @@ import sources from './sources-data';
 import news from './news-data';
 
 class DummyAppController extends AppLoader {
-  static readonly delay: number = 1000;
+  static readonly delay: number = 500;
 
   public getSources(callback: (data: SourceResponseData) => void): void {
     setTimeout(() => {

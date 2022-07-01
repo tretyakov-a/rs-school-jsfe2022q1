@@ -1,14 +1,16 @@
 import { FILTER_NAME } from "@common/constants";
-import { SearchFilterView, ResetBtnView, SelectFilterView } from "@views/filters";
+import { FiltersFormView, ResetBtnView } from "@views/filters";
 import { SourceData } from "@components/sources";
-import { Component } from "../component";
+import { Component, ComponentHandler, ComponentHandlers } from "../component";
 import { Filter, SearchFilter, SelectFilter } from ".";
-import { ComponentProps } from '@components/component';
-import { ResetButton } from "@components/reset-button";
+import { Button } from "@components/button";
 
 export class FiltersForm extends Component<SourceData> {
-  constructor(props: ComponentProps<SourceData>) {
-    super(props);
+  constructor(handlers: ComponentHandlers = {}) {
+    super({
+      handlers,
+      view: new FiltersFormView(), 
+    });
 
     this.getRoot().addEventListener('change', this.onChange);
     this.onLoadingStart();
@@ -21,7 +23,7 @@ export class FiltersForm extends Component<SourceData> {
   }
 
   private onChange = (): void => {
-    this.props.handlers?.onFilterChange(this.getFilters());
+    (this.props.handlers?.onFilterChange as ComponentHandler<Filter[]>)(this.getFilters());
   }
 
   private handleResetBtnClick = (): void => {
@@ -35,29 +37,20 @@ export class FiltersForm extends Component<SourceData> {
   public update(sources: SourceData[]) {
     super.update('');
     const { CATEGORY, COUNTRY, LANGUAGE, SEARCH } = FILTER_NAME;
-    const root = this.getContentEl();
 
     [CATEGORY, COUNTRY, LANGUAGE].forEach((name) => {
-      const key = name as keyof SourceData;
-      this.components[`${name}Filter`] = new SelectFilter({
-        view: new SelectFilterView({
-          data: Filter.getFilterData(sources, key), name, root,
-        })
-      }, name, key);
+      const dataKey = name as keyof SourceData;
+      const data = Filter.getFilterData(sources, dataKey);
+      this.components[`${name}Filter`] = new SelectFilter({ name, dataKey, data });
     })
 
-    this.components.searchFilter = new SearchFilter({
-      view: new SearchFilterView({ root }),
-      handlers: {
-        onInput: this.onChange
-      }
-    }, SEARCH, 'name');
+    this.components.searchFilter = new SearchFilter(
+      { name: SEARCH, dataKey: 'name' },
+      { onInput: this.onChange },
+    );
 
-    this.components.resetBtn = new ResetButton({
-      view: new ResetBtnView({ root }),
-      handlers: {
-        onResetBtnClick: this.handleResetBtnClick
-      }
-    });
+    this.components.resetBtn = new Button({
+        onClick: this.handleResetBtnClick
+    }, new ResetBtnView());
   }
 }

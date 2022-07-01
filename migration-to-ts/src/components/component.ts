@@ -1,14 +1,18 @@
-import { DrawData, View } from "@views/view";
+import { RenderData, View } from "@views/view";
 import { SpinnerView } from '@views/spinner';
 import { SourceData } from '@components/sources';
 import { NewsData } from "./news";
 import { PaginationData } from '@components/news-pagination';
+import { Filter, FilterOptions } from "./filter/filter";
 
-type ComponentData = SourceData | NewsData | string | void | PaginationData;
+type ComponentData = SourceData | NewsData | string | void | PaginationData | FilterOptions;
+
+export type ComponentHandler<T> = (data: T) => void;
+export type ComponentHandlers = Record<string, ComponentHandler<string & Filter[] & SourceData[] & PaginationData>>
 
 export type ComponentProps<T> = {
-  view: View<T>,
-  handlers?: Record<string, Function>
+  view: View<T>;
+  handlers?: ComponentHandlers;
 }
 
 export class Component<T> extends EventTarget {
@@ -42,12 +46,12 @@ export class Component<T> extends EventTarget {
     this.view.render({ data: (new SpinnerView()).render()});
   }
 
-  public onLoadingEnd(data: DrawData<T>): void {
+  public onLoadingEnd(data: RenderData<T>): void {
     this.view.render({ data: '' });
     this.view.render({ data });
   }
 
-  public update(data?: DrawData<T>): void {
+  public update(data?: RenderData<T>): void {
     this.view.render({ data });
   }
 }

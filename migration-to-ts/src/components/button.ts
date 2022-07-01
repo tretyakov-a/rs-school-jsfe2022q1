@@ -1,13 +1,16 @@
 import { selectFrom } from "@common/utils";
-import { Component, ComponentProps } from "@components/component";
+import { Component, ComponentHandlers } from "@components/component";
+import { View } from "@views/view";
 
 export class Button extends Component<string> {
-  constructor(props: ComponentProps<string>) {
-    super(props);
+  constructor(handlers: ComponentHandlers = {}, view: View<string>) {
+    super({ handlers, view });
 
     selectFrom(this.getRoot())('button')
       .addEventListener('click', () => this.onClick());
   }
 
-  protected onClick = (): void => {}
+  protected onClick = (): void => {
+    (this.props.handlers?.onClick as () => void)();
+  }
 }

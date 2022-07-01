@@ -9,60 +9,6 @@ body {
   margin: 0;
 }
 
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-}
-
-header h1 {
-  font-size: 40px;
-  font-weight: 800;
-  margin: 0;
-}
-
-.footer {
-  height: 100px;
-  margin-top: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  column-gap: 2rem;
-}
-
-.footer .copyright {
-  font-size: 14px;
-  color: #333;
-  text-align: center;
-}
-
-.footer .copyright a {
-  color: #444;
-}
-
-.footer .copyright a:hover {
-  color: #555;
-}
-
-.footer .copyright:before {
-  content: '©';
-}
-
-.footer__github-link {
-  color: #666;
-  text-decoration: none;
-  transition: 0.25s;
-}
-
-.footer__github-link:hover {
-  color: #777;
-}
-
-.footer__year {
-  color: #666;
-}
-
 .button {
   padding: 1rem;
   border: 1px solid #30c5ff;
@@ -118,21 +64,4 @@ header h1 {
   stroke: #444;
   stroke-width: 4px;
   transition: 0.1s ease-in;
-}
-
-@media (max-width: 550px) {
-  .footer {
-    flex-direction: column;
-    row-gap: 0.5rem;
-    height: auto;
-    padding-bottom: 1rem;
-  }
-}
-
-@media (max-width: 950px) {
-  header {
-    flex-direction: column;
-    justify-content: center;
-    row-gap: 2rem;
-  }
 }

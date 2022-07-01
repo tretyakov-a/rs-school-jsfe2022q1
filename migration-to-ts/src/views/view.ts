@@ -1,10 +1,9 @@
 import { selectFrom } from '../common/utils';
 
-export type DrawData<T> = T[] | T | HTMLElement | string;
+export type RenderData<T> = T[] | T | HTMLElement | string;
 
 export type ViewOptions<T> = {
-  data?: DrawData<T>;
-  name?: string;
+  data?: RenderData<T>;
   root?: string | HTMLElement;
   contentEl?: string | HTMLElement;
 }
@@ -36,7 +35,7 @@ export class View<T> {
     return this.root;
   }
 
-  public render(options: ViewOptions<T>): boolean | void | HTMLElement {
+  public render(options: ViewOptions<T>): boolean | void | HTMLElement | string {
     const { data } = options;
     if (data !== undefined && data instanceof Node) {
       (this.contentEl as HTMLElement).innerHTML = '';

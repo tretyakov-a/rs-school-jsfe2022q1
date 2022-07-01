@@ -1,7 +1,8 @@
 import { SourceResponseData } from "controller/loader";
-import { Component, ComponentProps } from "./component";
+import { Component, ComponentHandler, ComponentHandlers } from "./component";
 import { Filter } from "./filter";
 import { selectFrom } from '@common/utils';
+import { SourcesView } from '@views/sources';
 
 export interface SourceData {
   id: string;
@@ -20,14 +21,17 @@ export class Sources extends Component<SourceData> {
   private getData: GetSourceDataFunction;
   private activeItem: Element | null;
 
-  constructor(props: ComponentProps<SourceData>, getData: GetSourceDataFunction) {
-    super(props);
+  constructor(getData: GetSourceDataFunction, handlers: ComponentHandlers = {}) {
+    super({
+      handlers,
+      view: new SourcesView(),
+    });
 
     this.sources = [];
     this.activeItem = null;
     this.getData = getData;
     this.getRoot().addEventListener('click', this.onClick);
-    this.update();
+    this.load();
   }
 
   public applyFilters(filters: Filter[]) {
@@ -41,16 +45,18 @@ export class Sources extends Component<SourceData> {
     }
   }
 
-  public update(data?: SourceData[]): void {
+  private onLoad = (data: SourceResponseData): void => {
+    this.sources = data.sources ? data.sources : [];
+    this.onLoadingEnd(this.sources);
+    (this.props.handlers?.onDataLoad as ComponentHandler<SourceData[]>)(this.sources);
+  }
+
+  public load(data?: SourceData[]): void {
     if (data !== undefined) {
       return super.update(data);
     }
     this.onLoadingStart();
-    this.getData((data) => {
-      this.sources = data.sources ? data.sources : [];
-      this.onLoadingEnd(this.sources);
-      this.props.handlers?.onDataLoad(this.sources);
-    });
+    this.getData(this.onLoad);
   }
 
   private getSourceId(el: Element | null): string {
@@ -71,7 +77,7 @@ export class Sources extends Component<SourceData> {
     const activeItemId = this.getSourceId(this.activeItem);
     if (activeItemId !== sourceId) {
       this.setActive(el);
-      this.props.handlers?.onSourceClick(sourceId);
+      (this.props.handlers?.onSourceClick as ComponentHandler<string>)(sourceId);
     }
   }
 }

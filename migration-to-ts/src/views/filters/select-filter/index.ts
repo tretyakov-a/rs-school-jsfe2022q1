@@ -1,11 +1,18 @@
 import './select-filter.css';
 import { addOptions, selectFrom } from '@common/utils';
 import { View, ViewOptions } from '@views/view';
+import { FilterOptions } from '@components/filter/filter';
 
-export class SelectFilterView extends View<string> {
-
-  public render(options: ViewOptions<string>): void {
-    const { name = 'unknown', data = [] } = options;
+export class SelectFilterView extends View<FilterOptions> {
+  constructor(options: ViewOptions<FilterOptions> = {}) {
+    super({
+      ...options,
+      root: '.source-filters__container',
+    })
+  }
+  
+  public render(options: ViewOptions<FilterOptions>): void {
+    const { name = 'unknown', data = [] } = options.data as FilterOptions;
     const selectFilterTemp = selectFrom(document)('#selectFilterTemp') as HTMLTemplateElement;
     const selectFilterClone = selectFilterTemp.content.cloneNode(true) as HTMLElement;
     const select = selectFrom(selectFilterClone);

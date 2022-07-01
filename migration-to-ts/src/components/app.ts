@@ -1,70 +1,48 @@
-import { News } from '@components/news';
-import { SourceData, Sources } from '@components/sources';
+import { SourceData } from '@components/sources';
 import AppController from '../controller/controller';
 import DummyAppController from '../controller/dummy-controller';
-import { AppView } from '@views/appView';
-import { Filter, FiltersForm } from './filter';
+import { Filter } from './filter';
 import { Component } from './component';
-import { NewsView } from '@views/news';
-import { SourcesView } from '@views/sources';
-import { FiltersFormView } from '@views/filters';
+import { Header } from './header';
+import { Main } from './main';
+import { FooterView } from '@views/footer';
+import { View } from '@views/view';
 
 class App extends Component<void> {
   private readonly controller: AppController;
 
-  constructor(selector: string) {
+  constructor(rootSelector: string) {
     super({
-      view: new AppView({
-        root: selector,
+      view: new View<void>({
+        root: rootSelector,
       }),
     });
-    // this.controller = new DummyAppController();
-    this.controller = new AppController();
-  }
-
-  private handleSourceClick = (sourceId: string): void => {
-    this.components.news.update(sourceId);
+    this.controller = new DummyAppController();
+    // this.controller = new AppController();
+    this.components = {
+      header: new Header({
+        onFilterChange: this.handleFilterChange
+      }),
+      main: new Main(
+        this.controller, 
+        {
+          onSourcesLoad: this.handleSourcesLoad,
+        }
+      ),
+      footer: new Component({
+        view: new FooterView()
+      })
+    }
   }
 
   private handleSourcesLoad = (sources: SourceData[]): void => {
-    this.components.filtersForm.update(sources);
+    this.components.header
+      .dispatchEvent(new CustomEvent('onSourcesLoad', { detail: sources }));
   }
 
   private handleFilterChange = (filters: Filter[]): void => {
-    (this.components.sources as Sources).applyFilters(filters);
-  }
-
-  public start(): void {
-    this.components.news = new News(
-      {
-        view: new NewsView({ root: '.news' }),
-      },
-      this.controller.getNews.bind(this.controller)
-    );
-
-    this.components.sources = new Sources(
-      {
-        view: new SourcesView({
-          root: '.sources',
-          contentEl: '.sources__container'
-        }),
-        handlers: {
-          onSourceClick: this.handleSourceClick,
-          onDataLoad: this.handleSourcesLoad,
-        }
-      }, 
-      this.controller.getSources.bind(this.controller)
-    );
-  
-    this.components.filtersForm = new FiltersForm({
-      view: new FiltersFormView({
-        root: '.source-filters', 
-        contentEl: '.source-filters__container',
-      }),
-      handlers: {
-        onFilterChange: this.handleFilterChange
-      }
-    });
+    this.components.main
+      .dispatchEvent(new CustomEvent('onFilterChange', { detail: filters }));
   }
 }
 

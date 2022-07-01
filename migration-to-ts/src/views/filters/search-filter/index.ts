@@ -1,9 +1,15 @@
 import './search-filter.css';
 import { selectFrom } from '@common/utils';
-import { View } from '@views/view';
+import { View, ViewOptions } from '@views/view';
 
 export class SearchFilterView extends View<void> {
-
+  constructor(options: ViewOptions<void> = {}) {
+    super({
+      ...options,
+      root: '.source-filters__container',
+    })
+  }
+  
   public render(): void {
     const searchFilterTemp = selectFrom(document)('#searchFilterTemp') as HTMLTemplateElement;
     const searchFilterClone = searchFilterTemp.content.cloneNode(true) as HTMLElement;

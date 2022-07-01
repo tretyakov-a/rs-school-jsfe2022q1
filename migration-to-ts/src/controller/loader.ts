@@ -4,7 +4,7 @@ import { SourceData } from '@components/sources';
 
 type UrlOptions = {
   sources?: string | null,
-  apiKey: string,
+  apiKey?: string,
 };
 
 type RespInfo = {
@@ -27,9 +27,9 @@ type SourceResponseData = ResponseData & {
 
 class Loader {
   private readonly baseLink: string;
-  private readonly options: Pick<UrlOptions, 'apiKey'>;
+  private readonly options: UrlOptions;
 
-  constructor(baseLink: string, options: Pick<UrlOptions, 'apiKey'>) {
+  constructor(baseLink: string, options: UrlOptions) {
     this.baseLink = baseLink;
     this.options = options;
   }
@@ -53,7 +53,7 @@ class Loader {
     return res;
   }
 
-  private makeUrl(options: Pick<UrlOptions, 'sources'>, endpoint: string): string {
+  private makeUrl(options: UrlOptions, endpoint: string): string {
     const urlOptions: UrlOptions = { ...this.options, ...options };
     let url = `${this.baseLink}${endpoint}?`;
 
@@ -70,7 +70,7 @@ class Loader {
     method: string,
     endpoint: string,
     callback: (data: T) => void,
-    options: Pick<UrlOptions, 'sources'> = {}
+    options: UrlOptions = {}
   ): void {
     fetch(this.makeUrl(options, endpoint), { method })
       .then(this.errorHandler)

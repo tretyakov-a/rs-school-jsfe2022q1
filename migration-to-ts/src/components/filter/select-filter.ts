@@ -1,11 +1,17 @@
 import { Filter, FilterOptions } from "./filter";
 import { SourceData } from "@components/sources";
 import { DEFAULT_FILTER_OPTION } from "@common/constants";
-import { ComponentProps } from "@components/component";
+import { ComponentHandlers } from "@components/component";
+import { SelectFilterView } from '@views/filters';
 
 export class SelectFilter extends Filter {
-  constructor(props: ComponentProps<string>, ...options: FilterOptions) {
-    super(props, options);
+  constructor(options: FilterOptions, handlers: ComponentHandlers = {}) {
+    super(
+      {
+        handlers,
+        view: new SelectFilterView({ data: options }),
+      },
+      options);
 
     this.inputEl.addEventListener('change', this.onChange);
   }

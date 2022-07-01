@@ -4,9 +4,16 @@ import { SourceData } from '@components/sources';
 import { View, ViewOptions } from '@views/view';
 
 export class SourcesView extends View<SourceData> {
-  render(options: ViewOptions<SourceData> ) {
+  constructor(options: ViewOptions<SourceData> = {}) {
+    super({
+      ...options,
+      root: '.sources',
+      contentEl: '.sources__container'
+    })
+  }
+  render(options: ViewOptions<SourceData>) {
     const { data } = options;
-    if (!data || super.render(options) || !Array.isArray(data)) return;
+    if (data === undefined || super.render(options) || !Array.isArray(data)) return;
     
     const fragment = document.createDocumentFragment();
     const sourceItemTemp = selectFrom(document)('#sourceItemTemp') as HTMLTemplateElement;

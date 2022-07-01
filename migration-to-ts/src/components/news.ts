@@ -1,8 +1,9 @@
 import { NewsResponseData } from 'controller/loader';
-import { Component, ComponentProps } from './component';
+import { Component, ComponentHandlers } from './component';
 import { NewsPaginationView } from '../views/news-pagination/index';
 import { DEFAULT_ITEMS_PER_PAGE } from '@common/constants';
 import { PaginationData, NewsPagination } from '@components/news-pagination';
+import { NewsView } from '@views/news';
 
 export interface NewsData {
   source: {
@@ -24,8 +25,11 @@ export class News extends Component<NewsData> {
   private news: NewsData[];
   private getData: GetNewsDataFunction
   
-  constructor(props: ComponentProps<NewsData>, getData: GetNewsDataFunction) {
-    super(props);
+  constructor(getData: GetNewsDataFunction, handlers: ComponentHandlers = {}) {
+    super({
+      handlers,
+      view: new NewsView(),
+    });
     
     this.news = [];
     this.getData = getData;
@@ -38,7 +42,9 @@ export class News extends Component<NewsData> {
 
   private onLoad = (data: NewsResponseData): void => {
     this.news = data.articles ? data.articles : [];
-    const news = this.news.length >= DEFAULT_ITEMS_PER_PAGE ? this.news.slice(0, DEFAULT_ITEMS_PER_PAGE) : this.news;
+    const news = this.news.length >= DEFAULT_ITEMS_PER_PAGE
+      ? this.news.slice(0, DEFAULT_ITEMS_PER_PAGE)
+      : this.news;
     this.onLoadingEnd(news);
 
     const paginationData: PaginationData = {
