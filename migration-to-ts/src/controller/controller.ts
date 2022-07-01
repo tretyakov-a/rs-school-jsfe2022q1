@@ -1,8 +1,18 @@
 import AppLoader from './appLoader';
-import { NewsResponseData, SourceResponseData } from './loader';
+import { NewsResponseData, SourceResponseData, UrlOptions } from './loader';
 
-class AppController extends AppLoader {
-  public getSources(callback: (data: SourceResponseData) => void): void {
+export type ResponseCallback<T> = (err: Error | null, data: T | null) => void
+
+export type GetNewsFunction = (options: UrlOptions, callback: ResponseCallback<NewsResponseData>) => void;
+export type GetSourceFunction = (callback: ResponseCallback<SourceResponseData>) => void;
+
+export interface IAppController {
+  getSources: GetSourceFunction;
+  getNews: GetNewsFunction; 
+}
+
+class AppController extends AppLoader implements IAppController {
+  public getSources(callback: ResponseCallback<SourceResponseData>): void {
     super.getResp(
       {
         endpoint: 'sources',
@@ -11,13 +21,11 @@ class AppController extends AppLoader {
     );
   }
 
-  public getNews(sourceId: string, callback: (data: NewsResponseData) => void): void {
+  public getNews(options: UrlOptions, callback: ResponseCallback<NewsResponseData>): void {
     super.getResp(
       {
         endpoint: 'everything',
-        options: {
-          sources: sourceId,
-        },
+        options,
       },
       callback
     );

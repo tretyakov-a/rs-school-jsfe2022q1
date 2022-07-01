@@ -4,6 +4,7 @@ import { NewsPaginationView } from '../views/news-pagination/index';
 import { DEFAULT_ITEMS_PER_PAGE } from '@common/constants';
 import { PaginationData, NewsPagination } from '@components/news-pagination';
 import { NewsView } from '@views/news';
+import { GetNewsFunction } from 'controller/controller';
 
 export interface NewsData {
   source: {
@@ -19,13 +20,11 @@ export interface NewsData {
   content: string;
 }
 
-type GetNewsDataFunction = (sourceId: string, callback: (data: NewsResponseData) => void) => void;
-
 export class News extends Component<NewsData> {
   private news: NewsData[];
-  private getData: GetNewsDataFunction
+  private getData: GetNewsFunction
   
-  constructor(getData: GetNewsDataFunction, handlers: ComponentHandlers = {}) {
+  constructor(getData: GetNewsFunction, handlers: ComponentHandlers = {}) {
     super({
       handlers,
       view: new NewsView(),
@@ -40,8 +39,12 @@ export class News extends Component<NewsData> {
     this.update(this.news.slice(start, start + itemsPerPage));
   }
 
-  private onLoad = (data: NewsResponseData): void => {
+  private onLoad = (err: Error | null, data: NewsResponseData | null): void => {
+    if (err !== null) return this.onLoadingEnd(err.message);
+    if (data === null) return this.onLoadingEnd('Error');
+
     this.news = data.articles ? data.articles : [];
+    const totalResults = data.totalResults;
     const news = this.news.length >= DEFAULT_ITEMS_PER_PAGE
       ? this.news.slice(0, DEFAULT_ITEMS_PER_PAGE)
       : this.news;
@@ -49,9 +52,10 @@ export class News extends Component<NewsData> {
 
     const paginationData: PaginationData = {
       currentPage: 0,
-      itemsNumber: this.news.length,
+      itemsNumber: totalResults,
       itemsPerPage: DEFAULT_ITEMS_PER_PAGE,
     };
+
     this.components.pagination = new NewsPagination(
       {
         view: new NewsPaginationView({ data: paginationData }),
@@ -68,6 +72,6 @@ export class News extends Component<NewsData> {
     if (this.components.pagination) {
       this.components.pagination.update('');
     }
-    this.getData(sourceId, this.onLoad);
+    this.getData({ sources: sourceId }, this.onLoad);
   }
 }

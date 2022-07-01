@@ -3,6 +3,7 @@ import { Component, ComponentHandler, ComponentHandlers } from "./component";
 import { Filter } from "./filter";
 import { selectFrom } from '@common/utils';
 import { SourcesView } from '@views/sources';
+import { GetSourceFunction } from 'controller/controller';
 
 export interface SourceData {
   id: string;
@@ -14,14 +15,12 @@ export interface SourceData {
   country: string;
 }
 
-type GetSourceDataFunction = (callback: (data: SourceResponseData) => void) => void;
-
 export class Sources extends Component<SourceData> {
   private sources: SourceData[];
-  private getData: GetSourceDataFunction;
+  private getData: GetSourceFunction;
   private activeItem: Element | null;
 
-  constructor(getData: GetSourceDataFunction, handlers: ComponentHandlers = {}) {
+  constructor(getData: GetSourceFunction, handlers: ComponentHandlers = {}) {
     super({
       handlers,
       view: new SourcesView(),
@@ -45,7 +44,10 @@ export class Sources extends Component<SourceData> {
     }
   }
 
-  private onLoad = (data: SourceResponseData): void => {
+  private onLoad = (err: Error | null, data: SourceResponseData | null): void => {
+    if (err !== null) return this.onLoadingEnd(err.message);
+    if (data === null) return this.onLoadingEnd('Error');
+
     this.sources = data.sources ? data.sources : [];
     this.onLoadingEnd(this.sources);
     (this.props.handlers?.onDataLoad as ComponentHandler<SourceData[]>)(this.sources);

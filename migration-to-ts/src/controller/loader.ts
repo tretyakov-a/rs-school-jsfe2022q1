@@ -1,15 +1,18 @@
 import { HttpCodes } from '@common/constants';
 import { NewsData } from '@components/news';
 import { SourceData } from '@components/sources';
+import { ResponseCallback } from './controller';
 
-type UrlOptions = {
+export type UrlOptions = {
+  page?: number,
+  pageSize?: number,
   sources?: string | null,
   apiKey?: string,
 };
 
 type RespInfo = {
   endpoint: string,
-  options?: Pick<UrlOptions, 'sources'>,
+  options?: UrlOptions,
 }
 
 type ResponseData = {
@@ -36,7 +39,7 @@ class Loader {
 
   public getResp<T>(
     { endpoint, options = {} }: RespInfo,
-    callback: (data: T) => void = () => {
+    callback: ResponseCallback<T> = () => {
       console.error('No callback for GET response');
     }
   ): void {
@@ -69,14 +72,14 @@ class Loader {
   private load<T>(
     method: string,
     endpoint: string,
-    callback: (data: T) => void,
+    callback: ResponseCallback<T>,
     options: UrlOptions = {}
   ): void {
     fetch(this.makeUrl(options, endpoint), { method })
       .then(this.errorHandler)
       .then((res: Response): Promise<T> => res.json())
-      .then((data: T): void => callback(data))
-      .catch((err: Error): void => console.error(err));
+      .then((data: T): void => callback(null, data))
+      .catch((err: Error): void => callback(err, null));
   }
 }
 
