@@ -1,6 +1,6 @@
 .news__pagination {
   margin-top: 2rem;
-  padding: 0 0.5rem;
+  padding: 0 1rem;
 }
 
 .pagination { 
@@ -19,7 +19,15 @@
   border: 2px solid #30c5ff;
   color: #70d6ff;
   transition: 0.25s;
-  cursor: pointer
+  cursor: pointer;
+}
+
+.pagination__item_dots {
+  border: none;
+  cursor: default;
+  pointer-events: none;
+  width: 1.5rem;
+  font-size: 1.2rem;
 }
 
 .pagination__item:active {

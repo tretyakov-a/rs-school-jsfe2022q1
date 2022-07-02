@@ -54,7 +54,7 @@ export class NewsPagination extends Component<PaginationData> {
     
     if (this.data.currentPage !== pageNumber) {
       this.data.currentPage = pageNumber;
-      this.setActive(el);
+      this.update(this.data);
       (this.props.handlers?.onPageChange as ComponentHandler<PaginationData>)(this.data);
     }
   }

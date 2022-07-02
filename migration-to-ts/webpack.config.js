@@ -6,9 +6,14 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 require('dotenv').config();
 
+
 const baseConfig = {
   entry: path.resolve(__dirname, './src/index.ts'),
   mode: 'development',
+  devServer: {
+    hot: true,
+    liveReload: true,
+  },
   module: {
     rules: [
       {

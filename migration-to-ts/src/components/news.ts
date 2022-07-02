@@ -1,11 +1,10 @@
 import { NewsResponseData, UrlOptions } from 'controller/loader';
 import { Component, ComponentHandlers } from './component';
-import { DEFAULT_ITEMS_PER_PAGE, MAX_TOTAL_RESULTS } from '@common/constants';
+import { MAX_TOTAL_RESULTS } from '@common/constants';
 import { PaginationData, NewsPagination } from '@components/news-pagination';
 import { NewsView } from '@views/news';
 import { GetNewsFunction } from 'controller/controller';
 import { NewsOverlay } from './news-overlay';
-import { RenderData } from '@views/view';
 
 export interface NewsData {
   source: {
