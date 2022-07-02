@@ -3,16 +3,16 @@ const path = require('path');
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 require('dotenv').config();
 
-
-const baseConfig = {
+const baseConfig = (isProd) => ({
   entry: path.resolve(__dirname, './src/index.ts'),
   mode: 'development',
   devServer: {
-    hot: true,
-    liveReload: true,
+    hot: !isProd,
+    liveReload: !isProd,
   },
   module: {
     rules: [
@@ -23,7 +23,14 @@ const baseConfig = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          isProd ? MiniCssExtractPlugin.loader : 'style-loader',
+          'css-loader'
+        ],
+      },
+      {
+        test: /\.(jpg|png|svg|gif|ico|mp4)$/,
+        type: 'asset/resource',
       },
     ],
   },
@@ -48,12 +55,15 @@ const baseConfig = {
       filename: 'index.html',
     }),
     new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'index.css'
+    })
   ],
-};
+});
 
 module.exports = ({ mode }) => {
   const isProductionMode = mode === 'prod';
   const envConfig = isProductionMode ? require('./webpack.prod.config') : require('./webpack.dev.config');
 
-  return merge(baseConfig, envConfig);
+  return merge(baseConfig(isProductionMode), envConfig);
 };
