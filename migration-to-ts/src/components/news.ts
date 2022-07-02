@@ -5,6 +5,8 @@ import { PaginationData, NewsPagination } from '@components/news-pagination';
 import { NewsView } from '@views/news';
 import { GetNewsFunction } from 'controller/controller';
 import { NewsOverlay } from './news-overlay';
+import { SourceData } from '@components/sources';
+import { NewsSourceInfoView } from '@views/news-source-info';
 
 export interface NewsData {
   source: {
@@ -20,7 +22,9 @@ export interface NewsData {
   content: string;
 }
 
-type UrlOptionsWOApiKey = Required<Omit<UrlOptions, 'apiKey'>>;
+type LoadOptions = Required<Omit<UrlOptions, 'apiKey'>> & {
+  sourceInfo?: SourceData;
+};
 
 export enum NewsLoadInitiator {
   Main,
@@ -30,7 +34,7 @@ export enum NewsLoadInitiator {
 export class News extends Component<NewsData> {
   private news: NewsData[];
   private getData: GetNewsFunction
-  private requestUrlOptions: UrlOptionsWOApiKey | null;
+  private loadOptions: LoadOptions | null;
   
   constructor(getData: GetNewsFunction, handlers: ComponentHandlers = {}) {
     super({
@@ -39,10 +43,13 @@ export class News extends Component<NewsData> {
     });
     
     this.news = [];
-    this.requestUrlOptions = null;
+    this.loadOptions = null;
 
     this.getData = getData;
     this.components = {
+      sourceInfo: new Component<SourceData>({
+        view: new NewsSourceInfoView()
+      }),
       pagination: new NewsPagination({
         onPageChange: this.handlePageChange
       }),
@@ -51,7 +58,7 @@ export class News extends Component<NewsData> {
   }
 
   private handlePageChange = ({ currentPage, itemsPerPage }: PaginationData): void => {
-    const { sources } = this.requestUrlOptions as UrlOptionsWOApiKey;
+    const { sources } = this.loadOptions as LoadOptions;
     this.load({
       sources,
       page: currentPage + 1,
@@ -72,7 +79,7 @@ export class News extends Component<NewsData> {
     this.onLoadingEnd(this.news);
  
     if (initiator === NewsLoadInitiator.Main) {
-      const { page, pageSize } = this.requestUrlOptions as UrlOptionsWOApiKey;
+      const { page, pageSize } = this.loadOptions as LoadOptions;
       const totalResults = data.totalResults < MAX_TOTAL_RESULTS
         ? data.totalResults
         : MAX_TOTAL_RESULTS;
@@ -93,14 +100,15 @@ export class News extends Component<NewsData> {
       super.onLoadingStart();
     }
     if (initiator === NewsLoadInitiator.Main) {
+      this.components.sourceInfo.update(this.loadOptions?.sourceInfo);
       this.components.pagination.update('');
     } else if (initiator === NewsLoadInitiator.Pagination) {
       (this.components.overlay as NewsOverlay).show();
     }
   }
 
-  public load(options: UrlOptionsWOApiKey, initiator: NewsLoadInitiator): void {
-    this.requestUrlOptions = options;
+  public load(options: LoadOptions, initiator: NewsLoadInitiator): void {
+    this.loadOptions = options;
     this.onLoadingStart(initiator);
     this.getData(options, this.onLoad(initiator));
   }

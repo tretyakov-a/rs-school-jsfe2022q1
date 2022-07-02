@@ -34,9 +34,10 @@ export class Main extends Component<void> {
     (this.components.sources as Sources).applyFilters(filters);
   }
   
-  private handleSourceClick = (sourceId: string): void => {
+  private handleSourceClick = (source: SourceData): void => {
     (this.components.news as News).load({
-      sources: sourceId,
+      sourceInfo: source,
+      sources: source.id,
       page: FIRST_PAGE + 1,
       pageSize: DEFAULT_ITEMS_PER_PAGE,
     }, NewsLoadInitiator.Main);

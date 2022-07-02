@@ -8,7 +8,7 @@ import { Filter, FilterOptions } from "./filter/filter";
 type ComponentData = SourceData | NewsData | string | void | PaginationData | FilterOptions | HTMLElement;
 
 export type ComponentHandler<T> = (data: T) => void;
-export type ComponentHandlers = Record<string, ComponentHandler<string & Filter[] & SourceData[] & PaginationData>>
+export type ComponentHandlers = Record<string, ComponentHandler<string & Filter[] & SourceData[] & SourceData & PaginationData>>
 
 export type ComponentProps<T> = {
   view: View<T>;

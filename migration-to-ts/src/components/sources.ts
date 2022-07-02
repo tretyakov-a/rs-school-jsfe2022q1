@@ -85,7 +85,9 @@ export class Sources extends Component<SourceData> {
     const activeItemId = this.getSourceId(this.activeItem);
     if (activeItemId !== sourceId) {
       this.setActive(el);
-      (this.props.handlers?.onSourceClick as ComponentHandler<string>)(sourceId);
+      (this.props.handlers?.onSourceClick as ComponentHandler<SourceData>)(
+        this.sources.find(({ id }) => id === sourceId) as SourceData
+      );
     }
   }
 }
