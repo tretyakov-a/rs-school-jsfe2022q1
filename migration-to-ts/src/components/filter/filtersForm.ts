@@ -35,7 +35,7 @@ export class FiltersForm extends Component<SourceData> {
   }
 
   public update(sources: SourceData[]) {
-    super.update('');
+    super.update();
     const { CATEGORY, COUNTRY, LANGUAGE, SEARCH } = FILTER_NAME;
 
     [CATEGORY, COUNTRY, LANGUAGE].forEach((name) => {

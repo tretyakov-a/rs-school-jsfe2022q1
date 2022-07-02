@@ -7,6 +7,12 @@
   font: 300 1rem 'Fira Sans', sans-serif;
 }
 
+.source-filters__left,
+.source-filters__right {
+  display: flex;
+  column-gap: 1rem;
+}
+
 .source-filters__item {
   position: relative;
 }
@@ -35,7 +41,7 @@
 }
 
 .source-filters__item input {
-  width: 100px;
+  width: 150px;
 }
 
 @media (max-width: 650px) {
@@ -43,5 +49,14 @@
     flex-wrap: wrap;
     justify-content: center;
     row-gap: 1rem;
+  }
+
+  .source-filters__item select[name="category"] {
+    width: 100px;
+    padding-left: 0.5rem;
+  }
+
+  .source-filters__item input {
+    width: 220px;
   }
 }

@@ -55,6 +55,7 @@ export class NewsPagination extends Component<PaginationData> {
     if (this.data.currentPage !== pageNumber) {
       this.data.currentPage = pageNumber;
       this.update(this.data);
+      window.scrollTo(0, this.getRoot().offsetTop);
       (this.props.handlers?.onPageChange as ComponentHandler<PaginationData>)(this.data);
     }
   }

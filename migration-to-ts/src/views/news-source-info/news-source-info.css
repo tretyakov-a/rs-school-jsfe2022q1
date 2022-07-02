@@ -1,5 +1,4 @@
 .news__source-info {
-  margin-top: 2rem;
   padding: 0 1rem;
 }
 
@@ -36,10 +35,6 @@
   color: #666;
 }
 
-.source-info__item-content {
-
-}
-
 .source-info__flag {
   display: inline-block;
   height: 1rem;
@@ -47,11 +42,16 @@
 
 .source-info__description {
   margin: 1rem 0;
+  line-height: 1.5rem;
 }
 
 @media (max-width: 700px) {
   .source-info__header {
     flex-direction: column;
     row-gap: 1rem;
+  }
+
+  .source-info__description {
+    text-align: center;
   }
 }

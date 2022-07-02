@@ -7,7 +7,8 @@ export class NewsPaginationView extends View<PaginationData> {
   constructor(options: ViewOptions<PaginationData> = {}) {
     super({
       ...options,
-      root: '.news__pagination',
+      root: '.news',
+      contentEl: '.news__pagination',
     })
   }
 

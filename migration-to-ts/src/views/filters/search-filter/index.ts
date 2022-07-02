@@ -6,7 +6,7 @@ export class SearchFilterView extends View<void> {
   constructor(options: ViewOptions<void> = {}) {
     super({
       ...options,
-      root: '.source-filters__container',
+      root: '.source-filters__right',
     })
   }
   

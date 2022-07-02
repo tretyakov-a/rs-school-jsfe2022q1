@@ -5,7 +5,7 @@ export class ResetBtnView extends View<string> {
   constructor(options: ViewOptions<string> = {}) {
     super({
       ...options,
-      root: '.source-filters__container',
+      root: '.source-filters__right',
     })
   }
   

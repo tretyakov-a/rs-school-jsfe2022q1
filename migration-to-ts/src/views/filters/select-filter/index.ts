@@ -7,7 +7,7 @@ export class SelectFilterView extends View<FilterOptions> {
   constructor(options: ViewOptions<FilterOptions> = {}) {
     super({
       ...options,
-      root: '.source-filters__container',
+      root: '.source-filters__left',
     })
   }
   
