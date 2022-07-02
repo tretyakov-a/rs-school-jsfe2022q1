@@ -108,8 +108,9 @@ export class News extends Component<NewsData> {
   }
 
   public load(options: LoadOptions, initiator: NewsLoadInitiator): void {
+    const { page, pageSize, sources } = options;
     this.loadOptions = options;
     this.onLoadingStart(initiator);
-    this.getData(options, this.onLoad(initiator));
+    this.getData({ page, pageSize, sources }, this.onLoad(initiator));
   }
 }

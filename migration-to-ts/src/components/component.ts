@@ -15,13 +15,11 @@ export type ComponentProps<T> = {
   handlers?: ComponentHandlers;
 }
 
-export class Component<T> extends EventTarget {
+export class Component<T> {
   protected components: Record<string, Component<ComponentData>>;
   protected props: ComponentProps<T>;
 
   constructor(props: ComponentProps<T>) {
-    super();
-
     this.components = {};
     this.props = props;
   }

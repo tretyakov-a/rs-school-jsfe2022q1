@@ -13,8 +13,6 @@ export class Main extends Component<void> {
       view: new MainView()
     });
 
-    this.addEventListener('onFilterChange', this.handleFilterChange);
-
     this.components = {   
       sources: new Sources(
         controller.getSources.bind(controller),
@@ -29,8 +27,7 @@ export class Main extends Component<void> {
     }
   }
 
-  private handleFilterChange = (e: Event): void => {
-    const filters = (e as CustomEvent<Filter[]>).detail;
+  public handleFilterChange = (filters: Filter[]): void => {
     (this.components.sources as Sources).applyFilters(filters);
   }
   

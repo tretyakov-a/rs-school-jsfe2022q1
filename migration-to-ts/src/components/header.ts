@@ -11,7 +11,6 @@ export class Header extends Component<void> {
       view: new HeaderView()
     });
 
-    this.addEventListener('onSourcesLoad', this.handleSourcesLoad);
     this.components = {
       filtersForm: new FiltersForm({
         onFilterChange: this.handleFilterChange
@@ -19,8 +18,7 @@ export class Header extends Component<void> {
     }
   }
 
-  private handleSourcesLoad = (e: Event): void => {
-    const sources = (e as CustomEvent<SourceData[]>).detail as SourceData[];
+  public handleSourcesLoad = (sources: SourceData[]): void => {
     this.components.filtersForm.update(sources);
   }
   
