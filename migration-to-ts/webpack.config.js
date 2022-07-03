@@ -10,10 +10,6 @@ require('dotenv').config();
 const baseConfig = (isProd) => ({
   entry: path.resolve(__dirname, './src/index.ts'),
   mode: 'development',
-  devServer: {
-    hot: !isProd,
-    liveReload: !isProd,
-  },
   module: {
     rules: [
       {
