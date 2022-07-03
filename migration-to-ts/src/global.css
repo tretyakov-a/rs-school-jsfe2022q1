@@ -1,6 +1,25 @@
 :root {
   --footer-height: 100px;
   --footer-margin-top: 2rem;
+  --rss-logo-size: 120px;
+
+  --primary-color-1: #30c5ff;
+  --primary-color-2: #70d6ff;
+  --primary-color-3: #1d7597;
+
+  --secondary-color-1: #3fcc59;
+  --secondary-color-2: #69db7e;
+  --secondary-color-3: #5ad67d;
+
+  --text-color-1: #ffffff;
+  --text-color-2: #333333;
+  --text-color-3: #444444;
+  --text-color-4: #555555;
+  --text-color-5: #666666;
+  --text-color-6: #777777;
+  --text-color-7: #a2a2a2;
+
+  --bg-color: #17181c;
 }
 
 * {
@@ -12,8 +31,8 @@ html {
 }
 
 body {
-  color: #fff;
-  background: #17181c;
+  color: var(--text-color-1);
+  background: var(--bg-color);
   font-family: sans-serif;
   margin: 0;
 }
@@ -31,30 +50,30 @@ body {
 
 .button {
   padding: 1rem;
-  border: 1px solid #30c5ff;
+  border: 1px solid var(--primary-color-1);
   background-color: transparent;
   outline: none;
   border-radius: 0.5rem;
   transition: 0.25s;
   cursor: pointer;
   font: inherit;
-  color: #70d6ff;
+  color: var(--primary-color-2);
 }
 
 @media (hover: hover) {
   .button:hover {
-    color: #1d7597;
+    color: var(--primary-color-1);
   }
 }
 
 .button:active {
-  border-color: #1d7597;
-  color: #1d7597;
+  border-color: var(--primary-color-3);
+  color: var(--primary-color-3);
 }
 
 .rsschool-logo {
   display: block;
-  width: 120px;
+  width: var(--rss-logo-size);
 }
 
 .rsschool-logo .st0,
@@ -67,28 +86,28 @@ body {
 .rsschool-logo .st8,
 .rsschool-logo .st9 
 {
-  fill: #333;
-  stroke: #444;
+  fill: var( --text-color-2);
+  stroke: var( --text-color-3);
 }
 
 .rsschool-logo .st1 {
-  fill: #333;
+  fill: var( --text-color-2);
 }
   
 .rsschool-logo .st7 {
-  fill: #70d6ff;
+  fill: var(--primary-color-2);
 }
 
 .rsschool-logo .logo-path {
-  fill: #70d6ff;
-  stroke: #444;
+  fill: var(--primary-color-2);
+  stroke: var( --text-color-3);
   stroke-width: 4px;
   transition: 0.1s ease-in;
 }
 
 
 @media (max-width: 550px) {
-  .rsschool-logo {
-    width: 100px;
+  :root {
+    --rss-logo-size: 100px;
   }
 }

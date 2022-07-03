@@ -15,7 +15,7 @@
 
 .source-info__title {
   font-size: 1.8rem;
-  color: #fff;
+  color: var(--text-color-1);
   text-decoration: none; 
 }
 
@@ -32,11 +32,11 @@
 }
 
 .source-info__item-title {
-  color: #666;
+  color: var(--text-color-5);
 }
 
 .source-info__flag {
-  display: inline-block;
+  display: block;
   height: 1rem;
 }
 
