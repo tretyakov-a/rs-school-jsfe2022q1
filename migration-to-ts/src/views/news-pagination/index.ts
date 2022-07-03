@@ -48,7 +48,10 @@ export class NewsPaginationView extends View<PaginationData> {
     const { data } = options;
     if (data === undefined || super.render(options)) return;
 
+    (this.contentEl as HTMLElement).innerHTML = '';
     const { currentPage, itemsNumber, itemsPerPage } = data as PaginationData;
+    if (itemsNumber === 0) return;
+    
     const checkPage = (curr: number) => (page?: number | string) => curr === page;
     const isActive = checkPage(currentPage);
     const renderBtn = this.renderBtn(isActive);
@@ -62,7 +65,6 @@ export class NewsPaginationView extends View<PaginationData> {
     const lastDots = range[range.length - 1] < pagesNumber - RANGE_SIZE / 2
       ? this.renderDots() : '';
 
-    (this.contentEl as HTMLElement).innerHTML = '';
     this.contentEl?.append(first, firstDots, renderBtn(range), lastDots, last);
   }
 }
