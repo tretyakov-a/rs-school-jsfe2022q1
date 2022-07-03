@@ -38,7 +38,7 @@ export class NewsSourceInfoView extends View<SourceData> {
             <span class="source-info__item-content">
               <img class="source-info__flag"
                 alt="${country}"
-                src="http://purecatamphetamine.github.io/country-flag-icons/3x2/${country.toUpperCase()}.svg">
+                src="https://purecatamphetamine.github.io/country-flag-icons/3x2/${country.toUpperCase()}.svg">
             </span>
           </span>
         </div>

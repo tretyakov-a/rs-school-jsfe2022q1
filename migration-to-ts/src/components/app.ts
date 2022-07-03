@@ -1,6 +1,6 @@
 import { SourceData } from '@components/sources';
 import AppController from '../controller/controller';
-import DummyAppController from '../controller/dummy-controller';
+// import DummyAppController from '../controller/dummy-controller';
 import { Filter } from './filter';
 import { Component } from './component';
 import { Header } from './header';
@@ -36,13 +36,11 @@ class App extends Component<void> {
   }
 
   private handleSourcesLoad = (sources: SourceData[]): void => {
-    this.components.header
-      .dispatchEvent(new CustomEvent('onSourcesLoad', { detail: sources }));
+    (this.components.header as Header).handleSourcesLoad(sources);
   }
 
   private handleFilterChange = (filters: Filter[]): void => {
-    this.components.main
-      .dispatchEvent(new CustomEvent('onFilterChange', { detail: filters }));
+    (this.components.main as Main).handleFilterChange(filters);
   }
 }
 

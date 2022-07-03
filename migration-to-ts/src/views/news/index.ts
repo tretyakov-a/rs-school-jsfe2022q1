@@ -28,10 +28,11 @@ export class NewsView extends View<NewsData> {
 
       const setBg = (el: HTMLElement) => (url: string) => el.style.backgroundImage = `url(${url})`;
       const setPhotoBg = setBg(select('.news__meta-photo'));
-
+      setPhotoBg(newsPlaceholfer);
+      
       loadImage(item.urlToImage)
         .then(setPhotoBg)
-        .catch(() => setPhotoBg(newsPlaceholfer));
+        .catch(() => {});
 
       select('.news__meta-author').textContent = item.author || item.source.name;
       select('.news__meta-date').textContent = (item.publishedAt || '')
