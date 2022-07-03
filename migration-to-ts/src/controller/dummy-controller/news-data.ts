@@ -11,7 +11,7 @@ export default {
       "title": "US grapples with whether to modify COVID vaccine for fall",
       "description": "U.S. health authorities are facing a critical decision: whether to offer new COVID-19 booster shots this fall that are modified to better match the latest changes of the shape-shifting coronavirus",
       "url": "https://abcnews.go.com/Health/wireStory/us-grapples-modify-covid-vaccine-fall-85789982",
-      "urlToImage": "https://s.abcnews.com/images/Health/WireAP_f45003fca39d4b6d872ecbfd182682d7_16x9_992.jpg",
+      "urlToImage": "https://s.abcnews.com/images/Health/WireAP_f4.jpg",
       "publishedAt": "2022-06-27T15:03:15Z",
       "content": "U.S. health authorities are facing a critical decision: whether to offer new COVID-19 booster shots this fall that are modified to better match recent changes of the shape-shifting coronavirus.\r\nMode… [+5655 chars]"
     },
@@ -24,7 +24,7 @@ export default {
       "title": "Ukrainian officials: at least 2 dead, 20 injured as Russian missile hits shopping center in central city of Kremenchuk",
       "description": "Ukrainian officials: at least 2 dead, 20 injured as Russian missile hits shopping center in central city of Kremenchuk",
       "url": "https://abcnews.go.com/International/wireStory/ukrainian-officials-dead-20-injured-russian-missile-hits-85789398",
-      "urlToImage": "https://s.abcnews.com/images/US/abc_news_default_2000x2000_update_16x9_992.jpg",
+      "urlToImage": null,
       "publishedAt": "2022-06-27T14:53:52Z",
       "content": "KYIV, Ukraine -- Ukrainian officials: at least 2 dead, 20 injured as Russian missile hits shopping center in central city of Kremenchuk."
     },

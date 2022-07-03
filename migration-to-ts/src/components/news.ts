@@ -13,13 +13,13 @@ export interface NewsData {
     id: string;
     name: string;
   };
-  author: string;
-  title: string;
-  description: string;
-  url: string;
-  urlToImage: string;
-  publishedAt: string;
-  content: string;
+  author: string | null;
+  title: string | null;
+  description: string | null;
+  url: string | null;
+  urlToImage: string | null;
+  publishedAt: string | null;
+  content: string | null;
 }
 
 type LoadOptions = Required<Omit<UrlOptions, 'apiKey'>> & {

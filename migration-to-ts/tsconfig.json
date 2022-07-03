@@ -1,5 +1,8 @@
 {
   "include": ["src/**/*.ts"],
+  "files": [
+    "src/global.d.ts"
+  ],
   "compilerOptions": {
     "module": "es6",
     "declaration": true,

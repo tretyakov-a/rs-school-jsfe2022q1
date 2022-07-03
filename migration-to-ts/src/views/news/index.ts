@@ -1,7 +1,8 @@
 import './news.css';
-import { selectFrom } from '@common/utils';
+import { loadImage, selectFrom } from '@common/utils';
 import { NewsData } from '@components/news';
 import { View, ViewOptions } from '@views/view';
+import newsPlaceholfer from '../../../assets/news_placeholder.png';
 
 export class NewsView extends View<NewsData> {
   constructor(options: ViewOptions<NewsData> = {}) {
@@ -25,10 +26,15 @@ export class NewsView extends View<NewsData> {
 
       if (idx % 2) select('.news__item').classList.add('alt');
 
-      const bgImgUrl = `url(${item.urlToImage || 'img/news_placeholder.jpg'})`;
-      select('.news__meta-photo').style.backgroundImage = bgImgUrl;
+      const setBg = (el: HTMLElement) => (url: string) => el.style.backgroundImage = `url(${url})`;
+      const setPhotoBg = setBg(select('.news__meta-photo'));
+
+      loadImage(item.urlToImage)
+        .then(setPhotoBg)
+        .catch(() => setPhotoBg(newsPlaceholfer));
+
       select('.news__meta-author').textContent = item.author || item.source.name;
-      select('.news__meta-date').textContent = item.publishedAt
+      select('.news__meta-date').textContent = (item.publishedAt || '')
         .slice(0, 10)
         .split('-')
         .reverse()
@@ -37,7 +43,7 @@ export class NewsView extends View<NewsData> {
       select('.news__description-title').textContent = item.title;
       select('.news__description-source').textContent = item.source.name;
       select('.news__description-content').textContent = item.description;
-      select('.news__read-more a').setAttribute('href', item.url);
+      select('.news__read-more a').setAttribute('href', item.url || '#');
 
       fragment.append(newsClone);
     });

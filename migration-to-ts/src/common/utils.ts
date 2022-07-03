@@ -21,3 +21,13 @@ export const addOptions = (
     container.append(optionEl);
   });
 }
+
+export const loadImage = (src?: string | null): Promise<string> => new Promise((resolve, reject) => {
+  if (!src) {
+    return reject(new Error(`Image src is undefined`));
+  }
+  const img = new Image();
+  img.src = src;
+  img.addEventListener('error', reject);
+  img.addEventListener('load', () => resolve(src));
+})
