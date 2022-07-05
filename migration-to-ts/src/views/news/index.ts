@@ -32,7 +32,7 @@ export class NewsView extends View<NewsData> {
       
       loadImage(item.urlToImage)
         .then(setPhotoBg)
-        .catch(() => {});
+        .catch((error) => error);
 
       select('.news__meta-author').textContent = item.author || item.source.name;
       select('.news__meta-date').textContent = (item.publishedAt || '')
