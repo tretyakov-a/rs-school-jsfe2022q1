@@ -46,6 +46,7 @@ const baseConfig = (isProd) => ({
       '@views': path.resolve(__dirname, 'src/views'),
       '@components': path.resolve(__dirname, 'src/components'),
       '@core': path.resolve(__dirname, 'src/core'),
+      '@assets': path.resolve(__dirname, 'assets'),
     },
   },
   output: {
