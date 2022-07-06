@@ -1,9 +1,8 @@
 import './filters-form.css';
 import { View, ViewOptions } from '@views/view';
-import { SourceData } from '@components/sources';
 
-export class FiltersFormView extends View<SourceData> {
-  constructor(options: ViewOptions<SourceData> = {}) {
+export class FiltersFormView extends View {
+  constructor(options: ViewOptions = {}) {
     super({
       ...options,
       root: '.source-filters', 
@@ -11,9 +10,8 @@ export class FiltersFormView extends View<SourceData> {
     })
   }
 
-  render(options: ViewOptions<SourceData>) {
+  render(options: ViewOptions) {
     if (super.render(options)) return;
-
 
     const fragment = document.createDocumentFragment();
     const left = document.createElement('div');

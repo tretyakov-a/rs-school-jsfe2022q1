@@ -3,8 +3,8 @@ import { PaginationData } from '@components/news-pagination';
 import { View, ViewOptions } from '@views/view';
 import './news-pagination.css';
 
-export class NewsPaginationView extends View<PaginationData> {
-  constructor(options: ViewOptions<PaginationData> = {}) {
+export class NewsPaginationView extends View {
+  constructor(options: ViewOptions = {}) {
     super({
       ...options,
       root: '.news',
@@ -44,8 +44,8 @@ export class NewsPaginationView extends View<PaginationData> {
     return arr;
   }
 
-  public render(options: ViewOptions<PaginationData>): void {
-    const { data } = options;
+  public render(options: ViewOptions): void {
+    const data = options.data as PaginationData;
     if (data === undefined || super.render(options)) return;
 
     (this.contentEl as HTMLElement).innerHTML = '';

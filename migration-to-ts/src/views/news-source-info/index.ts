@@ -2,16 +2,16 @@ import './news-source-info.css';
 import { SourceData } from "@components/sources";
 import { View, ViewOptions } from "@views/view";
 
-export class NewsSourceInfoView extends View<SourceData> {
-  constructor(options: ViewOptions<SourceData> = {}) {
+export class NewsSourceInfoView extends View {
+  constructor(options: ViewOptions = {}) {
     super({
       ...options,
       root: '.news__source-info'
     })
   }
 
-  public render(options: ViewOptions<SourceData>): void {
-    const { data } = options;
+  public render(options: ViewOptions): void {
+    const data = options.data as SourceData;
     if (data === undefined || super.render(options)) return;
 
     const { name, description, url, category, language, country } = data as SourceData;

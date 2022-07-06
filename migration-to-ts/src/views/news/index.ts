@@ -4,8 +4,8 @@ import { NewsData } from '@components/news';
 import { View, ViewOptions } from '@views/view';
 import newsPlaceholfer from '../../../assets/news_placeholder.png';
 
-export class NewsView extends View<NewsData> {
-  constructor(options: ViewOptions<NewsData> = {}) {
+export class NewsView extends View {
+  constructor(options: ViewOptions = {}) {
     super({
       ...options,
       root: '.news',
@@ -13,8 +13,8 @@ export class NewsView extends View<NewsData> {
     })
   }
 
-  render(options: ViewOptions<NewsData>): void {
-    const { data } = options;
+  render(options: ViewOptions): void {
+    const data = options.data as NewsData[];
     if (data === undefined || super.render(options) || !Array.isArray(data)) return;
 
     const fragment = document.createDocumentFragment();

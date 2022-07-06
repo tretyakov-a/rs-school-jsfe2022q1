@@ -8,7 +8,7 @@ export type PaginationData = {
   itemsNumber: number;
 }
 
-export class NewsPagination extends Component<PaginationData> {
+export class NewsPagination extends Component {
   private data?: PaginationData;
   private activeItem: Element | null;
 
@@ -56,7 +56,7 @@ export class NewsPagination extends Component<PaginationData> {
       this.data.currentPage = pageNumber;
       this.update(this.data);
       window.scrollTo(0, this.getRoot().offsetTop);
-      (this.props.handlers?.onPageChange as ComponentHandler<PaginationData>)(this.data);
+      (this.props.handlers?.onPageChange as ComponentHandler)(this.data);
     }
   }
 }

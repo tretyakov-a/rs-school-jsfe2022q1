@@ -1,7 +1,7 @@
 import './footer.css';
 import { View } from "../view";
 
-export class FooterView extends View<void> {
+export class FooterView extends View {
   constructor() {
     super({
       root: '#app',

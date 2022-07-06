@@ -3,16 +3,16 @@ import { selectFrom } from '@common/utils';
 import { SourceData } from '@components/sources';
 import { View, ViewOptions } from '@views/view';
 
-export class SourcesView extends View<SourceData> {
-  constructor(options: ViewOptions<SourceData> = {}) {
+export class SourcesView extends View {
+  constructor(options: ViewOptions = {}) {
     super({
       ...options,
       root: '.sources',
       contentEl: '.sources__container'
     })
   }
-  render(options: ViewOptions<SourceData>) {
-    const { data } = options;
+  render(options: ViewOptions) {
+    const data = options.data as SourceData[];
     if (data === undefined || super.render(options) || !Array.isArray(data)) return;
     
     const fragment = document.createDocumentFragment();

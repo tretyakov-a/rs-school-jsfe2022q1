@@ -1,20 +1,18 @@
 import { selectFrom } from '../common/utils';
 
-export type RenderData<T> = T[] | T | HTMLElement | string;
-
-export type ViewOptions<T> = {
-  data?: RenderData<T>;
+export type ViewOptions = {
+  data?: unknown;
   root?: string | HTMLElement;
   contentEl?: string | HTMLElement;
 }
 
 type HtmlElement = HTMLElement | null;
 
-export class View<T> {
+export class View {
   protected root: HtmlElement;
   protected contentEl: HtmlElement;
   
-  constructor(options: ViewOptions<T> = {}) {
+  constructor(options: ViewOptions = {}) {
     const { root, contentEl } = options;
     this.root = root
       ? typeof root === 'string' ? selectFrom(document)(root) : root
@@ -35,7 +33,7 @@ export class View<T> {
     return this.root;
   }
 
-  public render(options: ViewOptions<T>): boolean | void | HTMLElement | string {
+  public render(options: ViewOptions): boolean | void | HTMLElement | string {
     const { data } = options;
     if (data !== undefined && data instanceof Node) {
       (this.contentEl as HTMLElement).innerHTML = '';

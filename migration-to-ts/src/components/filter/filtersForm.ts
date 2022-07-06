@@ -5,7 +5,7 @@ import { Component, ComponentHandler, ComponentHandlers } from "../component";
 import { Filter, SearchFilter, SelectFilter } from ".";
 import { Button } from "@components/button";
 
-export class FiltersForm extends Component<SourceData> {
+export class FiltersForm extends Component {
   constructor(handlers: ComponentHandlers = {}) {
     super({
       handlers,
@@ -23,7 +23,7 @@ export class FiltersForm extends Component<SourceData> {
   }
 
   private onChange = (): void => {
-    (this.props.handlers?.onFilterChange as ComponentHandler<Filter[]>)(this.getFilters());
+    (this.props.handlers?.onFilterChange as ComponentHandler)(this.getFilters());
   }
 
   private handleResetBtnClick = (): void => {

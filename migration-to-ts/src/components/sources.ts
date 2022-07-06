@@ -4,7 +4,6 @@ import { Filter } from "./filter";
 import { selectFrom } from '@common/utils';
 import { SourcesView } from '@views/sources';
 import { GetSourceFunction } from 'controller/controller';
-import { RenderData } from "@views/view";
 
 export interface SourceData {
   id: string;
@@ -16,7 +15,7 @@ export interface SourceData {
   country: string;
 }
 
-export class Sources extends Component<SourceData> {
+export class Sources extends Component {
   private sources: SourceData[];
   private getData: GetSourceFunction;
   private activeItem: Element | null;
@@ -53,8 +52,8 @@ export class Sources extends Component<SourceData> {
     this.onLoadingEnd(this.sources);
   }
 
-  public onLoadingEnd(data: RenderData<SourceData>): void {
-    (this.props.handlers?.onDataLoad as ComponentHandler<SourceData[]>)(this.sources);
+  public onLoadingEnd(data: SourceData[] | string): void {
+    (this.props.handlers?.onDataLoad as ComponentHandler)(this.sources);
 
     super.onLoadingEnd(data);
   }
@@ -85,7 +84,7 @@ export class Sources extends Component<SourceData> {
     const activeItemId = this.getSourceId(this.activeItem);
     if (activeItemId !== sourceId) {
       this.setActive(el);
-      (this.props.handlers?.onSourceClick as ComponentHandler<SourceData>)(
+      (this.props.handlers?.onSourceClick as ComponentHandler)(
         this.sources.find(({ id }) => id === sourceId) as SourceData
       );
     }

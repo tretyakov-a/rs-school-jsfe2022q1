@@ -2,18 +2,18 @@ import { SourceData } from '@components/sources';
 import AppController from '../controller/controller';
 // import DummyAppController from '../controller/dummy-controller';
 import { Filter } from './filter';
-import { Component } from './component';
+import { Component, ComponentHandler } from './component';
 import { Header } from './header';
 import { Main } from './main';
 import { FooterView } from '@views/footer';
 import { View } from '@views/view';
 
-class App extends Component<void> {
+class App extends Component {
   private readonly controller: AppController;
 
   constructor(rootSelector: string) {
     super({
-      view: new View<void>({
+      view: new View({
         root: rootSelector,
       }),
     });
@@ -21,12 +21,12 @@ class App extends Component<void> {
     this.controller = new AppController();
     this.components = {
       header: new Header({
-        onFilterChange: this.handleFilterChange
+        onFilterChange: this.handleFilterChange as ComponentHandler
       }),
       main: new Main(
         this.controller, 
         {
-          onSourcesLoad: this.handleSourcesLoad,
+          onSourcesLoad: this.handleSourcesLoad as ComponentHandler,
         }
       ),
       footer: new Component({

@@ -1,5 +1,5 @@
 import { NewsResponseData, UrlOptions } from 'controller/loader';
-import { Component, ComponentHandlers } from './component';
+import { Component, ComponentHandler, ComponentHandlers } from './component';
 import { MAX_TOTAL_RESULTS } from '@common/constants';
 import { PaginationData, NewsPagination } from '@components/news-pagination';
 import { NewsView } from '@views/news';
@@ -31,7 +31,7 @@ export enum NewsLoadInitiator {
   Pagination,
 }
 
-export class News extends Component<NewsData> {
+export class News extends Component {
   private news: NewsData[];
   private getData: GetNewsFunction
   private loadOptions: LoadOptions | null;
@@ -47,11 +47,11 @@ export class News extends Component<NewsData> {
 
     this.getData = getData;
     this.components = {
-      sourceInfo: new Component<SourceData>({
+      sourceInfo: new Component({
         view: new NewsSourceInfoView()
       }),
       pagination: new NewsPagination({
-        onPageChange: this.handlePageChange
+        onPageChange: this.handlePageChange as ComponentHandler
       }),
       overlay: new NewsOverlay(),
     }

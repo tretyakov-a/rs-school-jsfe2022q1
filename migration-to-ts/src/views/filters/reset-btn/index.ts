@@ -1,8 +1,8 @@
 import './reset-btn.css';
 import { View, ViewOptions } from '@views/view';
 
-export class ResetBtnView extends View<string> {
-  constructor(options: ViewOptions<string> = {}) {
+export class ResetBtnView extends View {
+  constructor(options: ViewOptions = {}) {
     super({
       ...options,
       root: '.source-filters__right',

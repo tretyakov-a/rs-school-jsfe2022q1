@@ -3,7 +3,7 @@ import { Component, ComponentHandler, ComponentHandlers } from "./component";
 import { Filter, FiltersForm } from "./filter";
 import { SourceData } from "./sources";
 
-export class Header extends Component<void> {
+export class Header extends Component {
 
   constructor(handlers: ComponentHandlers = {}) {
     super({
@@ -13,7 +13,7 @@ export class Header extends Component<void> {
 
     this.components = {
       filtersForm: new FiltersForm({
-        onFilterChange: this.handleFilterChange
+        onFilterChange: this.handleFilterChange as ComponentHandler
       }),
     }
   }
@@ -23,6 +23,6 @@ export class Header extends Component<void> {
   }
   
   private handleFilterChange = (filters: Filter[]): void => {
-    (this.props.handlers?.onFilterChange as ComponentHandler<Filter[]>)(filters);
+    (this.props.handlers?.onFilterChange as ComponentHandler)(filters);
   }
 }

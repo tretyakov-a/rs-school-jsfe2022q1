@@ -2,7 +2,7 @@ import './spinner.css';
 import { View } from '@views/view';
 import { selectFrom } from '@common/utils';
 
-export class SpinnerView extends View<void> {
+export class SpinnerView extends View {
   
   render(): HTMLElement {
     const spinnerTemp = selectFrom(document)('#spinnerTemp') as HTMLTemplateElement;

@@ -9,13 +9,13 @@ export type FilterOptions = {
   data?: string[];
 };
 
-export class Filter extends Component<FilterOptions> {
+export class Filter extends Component {
   protected name: FILTER_NAME;
   protected dataKey: keyof SourceData;
   protected value: string;
   protected inputEl: HTMLInputElement;
 
-  constructor(props: ComponentProps<FilterOptions>, options: FilterOptions) {
+  constructor(props: ComponentProps, options: FilterOptions) {
     super(props)
     this.value = DEFAULT_FILTER_OPTION;
     this.name = options.name;

@@ -2,8 +2,8 @@ import './search-filter.css';
 import { selectFrom } from '@common/utils';
 import { View, ViewOptions } from '@views/view';
 
-export class SearchFilterView extends View<void> {
-  constructor(options: ViewOptions<void> = {}) {
+export class SearchFilterView extends View {
+  constructor(options: ViewOptions = {}) {
     super({
       ...options,
       root: '.source-filters__right',

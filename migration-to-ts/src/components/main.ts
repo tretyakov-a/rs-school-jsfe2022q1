@@ -6,7 +6,7 @@ import { News, NewsLoadInitiator } from "./news";
 import { SourceData, Sources } from "./sources";
 import { DEFAULT_ITEMS_PER_PAGE, FIRST_PAGE } from '@common/constants';
 
-export class Main extends Component<void> {
+export class Main extends Component {
   constructor(controller: AppController, handlers: ComponentHandlers = {}) {
     super({
       handlers,
@@ -17,8 +17,8 @@ export class Main extends Component<void> {
       sources: new Sources(
         controller.getSources.bind(controller),
         {
-          onSourceClick: this.handleSourceClick,
-          onDataLoad: this.handleSourcesLoad,
+          onSourceClick: this.handleSourceClick as ComponentHandler,
+          onDataLoad: this.handleSourcesLoad as ComponentHandler,
         }
       ),
       news: new News(
@@ -41,7 +41,7 @@ export class Main extends Component<void> {
   }
 
   private handleSourcesLoad = (sources: SourceData[]): void => {
-    (this.props.handlers?.onSourcesLoad as ComponentHandler<SourceData[]>)(sources);
+    (this.props.handlers?.onSourcesLoad as ComponentHandler)(sources);
   }
   
 }

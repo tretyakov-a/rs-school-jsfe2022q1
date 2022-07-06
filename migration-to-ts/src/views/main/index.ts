@@ -1,7 +1,7 @@
 import './main.css';
 import { View } from "../view";
 
-export class MainView extends View<void> {
+export class MainView extends View {
   constructor() {
     super({
       root: '#app',

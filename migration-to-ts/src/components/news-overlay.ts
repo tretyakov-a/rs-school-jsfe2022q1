@@ -2,10 +2,10 @@ import { View } from "@views/view";
 import { Component } from "./component";
 import { SpinnerView } from '@views/spinner';
 
-export class NewsOverlay extends Component<HTMLElement> {
+export class NewsOverlay extends Component {
   constructor() {
     super({
-      view: new View<HTMLElement>({
+      view: new View({
         root: '.news__overlay',
         data: (new SpinnerView()).render(),
       })
