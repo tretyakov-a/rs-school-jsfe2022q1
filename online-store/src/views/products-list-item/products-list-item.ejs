@@ -1,0 +1,29 @@
+<div class="product__img">
+  <img
+    src="https://raw.githubusercontent.com/tretyakov-a/online-store/main/<%= locals.imgs[0] %>"
+    alt="<%= locals.title %>">
+</div>
+<h3 class="product__title"><%= locals.title %></h3>
+<div class="product__row">
+  <div class="product__price"><%= locals.price %> ₽</div>
+  <button class="product__add-to-curt button button_icon">
+    <i class="fa-solid fa-cart-plus"></i>
+  </button>
+</div>
+<div class="product__row">
+  <div class="product__rating product-rating">
+    <span class="product-rating__stars">
+      <span class="product-rating__star"></span>
+      <span class="product-rating__star"></span>
+      <span class="product-rating__star"></span>
+      <span class="product-rating__star"></span>
+      <span class="product-rating__star"></span>
+    </span>
+    <span class="product-rating__value"><%= locals.rating %></span>
+  </div>
+  <label class="product__compare checkbox">
+    <input type="checkbox" name="product-compare">
+    <span class="checkbox__check"></span>
+    <span class="checkbox__title">Compare</span>
+  </label>
+</div>

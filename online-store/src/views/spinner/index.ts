@@ -1,6 +1,5 @@
 import './spinner.scss';
 import { View } from '@core/view';
-import { selectFrom } from '@common/utils';
 
 export class SpinnerView extends View<void> {
   

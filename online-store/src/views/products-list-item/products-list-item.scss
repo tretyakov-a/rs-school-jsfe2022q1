@@ -1,0 +1,53 @@
+.product {
+  line-height: 150%;
+
+  &__img {
+    img {
+      display: block;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__row {
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__title {
+    margin-top: 0.75rem;
+    font-weight: 400;
+    color: var(--text-color-2);
+    min-height: calc(1.5rem * 3);
+  }
+
+  &__price {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--text-color-1);
+  }
+
+  &__rating {
+    color: var(--text-color-3);
+    font-size: 0.875rem;
+  }
+}
+
+.product-rating {
+  display: flex;
+
+  &__stars {
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;
+  }
+
+  &__star {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    background-image: url("@assets/star.svg");
+  }
+}

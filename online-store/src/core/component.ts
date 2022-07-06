@@ -1,7 +1,8 @@
 import { RenderData, View } from "./view";
 import { SpinnerView } from '@views/spinner';
+import { Product } from '@components/product-list';
 
-type ComponentData = string | void | HTMLElement;
+type ComponentData = string | void | HTMLElement | Product;
 
 export type ComponentHandler<T> = (data: T) => void;
 export type ComponentHandlers = Record<string, ComponentHandler<string>>
@@ -12,7 +13,7 @@ export type ComponentProps<T> = {
 }
 
 export class Component<T> {
-  protected components: Record<string, Component<ComponentData>>;
+  protected components: Record<string, Component<ComponentData> | Component<ComponentData>[]>;
   protected props: ComponentProps<T>;
 
   constructor(props: ComponentProps<T>) {

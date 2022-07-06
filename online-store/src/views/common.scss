@@ -1,0 +1,226 @@
+:root {
+  --footer-height: 100px;
+  --header-height: 100px;
+  --footer-margin-top: 2rem;
+  --rss-logo-size: 120px;
+  --content-width: 1440px;
+  --content-padding: 20px;
+
+  --primary-color-1: #2264D1;
+  --primary-color-2: #9DC2FF;
+
+  --secondary-color-1: rgba(255, 165, 0, 0.6);
+  --secondary-color-2: #F44336;
+
+  --text-color-1: #000000;
+  --text-color-2: #19191D;
+  --text-color-3: #5E6366;
+  --text-color-4: #787885;
+
+
+  --bg-color: #ffffff;
+
+  --main-font-family: 'Inter', sans-serif;
+  --button-font-family: 'Roboto', sans-serif;
+  --special-font-family: 'Quicksand', sans-serif;
+}
+
+*, h1, h2, h3 {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--text-color-1);
+  background: var(--bg-color);
+  font-family: sans-serif;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary-color-1);
+}
+
+ul {
+  list-style: none;
+}
+
+#app {
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: calc(var(--footer-height) + var(--footer-margin-top));
+}
+
+.container {
+  max-width: calc(var(--content-width) + 2 * var(--content-padding));
+  padding: 0 var(--content-padding);
+  margin: 0 auto;
+}
+
+.checkbox,
+.button,
+.radio {
+  display: block;
+  outline: none;
+  padding: 6px 12px;
+  background-color: transparent;
+  line-height: 26px;
+  border-radius: 4px;
+  transition: 0.25s;
+  cursor: pointer;
+  color: var(--primary-color-1);
+  font-family: var(--button-font-family);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.checkbox,
+.radio {
+  border: 1px solid var(--primary-color-2);
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+
+  input {
+    display: none;
+  }
+  
+  input:checked ~ .checkbox__check::after {
+    content: "✓";
+  }
+
+  input:checked ~ .checkbox__check {
+    border-color: var(--primary-color-1);
+    color: var(--primary-color-1);
+  }
+
+  &__check {
+    position: relative;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--text-color-4);
+    margin-right: 1rem;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      display: inline-block;
+      text-align: center;
+      line-height: 18px;
+    }
+  }
+}
+
+.radio {
+  input {
+    display: none;
+  }
+
+  input:checked + .radio__icon {
+    color: var(--secondary-color-2);
+  }
+}
+
+.button {
+  border: 1px solid transparent;
+  box-shadow: 0px 2px 4px rgba(27, 78, 163, 0.2), 0px 4px 8px rgba(41, 121, 255, 0.2);
+
+  &_special {
+    font-family: var(--special-font-family);
+    font-size: 20px;
+  }
+
+  &_icon {
+    font-size: 1.125rem;
+    padding: 0;
+    line-height: 40px;
+    text-align: center;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (hover: hover) {
+  .button:hover,
+  .checkbox:hover {
+    color: goldenrod;
+  }
+
+  .checkbox:hover {
+    border-color: goldenrod;
+  }
+}
+
+.button:active {
+  color: var(--primary-color-2);
+  box-shadow: none;
+  border: 1px solid var(--primary-color-2)
+}
+
+.cart {
+  font-family: var(--special-font-family);
+  font-size: 20px;
+  position: relative;
+  height: auto;
+
+  &__total {
+    position: absolute;
+    z-index: 1;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    background-color: var(--secondary-color-2);
+    border-radius: 50%;
+    top: -3px;
+    right: -3px;
+    color: var(--bg-color);
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  &__link {
+
+  }
+}
+
+.rsschool-logo {
+  display: block;
+  width: var(--rss-logo-size);
+
+  .st0, .st1, .st2, .st3, .st4, .st5, .st6, .st8, .st9 {
+    fill: var(--text-color-2);
+    stroke: var(--text-color-3);
+  }
+
+  .st1 {
+    fill: var(--text-color-2);
+  }
+    
+  .st7 {
+    fill: var(--primary-color-2);
+  }
+  
+  .logo-path {
+    fill: var(--primary-color-2);
+    stroke: var(--primary-color-1);
+    stroke-width: 4px;
+    transition: 0.1s ease-in;
+  }
+}
+
+@media (max-width: 550px) {
+  :root {
+    --rss-logo-size: 100px;
+  }
+}
