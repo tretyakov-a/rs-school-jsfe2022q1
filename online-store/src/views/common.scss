@@ -8,6 +8,7 @@
 
   --primary-color-1: #2264D1;
   --primary-color-2: #9DC2FF;
+  --primary-color-3: #2979FF;
 
   // --secondary-color-1: rgba(255, 165, 0, 0.9);
   --secondary-color-1: orange;
@@ -20,6 +21,7 @@
 
 
   --bg-color: #ffffff;
+  --radio-bg-color: #EBF2FF;
 
   --main-font-family: 'Inter', sans-serif;
   --button-font-family: 'Roboto', sans-serif;
@@ -67,7 +69,8 @@ ul {
 .checkbox,
 .button,
 .radio,
-.range {
+.range,
+.select {
   display: block;
   outline: none;
   padding: 6px 12px;
@@ -120,16 +123,6 @@ ul {
       text-align: center;
       line-height: 18px;
     }
-  }
-}
-
-.radio {
-  input {
-    display: none;
-  }
-
-  input:checked + .radio__icon {
-    color: var(--secondary-color-2);
   }
 }
 

@@ -1,0 +1,36 @@
+.products-sort-filter {
+  .select {
+    height: 36px;
+    position: relative;
+    padding: 0;
+    
+    &__title {
+      position: absolute;
+      top: -8px;
+      left: 8px;
+      padding: 0 4px;
+      z-index: 1;
+      background-color: var(--bg-color);
+      font-size: 0.6rem;
+      line-height: 1rem;
+      color: var(--text-color-4);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    &__input {
+      height: 100%;
+      color: var(--text-color-4);
+      border-color: var(--text-color-4);
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+      padding: 6px 12px;
+    }
+
+    &__input:focus {
+      color: var(--text-color-2);
+      border-color: var(--text-color-2);
+    }
+  }
+}

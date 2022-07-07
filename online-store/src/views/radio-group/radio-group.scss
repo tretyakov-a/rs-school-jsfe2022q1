@@ -1,0 +1,40 @@
+.products-view-filter {
+  .radio-group {
+    display: flex;
+    background: var(--radio-bg-color);
+    border-radius: 4px;
+    height: 36px;
+
+    &__item {
+      padding: 0;
+      border: none;
+    }
+  }
+
+  .radio__button {
+    border: none;
+    padding: 4px 20px;
+    height: 36px;
+
+    svg {
+      display: block;
+      fill: var(--text-color-4);
+    }
+  }
+
+  input {
+    display: none;
+  }
+
+  input:checked ~ .radio__button {
+    border: 1px solid transparent;
+    box-shadow: 0px 2px 4px rgba(27, 78, 163, 0.2), 0px 4px 8px rgba(41, 121, 255, 0.2);
+    background-color: var(--bg-color);
+    border-radius: 4px;
+
+    svg {
+      display: block;
+      fill: var(--primary-color-3);
+    }
+  }
+}
