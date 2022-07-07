@@ -1,8 +1,10 @@
 import { Component, ComponentHandlers } from "@core/component";
 import { RangeView } from "@views/range";
 import { selectFrom } from '@common/utils';
+import { FilterData } from "./filters/filter";
 
 export type RangeOptions = {
+  name: string,
   min: number;
   max: number;
 }
@@ -14,8 +16,10 @@ export class Range extends Component {
   private minEl: HTMLElement;
   private maxEl: HTMLElement;
   private trackEl: HTMLElement;
+  private leftInputEl: HTMLElement;
+  private rightInputEl: HTMLElement;
 
-  constructor(data: RangeOptions, root: HTMLElement, handlers: ComponentHandlers = {}) {
+  constructor(data: FilterData, root: HTMLElement, handlers: ComponentHandlers = {}) {
     super({
       handlers,
       view: new RangeView({
@@ -33,9 +37,32 @@ export class Range extends Component {
     this.minEl = select('.range__min');
     this.maxEl = select('.range__max');
     this.trackEl = select('.range__track-inner');
+    this.leftInputEl = select('.range__input-left');
+    this.rightInputEl = select('.range__input-right');
 
-    select('.range__input-left').addEventListener('input', this.handleLeftRangeChange);
-    select('.range__input-right').addEventListener('input', this.handleRightRangeChange);
+    this.leftInputEl.addEventListener('input', this.handleLeftRangeChange);
+    this.rightInputEl.addEventListener('input', this.handleRightRangeChange);
+
+    this.leftInputEl.addEventListener('focus', this.handleLeftRangeFocus);
+    this.rightInputEl.addEventListener('focus', this.handleRightRangeFocus);
+
+    this.leftInputEl.addEventListener('change', this.handleChange);
+    this.rightInputEl.addEventListener('change', this.handleChange);
+  }
+
+  private handleChange = () => {
+    const { left, right } = this;
+    this.handlers?.onChange({ left, right });
+  }
+
+  private handleLeftRangeFocus = (): void => {
+    this.leftInputEl.classList.add('range__input_top');
+    this.rightInputEl.classList.remove('range__input_top');
+  }
+  
+  private handleRightRangeFocus = (): void => {
+    this.leftInputEl.classList.remove('range__input_top');
+    this.rightInputEl.classList.add('range__input_top');
   }
 
   private handleLeftRangeChange = (e: Event): void => {

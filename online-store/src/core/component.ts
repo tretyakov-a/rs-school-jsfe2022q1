@@ -1,7 +1,7 @@
 import { View } from "@core/view";
 import { SpinnerView } from '@views/spinner';
 
-export type ComponentHandler = <T>(data: T) => void;
+export type ComponentHandler = <T>(data?: T) => void;
 export type ComponentHandlers = Record<string, ComponentHandler>
 
 export type ComponentProps = {
@@ -34,18 +34,18 @@ export class Component {
     return this.view.getRoot() as HTMLElement;
   }
 
-  public getElement(): HTMLElement {
+  protected getElement(): HTMLElement {
     return this.view.getElement() as HTMLElement;
   }
 
-  public onLoadingStart(): void {
+  protected onLoadingStart(): void {
     this.view.clear();
     this.components.spinner = new Component({
       view: new SpinnerView({ root: this.getContentEl() })
     })
   }
 
-  public onLoadingEnd(data?: unknown): void {
+  protected onLoadingEnd(data?: unknown): void {
     this.view.clear();
     if (this.components.spinner) {
       delete this.components.spinner;
@@ -53,7 +53,11 @@ export class Component {
     this.view.render(data);
   }
 
-  public update(data?: unknown): void {
+  protected clear(): void {
+    this.view.clear();
+  }
+
+  protected update(data?: unknown): void {
     this.view.render(data);
   }
 }

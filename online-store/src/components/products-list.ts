@@ -3,6 +3,8 @@ import { ProductsListView } from '@views/products-list';
 import { ProductsListItemView } from '../views/products-list-item/index';
 import json from '../../assets/data-sample.json';
 import { BASE_URL, PROPS, SPECS } from '@common/constants';
+import { FilterComponent } from './filters/filters-data';
+import { Filter } from './filters/filter';
 
 const url = `${BASE_URL}/data.json`;
 
@@ -29,22 +31,26 @@ export interface Product {
   props: ProductProp
 };
 
-class ProductsList extends Component {
+export class ProductsList extends Component {
+  private products: Product[];
+
   constructor(handlers: ComponentHandlers = {}) {
     super({
       handlers,
       view: new ProductsListView(),
     });
+    this.products = [];
 
     this.onLoadingStart();
     setTimeout(() => {
       this.onLoadingEnd();
-      this.update(json as Product[])
+      this.products = json;
+      this.update(this.products);
     }, 500);
   }
 
   public update(data: Product[]): void {
-    super.update('');
+    super.clear();
     const items: Component[] = [];
 
     data.forEach((item) => {
@@ -57,6 +63,12 @@ class ProductsList extends Component {
 
     this.components.items = items;
   }
-}
 
-export default ProductsList;
+  public onFiltersChange(filters: Filter[]): void {
+    const filtred = this.products.filter((item) => {
+      return filters.reduce((acc, filter) => acc && filter.check(item), true);
+    });
+
+    this.update(filtred);
+  }
+}

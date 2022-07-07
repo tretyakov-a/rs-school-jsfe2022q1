@@ -56,6 +56,10 @@
         background-color: var(--primary-color-1);
         pointer-events: all;
       }
+
+      &::-webkit-slider-thumb:hover {
+        box-shadow: 0px 0px 2px 2px var(--primary-color-2);
+      }
     }
 
     &__input-left {

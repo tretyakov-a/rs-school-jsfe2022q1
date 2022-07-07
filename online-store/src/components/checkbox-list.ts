@@ -1,17 +1,32 @@
-import { ComponentHandlers } from "@core/component";
+import { Component, ComponentHandlers } from "@core/component";
 import { CheckboxListView } from "@views/checkbox-list";
-import { Filter, FilterData } from "./filters/filter";
+import { FilterData } from "./filters/filter";
 
-export class CheckboxList extends Filter {
+export class CheckboxList extends Component {
+  private checkboxes: NodeList;
 
   constructor(data: FilterData, root: HTMLElement, handlers: ComponentHandlers = {}) {
-    super(data, {
+    super({
       handlers,
       view: new CheckboxListView({
         data, root,
         contentEl: '.filter__content',
       })
     });
+    this.checkboxes = this.getRoot().querySelectorAll(`input[name="${data.name}"]`);
+    this.checkboxes.forEach((el) => {
+      el.addEventListener('change', this.handleChange);
+    });
   }
 
+
+  private handleChange = () => {
+    const values = [...this.checkboxes].reduce((acc: string[], el) => {
+      const checkbox = el as HTMLInputElement;
+      return checkbox.checked
+        ? [ ...acc, checkbox.value ]
+        : acc;
+    }, []);
+    this.handlers?.onChange(values);
+  }
 }
