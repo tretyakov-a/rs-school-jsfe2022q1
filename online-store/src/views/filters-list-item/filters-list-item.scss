@@ -1,0 +1,80 @@
+.filter {
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  z-index: 10;
+
+  &__expander-wrapper {
+    padding: 0.25rem;
+    position: relative;
+    z-index: 10;
+    background: #F7F7FA;
+  }
+
+  &__expander {
+    display: none;
+
+    &:checked ~ .filter__expander-wrapper {
+      background: var(--bg-color);
+    }
+
+    &:checked ~ .filter__expander-wrapper .filter__expander-label::after {
+      transform: rotate(180deg);
+    }
+
+    &:checked ~ .filter__expander-wrapper .filter__expander-label {
+      background: var(--bg-color);
+      box-shadow: 0px 1px 2px rgba(58, 58, 68, 0.24), 0px 2px 4px rgba(90, 91, 106, 0.24);
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+
+    &:checked ~ .filter__content {
+      display: none;
+    }
+  }
+
+  &__expander-label {
+    display: block;
+    height: 40px;
+    padding: 0.5rem 0.75rem;
+    box-shadow: none;
+    background: #F7F7FA;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      right: 12px;
+      top: calc(50% - 0.75rem);
+      width: 1.5rem;
+      height: 1.5rem;
+      background: url("@assets/arrow.svg") no-repeat;
+      background-size: 50%;
+      background-position: center;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5rem;
+  }
+
+  &__content {
+    height: auto;
+    position: relative;
+    z-index: 9;
+    overflow: hidden;
+    padding: 0.5rem;
+    padding-top: 0;
+    transition: 0.25s;
+    background: #F7F7FA;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+}

@@ -1,8 +1,8 @@
 import { Component, ComponentHandlers } from '@core/component';
 import { DisplayFiltersView } from '@views/display-filters';
-import { FiltersListView } from '@views/filters-list';
 import { MainView } from '@views/main';
-import ProductsList from './product-list';
+import { FiltersList } from './filters/filters-list';
+import ProductsList from './products-list';
 
 class Main extends Component<void> {
   constructor(handlers: ComponentHandlers = {}) {
@@ -12,9 +12,7 @@ class Main extends Component<void> {
     });
 
     this.components = {
-      filtersList: new Component({
-        view: new FiltersListView()
-      }),
+      filtersList: new FiltersList(),
       displayFilters: new Component({
         view: new DisplayFiltersView()
       }),

@@ -2,7 +2,7 @@ export const DEFAULT_FILTER_OPTION = 'all';
 
 export const BASE_URL = 'https://raw.githubusercontent.com/tretyakov-a/online-store/main';
 
-export const PROPS = [
+export const SPECS = [
   'height',
   'len',
   'material',
@@ -52,7 +52,7 @@ export const PROPS = [
   'memoryCardTypeAndCapacity',
 ] as const;
 
-export const SPECS = [
+export const PROPS = [
   'dimensions',
   'additionalInfo',
   'factoryData',

@@ -1,0 +1,20 @@
+
+<label class="range">
+  <span class="range__min"><%= locals.min %></span>
+  <div class="range__container">
+    <div class="range__track">
+      <div class="range__track-inner"></div>
+    </div>
+    <input class="range__input-left range__input_top"
+      type="range"
+      min="<%= locals.min %>"
+      max="<%= locals.max %>"
+      value="<%= locals.min %>">
+    <input class="range__input-right"
+      type="range"
+      min="<%= locals.min %>"
+      max="<%= locals.max %>"
+      value="<%= locals.max %>">
+  </div>
+  <span class="range__max"><%= locals.max %></span>
+</label>

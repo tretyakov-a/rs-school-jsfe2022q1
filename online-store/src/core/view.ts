@@ -13,6 +13,7 @@ type HtmlElement = HTMLElement | null;
 export class View<T> {
   protected root: HtmlElement;
   protected contentEl: HtmlElement;
+  protected el: HtmlElement;
   
   constructor(options: ViewOptions<T> = {}) {
     const { root, contentEl } = options;
@@ -24,6 +25,7 @@ export class View<T> {
         ? selectFrom(this.root ? this.root : document)(contentEl)
         : contentEl
       : this.root;
+    this.el = null;
     this.render(options);
   }
 
@@ -35,6 +37,10 @@ export class View<T> {
     return this.root;
   }
 
+  public getElement(): HtmlElement {
+    return this.el;
+  }
+  
   public render(options: ViewOptions<T>): boolean | void | HTMLElement | string {
     const { data } = options;
     if (data !== undefined && data instanceof Node) {

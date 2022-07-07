@@ -28,6 +28,7 @@
       "@views/*": ["views/*"],
       "@components/*": ["components/*"],
       "@core/*": ["core/*"],
+      "@assets/*": ["../assets/*"],
     } 
   }
 }

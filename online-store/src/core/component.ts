@@ -1,11 +1,13 @@
 import { RenderData, View } from "./view";
 import { SpinnerView } from '@views/spinner';
-import { Product } from '@components/product-list';
+import { Product } from '@components/products-list';
+import { FilterData } from "@components/filters/filter";
+import { RangeOptions } from "@components/range";
 
-type ComponentData = string | void | HTMLElement | Product;
+type ComponentData = string | void | HTMLElement | Product | FilterData | RangeOptions;
 
-export type ComponentHandler<T> = (data: T) => void;
-export type ComponentHandlers = Record<string, ComponentHandler<string>>
+export type ComponentHandler = <T>(data: T) => void;
+export type ComponentHandlers = Record<string, ComponentHandler>
 
 export type ComponentProps<T> = {
   view: View<T>;
@@ -35,6 +37,10 @@ export class Component<T> {
 
   protected getRoot(): HTMLElement {
     return this.view.getRoot() as HTMLElement;
+  }
+
+  protected getElement(): HTMLElement {
+    return this.view.getElement() as HTMLElement;
   }
 
   public onLoadingStart(): void {

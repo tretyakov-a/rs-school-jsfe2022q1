@@ -1,6 +1,6 @@
 import './products-list-item.scss';
 import { View, ViewOptions } from '@core/view';
-import { Product } from '@components/product-list';
+import { Product } from '@components/products-list';
 import listItemTemplate from './products-list-item.ejs';
 
 export class ProductsListItemView extends View<Product> {
