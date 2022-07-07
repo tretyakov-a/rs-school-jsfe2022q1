@@ -2,8 +2,8 @@ import { selectFrom } from "@common/utils";
 import { Component, ComponentHandlers } from "@core/component";
 import { View } from "@core/view";
 
-export class Button extends Component<string> {
-  constructor(handlers: ComponentHandlers = {}, view: View<string>) {
+export class Button extends Component {
+  constructor(handlers: ComponentHandlers = {}, view: View) {
     super({ handlers, view });
 
     selectFrom(this.getRoot())('button')

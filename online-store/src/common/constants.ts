@@ -2,6 +2,13 @@ export const DEFAULT_FILTER_OPTION = 'all';
 
 export const BASE_URL = 'https://raw.githubusercontent.com/tretyakov-a/online-store/main';
 
+export enum FILTER_NAME {
+  PRICE = 'price',
+  WEIGHT = 'weight',
+  BRAND = 'brand',
+  COLOR = 'color',
+}
+
 export const SPECS = [
   'height',
   'len',

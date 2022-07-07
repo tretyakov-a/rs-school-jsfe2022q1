@@ -1,8 +1,8 @@
 import './main.scss';
-import { View, ViewOptions } from '@core/view';
+import { View } from '@core/view';
 import mainTemplate from './main.ejs';
 
-export class MainView extends View<void> {
+export class MainView extends View {
   constructor() {
     super({
       root: '#app',
@@ -13,6 +13,6 @@ export class MainView extends View<void> {
     const main = document.createElement('main');
     main.className = 'main';
     main.innerHTML = mainTemplate({ title: 'QudroShop' });
-    this.contentEl?.append(main);
+    super.render(main);
   }
 }

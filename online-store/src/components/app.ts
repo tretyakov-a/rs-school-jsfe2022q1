@@ -4,7 +4,7 @@ import { FooterView } from '@views/footer';
 import { HeaderView } from '@views/header';
 import Main from './main';
 
-class App extends Component<void> {
+class App extends Component {
   constructor(rootSelector: string) {
     super({
       view: new View({

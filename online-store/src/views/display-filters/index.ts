@@ -1,8 +1,8 @@
 import './display-filters.scss';
-import { View, ViewOptions } from '@core/view';
+import { View } from '@core/view';
 import displayFiltersTemplate from './display-filters.ejs';
 
-export class DisplayFiltersView extends View<void> {
+export class DisplayFiltersView extends View {
   constructor() {
     super({
       root: '.main__right',
@@ -11,9 +11,6 @@ export class DisplayFiltersView extends View<void> {
   }
 
   public render(): void {
-    // const container = document.createElement('div');
-    // container.className = 'display-filters';
-    // container.innerHTML = displayFiltersTemplate();
-    (this.contentEl as HTMLElement).innerHTML = displayFiltersTemplate();
+    super.render(displayFiltersTemplate())
   }
 }

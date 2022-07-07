@@ -1,8 +1,8 @@
 import './header.scss';
-import { View, ViewOptions } from '@core/view';
+import { View } from '@core/view';
 import headerTemplate from './header.ejs';
 
-export class HeaderView extends View<void> {
+export class HeaderView extends View {
   constructor() {
     super({
       root: '#app',
@@ -13,6 +13,6 @@ export class HeaderView extends View<void> {
     const header = document.createElement('header');
     header.className = 'header';
     header.innerHTML = headerTemplate({ title: 'QudroShop' });
-    this.contentEl?.append(header);
+    super.render(header);
   }
 }

@@ -4,7 +4,7 @@ import { MainView } from '@views/main';
 import { FiltersList } from './filters/filters-list';
 import ProductsList from './products-list';
 
-class Main extends Component<void> {
+class Main extends Component {
   constructor(handlers: ComponentHandlers = {}) {
     super({
       handlers,

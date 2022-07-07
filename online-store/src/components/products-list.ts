@@ -29,7 +29,7 @@ export interface Product {
   props: ProductProp
 };
 
-class ProductsList extends Component<Product> {
+class ProductsList extends Component {
   constructor(handlers: ComponentHandlers = {}) {
     super({
       handlers,
@@ -38,17 +38,18 @@ class ProductsList extends Component<Product> {
 
     this.onLoadingStart();
     setTimeout(() => {
+      this.onLoadingEnd();
       this.update(json as Product[])
     }, 500);
   }
 
   public update(data: Product[]): void {
     super.update('');
-    const items: Component<Product>[] = [];
+    const items: Component[] = [];
 
     data.forEach((item) => {
       items.push(
-        new Component<Product>({
+        new Component({
           view: new ProductsListItemView({ data: item })
         })
       )

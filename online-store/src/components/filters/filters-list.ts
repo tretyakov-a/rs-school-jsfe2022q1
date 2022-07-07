@@ -4,8 +4,20 @@ import { Product } from "../products-list";
 import json from '@assets/data-sample.json';
 import { FiltersListItem } from "./fitlers-list-item";
 import { selectFrom } from '@common/utils';
+import { RangeFilter } from "./range-filter";
+import { CheckboxFilter } from "./checkbox-filter";
+import { FILTER_NAME } from "@common/constants";
 
-export class FiltersList extends Component<Product> {
+type FilterComponent = typeof RangeFilter | typeof CheckboxFilter;
+
+const filters: Record<FILTER_NAME, FilterComponent> = {
+  [FILTER_NAME.PRICE]: RangeFilter,
+  [FILTER_NAME.WEIGHT]: RangeFilter,
+  [FILTER_NAME.BRAND]: CheckboxFilter,
+  [FILTER_NAME.COLOR]: CheckboxFilter,
+}
+
+export class FiltersList extends Component {
 
   constructor(handlers: ComponentHandlers = {}) {
     super({
@@ -17,6 +29,7 @@ export class FiltersList extends Component<Product> {
 
     this.onLoadingStart();
     setTimeout(() => {
+      this.onLoadingEnd();
       this.update(json as Product[])
     }, 500);
   }
@@ -43,23 +56,35 @@ export class FiltersList extends Component<Product> {
 
     const prices = data.map((item) => item.price);
 
+    const weights = data.map((item) => Number.parseInt(item.props.dimensions?.specs.weight?.value || ''));
+
     this.components.filters = [
       new FiltersListItem({
-        name: 'brand',
+        name: FILTER_NAME.BRAND,
         title: 'Бренд',
         values: brands
       }),
       new FiltersListItem({
-        name: 'color',
+        name: FILTER_NAME.COLOR,
         title: 'Цвет',
         values: colors
       }),
       new FiltersListItem({
-        name: 'price',
-        title: 'Цена',
+        name: FILTER_NAME.PRICE,
+        title: 'Цена (₽)',
         min: Math.min(...prices),
         max: Math.max(...prices),
+      }),
+      new FiltersListItem({
+        name: FILTER_NAME.WEIGHT,
+        title: 'Полетная масса (гр.)',
+        min: Math.min(...weights),
+        max: Math.max(...weights),
       })
     ];
+  }
+
+  static getFilterComponent(name: FILTER_NAME): FilterComponent | undefined {
+    return filters[name];
   }
 }

@@ -6,7 +6,7 @@ export type RangeOptions = {
   min: number;
   max: number;
 }
-export class Range extends Component<RangeOptions> {
+export class Range extends Component {
   private min: number;
   private max: number;
   private left: number;

@@ -1,8 +1,8 @@
 import './products-list.scss';
-import { View, ViewOptions } from '@core/view';
+import { View  } from '@core/view';
 import { Product } from '@components/products-list';
 
-export class ProductsListView extends View<Product> {
+export class ProductsListView extends View {
   constructor() {
     super({
       root: '.main__right',
@@ -10,7 +10,7 @@ export class ProductsListView extends View<Product> {
     })
   }
 
-  public render(options: ViewOptions<Product>): void {
-    super.render(options);
+  public render(): void {
+    super.render();
   }
 }

@@ -1,21 +1,19 @@
 import { selectFrom } from '@common/utils';
 
-export type RenderData<T> = T[] | T | HTMLElement | string;
-
-export type ViewOptions<T> = {
-  data?: RenderData<T>;
+export type ViewOptions = {
+  data?: unknown;
   root?: string | HTMLElement;
   contentEl?: string | HTMLElement;
 }
 
 type HtmlElement = HTMLElement | null;
 
-export class View<T> {
+export class View {
   protected root: HtmlElement;
   protected contentEl: HtmlElement;
   protected el: HtmlElement;
   
-  constructor(options: ViewOptions<T> = {}) {
+  constructor(options: ViewOptions = {}) {
     const { root, contentEl } = options;
     this.root = root
       ? typeof root === 'string' ? selectFrom(document)(root) : root
@@ -26,7 +24,7 @@ export class View<T> {
         : contentEl
       : this.root;
     this.el = null;
-    this.render(options);
+    this.render(options.data);
   }
 
   public getContentEl(): HtmlElement {
@@ -40,19 +38,22 @@ export class View<T> {
   public getElement(): HtmlElement {
     return this.el;
   }
-  
-  public render(options: ViewOptions<T>): boolean | void | HTMLElement | string {
-    const { data } = options;
-    if (data !== undefined && data instanceof Node) {
-      (this.contentEl as HTMLElement).innerHTML = '';
-      this.contentEl?.append(data);
-      return true;
+
+  public clear(): void {
+    (this.contentEl as HTMLElement).innerHTML = '';
+  }
+
+  public render(data?: unknown): void {
+    if (this.contentEl !== this.root) {
+      this.clear();
     }
+    if (data !== undefined && data instanceof Node) {
+      this.el = data as HTMLElement;
+      return this.contentEl?.append(data);
+    } 
     if (data !== undefined && typeof data === 'string') {
       (this.contentEl as HTMLElement).innerHTML = data;
-      return true;
+      return;
     }
-    return false;
-  };
-
+  }
 }

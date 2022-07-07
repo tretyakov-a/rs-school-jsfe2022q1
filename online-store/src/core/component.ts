@@ -1,24 +1,19 @@
-import { RenderData, View } from "./view";
+import { View } from "@core/view";
 import { SpinnerView } from '@views/spinner';
-import { Product } from '@components/products-list';
-import { FilterData } from "@components/filters/filter";
-import { RangeOptions } from "@components/range";
-
-type ComponentData = string | void | HTMLElement | Product | FilterData | RangeOptions;
 
 export type ComponentHandler = <T>(data: T) => void;
 export type ComponentHandlers = Record<string, ComponentHandler>
 
-export type ComponentProps<T> = {
-  view: View<T>;
+export type ComponentProps = {
+  view: View;
   handlers?: ComponentHandlers;
 }
 
-export class Component<T> {
-  protected components: Record<string, Component<ComponentData> | Component<ComponentData>[]>;
-  protected props: ComponentProps<T>;
+export class Component {
+  protected components: Record<string, Component | Component[]>;
+  protected props: ComponentProps;
 
-  constructor(props: ComponentProps<T>) {
+  constructor(props: ComponentProps) {
     this.components = {};
     this.props = props;
   }
@@ -39,20 +34,26 @@ export class Component<T> {
     return this.view.getRoot() as HTMLElement;
   }
 
-  protected getElement(): HTMLElement {
+  public getElement(): HTMLElement {
     return this.view.getElement() as HTMLElement;
   }
 
   public onLoadingStart(): void {
-    this.view.render({ data: (new SpinnerView()).render() });
+    this.view.clear();
+    this.components.spinner = new Component({
+      view: new SpinnerView({ root: this.getContentEl() })
+    })
   }
 
-  public onLoadingEnd(data: RenderData<T>): void {
-    this.view.render({ data: '' });
-    this.view.render({ data });
+  public onLoadingEnd(data?: unknown): void {
+    this.view.clear();
+    if (this.components.spinner) {
+      delete this.components.spinner;
+    }
+    this.view.render(data);
   }
 
-  public update(data?: RenderData<T>): void {
-    this.view.render({ data });
+  public update(data?: unknown): void {
+    this.view.render(data);
   }
 }

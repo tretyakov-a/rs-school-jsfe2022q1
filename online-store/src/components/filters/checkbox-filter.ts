@@ -1,4 +1,4 @@
-import { Component, ComponentHandlers, ComponentProps } from "@core/component";
+import { ComponentHandlers } from "@core/component";
 import { View } from "@core/view";
 import { Filter, FilterData } from "./filter";
 import { CheckboxList } from '../checkbox-list';

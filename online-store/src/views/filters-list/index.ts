@@ -1,9 +1,8 @@
 import './filters-list.scss';
 import filtersListTemplate from './filters-list.ejs';
-import { View, ViewOptions } from '@core/view';
-import { Product } from '@components/products-list';
+import { View } from '@core/view';
 
-export class FiltersListView extends View<Product> {
+export class FiltersListView extends View {
   constructor() {
     super({
       root: '.main__left',
@@ -11,8 +10,7 @@ export class FiltersListView extends View<Product> {
     })
   }
 
-  public render(options: ViewOptions<Product>): void {
-    console.log(options);
-    (this.contentEl as HTMLElement).innerHTML = filtersListTemplate();
+  public render(): void {
+    super.render(filtersListTemplate())
   }
 }

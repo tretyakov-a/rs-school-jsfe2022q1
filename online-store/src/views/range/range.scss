@@ -5,6 +5,8 @@
     &__min,
     &__max {
       display: inline-block;
+      min-width: 2.5rem;
+      text-align: center;
     }
 
     &__container {
