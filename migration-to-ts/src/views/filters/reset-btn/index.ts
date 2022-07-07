@@ -15,6 +15,6 @@ export class ResetBtnView extends View {
     btn.className = 'button button_reset';
     btn.title = 'Reset';
     btn.innerHTML = `<i class="fa-solid fa-arrow-rotate-right"></i>`;
-    this.contentEl?.append(btn);
+    super.render(btn);
   }
 }

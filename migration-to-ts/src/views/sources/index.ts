@@ -11,9 +11,13 @@ export class SourcesView extends View {
       contentEl: '.sources__container'
     })
   }
-  render(options: ViewOptions) {
-    const data = options.data as SourceData[];
-    if (data === undefined || super.render(options) || !Array.isArray(data)) return;
+  
+  render(data: SourceData[]) {
+    if (data === undefined || !Array.isArray(data)) return;
+    
+    if (data.length === 0) {
+      return super.render('No sources');
+    }
     
     const fragment = document.createDocumentFragment();
     const sourceItemTemp = selectFrom(document)('#sourceItemTemp') as HTMLTemplateElement;
@@ -27,8 +31,6 @@ export class SourcesView extends View {
 
       fragment.append(sourceClone);
     });
-
-    (this.contentEl as HTMLElement).innerHTML = '';
-    this.contentEl?.append(data.length === 0 ? 'No sources' : fragment);
+    super.render(fragment);
   }
 }

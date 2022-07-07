@@ -17,6 +17,6 @@ export class HeaderView extends View {
         <div class="source-filters__container"></div>
       </form>
     `;
-    this.contentEl?.append(header);
+    super.render(header);
   }
 }

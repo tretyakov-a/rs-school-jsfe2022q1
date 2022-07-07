@@ -11,8 +11,8 @@ export class SelectFilterView extends View {
     })
   }
   
-  public render(options: ViewOptions): void {
-    const { name = 'unknown', data = [] } = options.data as FilterOptions;
+  public render(options: FilterOptions): void {
+    const { name = 'unknown', data = [] } = options;
     const selectFilterTemp = selectFrom(document)('#selectFilterTemp') as HTMLTemplateElement;
     const selectFilterClone = selectFilterTemp.content.cloneNode(true) as HTMLElement;
     const select = selectFrom(selectFilterClone);
@@ -22,6 +22,6 @@ export class SelectFilterView extends View {
     addOptions(selectEl, data as string[]);
     select('.source-filters__item-label').textContent = `${name[0].toUpperCase()}${name.slice(1)}:`;
 
-    this.contentEl?.append(selectFilterClone);
+    super.render(selectFilterClone);
   }
 }

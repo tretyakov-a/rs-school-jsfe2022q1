@@ -4,9 +4,9 @@ import { selectFrom } from '@common/utils';
 
 export class SpinnerView extends View {
   
-  render(): HTMLElement {
+  render(): void {
     const spinnerTemp = selectFrom(document)('#spinnerTemp') as HTMLTemplateElement;
     const spinnerClone = spinnerTemp.content.cloneNode(true) as HTMLElement;
-    return spinnerClone;
+    super.render(spinnerClone);
   }
 }

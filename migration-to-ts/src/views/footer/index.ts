@@ -39,6 +39,7 @@ export class FooterView extends View {
         </p>
       </div>
     `;
-    this.contentEl?.append(footer);
+
+    super.render(footer);
   }
 }

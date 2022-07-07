@@ -50,9 +50,6 @@ export class News extends Component {
       sourceInfo: new Component({
         view: new NewsSourceInfoView()
       }),
-      pagination: new NewsPagination({
-        onPageChange: this.handlePageChange as ComponentHandler
-      }),
       overlay: new NewsOverlay(),
     }
   }
@@ -101,7 +98,9 @@ export class News extends Component {
     }
     if (initiator === NewsLoadInitiator.Main) {
       this.components.sourceInfo.update(this.loadOptions?.sourceInfo);
-      this.components.pagination.update('');
+      this.components.pagination = new NewsPagination({
+        onPageChange: this.handlePageChange as ComponentHandler
+      });
     } else if (initiator === NewsLoadInitiator.Pagination) {
       (this.components.overlay as NewsOverlay).show();
     }

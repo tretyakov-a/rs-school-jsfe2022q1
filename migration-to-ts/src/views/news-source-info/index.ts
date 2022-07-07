@@ -6,13 +6,13 @@ export class NewsSourceInfoView extends View {
   constructor(options: ViewOptions = {}) {
     super({
       ...options,
-      root: '.news__source-info'
+      root: '.news',
+      contentEl: '.news__source-info',
     })
   }
 
-  public render(options: ViewOptions): void {
-    const data = options.data as SourceData;
-    if (data === undefined || super.render(options)) return;
+  public render(data: SourceData): void {
+    if (data === undefined) return;
 
     const { name, description, url, category, language, country } = data as SourceData;
     this.contentEl?.classList.add('source-info');
@@ -46,7 +46,6 @@ export class NewsSourceInfoView extends View {
       <p class="source-info__description">${description}</p>
     `;
 
-    (this.contentEl as HTMLElement).innerHTML = '';
-    this.contentEl?.append(container);
+    super.render(container);
   }
 }

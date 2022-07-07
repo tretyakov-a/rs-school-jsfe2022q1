@@ -23,6 +23,6 @@ export class MainView extends View {
         <div class="news__pagination pagination"></div>
       </div>
     `;
-    this.contentEl?.append(main);
+    super.render(main);
   }
 }

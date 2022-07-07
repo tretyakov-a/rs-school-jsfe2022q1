@@ -13,9 +13,12 @@ export class NewsView extends View {
     })
   }
 
-  render(options: ViewOptions): void {
-    const data = options.data as NewsData[];
-    if (data === undefined || super.render(options) || !Array.isArray(data)) return;
+  render(data: NewsData[]): void {
+    if (data === undefined || !Array.isArray(data)) return;
+
+    if (data.length === 0) {
+      return super.render('No news');
+    }
 
     const fragment = document.createDocumentFragment();
     const newsItemTemp = selectFrom(document)('#newsItemTemp') as HTMLTemplateElement;
@@ -48,8 +51,7 @@ export class NewsView extends View {
 
       fragment.append(newsClone);
     });
-    
-    (this.contentEl as HTMLElement).innerHTML = '';
-    this.contentEl?.append(data.length === 0 ? 'No news' : fragment);
+
+    super.render(fragment);
   }
 }

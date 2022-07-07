@@ -10,9 +10,7 @@ export class FiltersFormView extends View {
     })
   }
 
-  render(options: ViewOptions) {
-    if (super.render(options)) return;
-
+  render() {
     const fragment = document.createDocumentFragment();
     const left = document.createElement('div');
     left.className = 'source-filters__left';
@@ -21,7 +19,6 @@ export class FiltersFormView extends View {
     right.className = 'source-filters__right';
     fragment.append(left, right);
 
-    (this.contentEl as HTMLElement).innerHTML = '';
-    this.contentEl?.append(fragment);
+    super.render(fragment);
   }
 }

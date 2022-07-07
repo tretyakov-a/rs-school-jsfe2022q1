@@ -11,6 +11,7 @@ type HtmlElement = HTMLElement | null;
 export class View {
   protected root: HtmlElement;
   protected contentEl: HtmlElement;
+  protected el: HtmlElement;
   
   constructor(options: ViewOptions = {}) {
     const { root, contentEl } = options;
@@ -22,7 +23,8 @@ export class View {
         ? selectFrom(this.root ? this.root : document)(contentEl)
         : contentEl
       : this.root;
-    this.render(options);
+    this.el = null;
+    this.render(options.data);
   }
 
   public getContentEl(): HtmlElement {
@@ -33,18 +35,25 @@ export class View {
     return this.root;
   }
 
-  public render(options: ViewOptions): boolean | void | HTMLElement | string {
-    const { data } = options;
-    if (data !== undefined && data instanceof Node) {
-      (this.contentEl as HTMLElement).innerHTML = '';
-      this.contentEl?.append(data);
-      return true;
+  public getElement(): HtmlElement {
+    return this.el;
+  }
+
+  public clear(): void {
+    (this.contentEl as HTMLElement).innerHTML = '';
+  }
+
+  public render(data?: unknown): void {
+    if (this.contentEl !== this.root) {
+      this.clear();
     }
+    if (data !== undefined && data instanceof Node) {
+      this.el = data as HTMLElement;
+      return this.contentEl?.append(data);
+    } 
     if (data !== undefined && typeof data === 'string') {
       (this.contentEl as HTMLElement).innerHTML = data;
-      return true;
+      return;
     }
-    return false;
-  };
-
+  }
 }

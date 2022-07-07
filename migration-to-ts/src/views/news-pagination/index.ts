@@ -9,23 +9,25 @@ export class NewsPaginationView extends View {
       ...options,
       root: '.news',
       contentEl: '.news__pagination',
-    })
+    });
   }
 
-  private renderBtn = (isActive: (page?: number) => boolean) => (range: number[]): DocumentFragment => {
-    const fragment = document.createDocumentFragment();
-    range.forEach((item) => {
-      const btn = document.createElement('div');
-      const classes = [
-        'pagination__item',
-        isActive(item) ? 'pagination__item_active' : '',
-      ]
-      btn.className = classes.join(' ');
-      btn.textContent = `${item + 1}`;
-      btn.setAttribute('data-page', `${item}`);
-      fragment.append(btn);
-    });
-    return fragment;
+  private renderBtn(isActive: (page?: number) => boolean) {
+    return (range: number[]): DocumentFragment => {
+      const fragment = document.createDocumentFragment();
+      range.forEach((item) => {
+        const btn = document.createElement('div');
+        const classes = [
+          'pagination__item',
+          isActive(item) ? 'pagination__item_active' : '',
+        ]
+        btn.className = classes.join(' ');
+        btn.textContent = `${item + 1}`;
+        btn.setAttribute('data-page', `${item}`);
+        fragment.append(btn);
+      });
+      return fragment;
+    }
   }
 
   private renderDots(): HTMLElement {
@@ -44,16 +46,16 @@ export class NewsPaginationView extends View {
     return arr;
   }
 
-  public render(options: ViewOptions): void {
-    const data = options.data as PaginationData;
-    if (data === undefined || super.render(options)) return;
+  public render(data: PaginationData): void {
+    super.render(data);
+    if (data === undefined) return;
 
-    (this.contentEl as HTMLElement).innerHTML = '';
     const { currentPage, itemsNumber, itemsPerPage } = data as PaginationData;
     if (itemsNumber === 0) return;
     
     const checkPage = (curr: number) => (page?: number | string) => curr === page;
     const isActive = checkPage(currentPage);
+
     const renderBtn = this.renderBtn(isActive);
 
     const pagesNumber = Math.ceil(itemsNumber / itemsPerPage);
@@ -65,6 +67,8 @@ export class NewsPaginationView extends View {
     const lastDots = range[range.length - 1] < pagesNumber - RANGE_SIZE / 2
       ? this.renderDots() : '';
 
-    this.contentEl?.append(first, firstDots, renderBtn(range), lastDots, last);
+    const fragment = document.createDocumentFragment();
+    fragment.append(first, firstDots, renderBtn(range), lastDots, last);
+    super.render(fragment);
   }
 }

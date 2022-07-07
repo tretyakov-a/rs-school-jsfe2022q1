@@ -34,16 +34,26 @@ export class Component {
     return this.view.getRoot() as HTMLElement;
   }
 
-  public onLoadingStart(): void {
-    this.view.render({ data: (new SpinnerView()).render() });
+  public getElement(): HTMLElement {
+    return this.view.getElement() as HTMLElement;
   }
 
-  public onLoadingEnd(data: unknown): void {
-    this.view.render({ data: '' });
-    this.view.render({ data });
+  public onLoadingStart(): void {
+    this.view.clear();
+    this.components.spinner = new Component({
+      view: new SpinnerView({ root: this.getContentEl() })
+    })
+  }
+
+  public onLoadingEnd(data?: unknown): void {
+    this.view.clear();
+    if (this.components.spinner) {
+      delete this.components.spinner;
+    }
+    this.view.render(data);
   }
 
   public update(data?: unknown): void {
-    this.view.render({ data });
+    this.view.render(data);
   }
 }

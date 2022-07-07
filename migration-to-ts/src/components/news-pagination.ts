@@ -12,7 +12,7 @@ export class NewsPagination extends Component {
   private data?: PaginationData;
   private activeItem: Element | null;
 
-  constructor(handlers: ComponentHandlers = {}, data?: PaginationData) {
+  constructor(handlers: ComponentHandlers = {}, data?: PaginationData, ) {
     super({
       handlers,
       view: new NewsPaginationView({ data })

@@ -14,6 +14,6 @@ export class SearchFilterView extends View {
     const searchFilterTemp = selectFrom(document)('#searchFilterTemp') as HTMLTemplateElement;
     const searchFilterClone = searchFilterTemp.content.cloneNode(true) as HTMLElement;
     
-    this.contentEl?.append(searchFilterClone);
+    super.render(searchFilterClone);
   }
 }
