@@ -3,7 +3,6 @@ import { ProductsListView } from '@views/products-list';
 import { ProductsListItemView } from '../views/products-list-item/index';
 import json from '../../assets/data-sample.json';
 import { BASE_URL, PROPS, SPECS } from '@common/constants';
-import { FilterComponent } from './filters/filters-data';
 import { Filter } from './filters/filter';
 
 const url = `${BASE_URL}/data.json`;
@@ -42,9 +41,24 @@ export class ProductsList extends Component {
     this.products = [];
 
     this.onLoadingStart();
+    
+    // fetch(url)
+    //   .then((res): Promise<Product[]> => res.json())
+    //   .then((data: Product[]) => {
+    //     this.onLoadingEnd();
+    //     this.products = data;
+    //     this.handlers?.onDataLoad(this.products);
+    //     this.update(this.products);
+    //   })
+    //   .catch((err: Error) => {
+    //     this.handlers?.onDataLoad(this.products);
+    //     super.update(err.message);
+    //   })
+
     setTimeout(() => {
       this.onLoadingEnd();
       this.products = json;
+      this.handlers?.onDataLoad(this.products);
       this.update(this.products);
     }, 500);
   }
@@ -66,7 +80,9 @@ export class ProductsList extends Component {
 
   public onFiltersChange(filters: Filter[]): void {
     const filtred = this.products.filter((item) => {
-      return filters.reduce((acc, filter) => acc && filter.check(item), true);
+      return filters.reduce((acc, filter) => (
+        acc && filter.check(item)
+      ), true);
     });
 
     this.update(filtred);

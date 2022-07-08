@@ -11,6 +11,6 @@ export class Button extends Component {
   }
 
   protected onClick = (): void => {
-    (this.props.handlers?.onClick as () => void)();
+    this.props.handlers?.onClick();
   }
 }

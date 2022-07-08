@@ -1,4 +1,4 @@
-import { ComponentHandler, ComponentHandlers } from "@core/component";
+import { ComponentHandlers } from "@core/component";
 import { View } from "@core/view";
 import { Filter, FilterData } from "./filter";
 import { Range } from "../range";
@@ -19,18 +19,18 @@ export class RangeFilter extends Filter {
     this.left = data.min || 0;
     this.right = data.max || 0;
     this.components.filterListItem = new FiltersListItem(data, Range, {
-      onChange: this.handleChange as ComponentHandler,
+      onChange: this.handleChange,
     })
   }
 
-  private handleChange = (data: { left: number, right: number }): void => {
-    this.left = data.left;
-    this.right = data.right;
+  private handleChange = (data?: { left: number, right: number }): void => {
+    this.left = data?.left || 0;
+    this.right = data?.right || 0;
     this.handlers?.onFilterChange();
   };
 
   static getFilterData = (getProp: PropPicker) => (data: Product[]) => {
-    const values = data.map((item) => getProp(item)) as number[];
+    const values = data.map((item) => Number(getProp(item)));
     return { 
       min: Math.min(...values),
       max: Math.max(...values),
@@ -38,7 +38,7 @@ export class RangeFilter extends Filter {
   };
 
   public check(product: Product): boolean {
-    const value = this.propPicker(product) as number;
+    const value = Number(this.propPicker(product));
 
     return value >= this.left && value <= this.right;
   }

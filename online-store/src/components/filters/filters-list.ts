@@ -1,9 +1,10 @@
-import { Component, ComponentHandler, ComponentHandlers } from "@core/component";
+import { Component, ComponentHandlers } from "@core/component";
 import { FiltersListView } from "@views/filters-list";
 import { Product } from "../products-list";
 import json from '@assets/data-sample.json';
 import { FILTER_NAME } from "@common/constants";
 import { filtersData } from './filters-data';
+import { isFilters } from "./filter";
 
 export class FiltersList extends Component {
 
@@ -14,29 +15,32 @@ export class FiltersList extends Component {
     });
 
     this.onLoadingStart();
-    setTimeout(() => {
-      this.onLoadingEnd();
-      this.update(json as Product[])
-    }, 500);
   }
 
   private handleFiltersChange = (): void => {
-    this.handlers?.onFiltersChange(this.components.filters);
+    const { filters } = this.components;
+    if (Array.isArray(filters) && isFilters(filters))
+      this.handlers?.onFiltersChange(filters);
+  }
+
+  public onDataLoad(data: Product[]): void {
+    this.onLoadingEnd();
+    this.update(data);
   }
 
   public update(data: Product[]): void {
-    const filtersKeys = Object.keys(filtersData) as FILTER_NAME[];
-    this.components.filters = filtersKeys.map((key) => {
-      const { component, propPicker, title } = filtersData[key];
+    const filtersEntries = Object.entries(filtersData);
+    this.components.filters = filtersEntries.map(([name, filterData]) => {
+      const { component, propPicker, title } = filterData;
       return new component(
         {
           propPicker,
           ...component.getFilterData(propPicker)(data),
-          name: key,
+          name,
           title,
         },
         {
-          onFilterChange: this.handleFiltersChange as ComponentHandler,
+          onFilterChange: this.handleFiltersChange,
         }
       );
     })

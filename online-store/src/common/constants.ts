@@ -57,7 +57,7 @@ export const SPECS = [
   'suspensionIncluded',
   'maxVerticalSpeed',
   'memoryCardTypeAndCapacity',
-] as const;
+];
 
 export const PROPS = [
   'dimensions',
@@ -70,4 +70,4 @@ export const PROPS = [
   'mobileSupport',
   'remoteControlDevice',
   'photoAndVideo'
-] as const;
+];

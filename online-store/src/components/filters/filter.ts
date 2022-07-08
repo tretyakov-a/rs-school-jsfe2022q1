@@ -1,15 +1,22 @@
 import { Component, ComponentProps } from "@core/component";
-import { FILTER_NAME } from '@common/constants';
 import { Product } from "@components/products-list";
 import { PropPicker } from "./filters-data";
 
 export type FilterData = {
-  name: FILTER_NAME;
+  name: string;
   title: string;
   propPicker: PropPicker;
   values?: Record<string, number>;
   min?: number;
   max?: number;
+}
+
+export function isFilter(component: Component): component is Filter {
+  return component instanceof Filter;
+}
+
+export function isFilters(components: Component[]): components is Filter[] {
+  return components.every(isFilter)
 }
 
 export class Filter extends Component {
@@ -25,6 +32,6 @@ export class Filter extends Component {
   }
 
   public check(product?: Product): boolean {
-    return false;
+    return product !== undefined && this.propPicker(product) !== undefined;
   }
 }

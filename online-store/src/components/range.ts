@@ -66,7 +66,9 @@ export class Range extends Component {
   }
 
   private handleLeftRangeChange = (e: Event): void => {
-    const el = e.target as HTMLInputElement;
+    const el = e.target;
+    if (!(el instanceof HTMLInputElement)) return;
+
     const leftValue = Number(el.value);
     if (leftValue > this.right) {
       el.value = String(this.right);
@@ -78,7 +80,9 @@ export class Range extends Component {
   }
 
   private handleRightRangeChange = (e: Event): void => {
-    const el = e.target as HTMLInputElement;
+    const el = e.target;
+    if (!(el instanceof HTMLInputElement)) return;
+    
     const rightValue = Number(el.value);
     if (rightValue < this.left) {
       el.value = String(this.left);

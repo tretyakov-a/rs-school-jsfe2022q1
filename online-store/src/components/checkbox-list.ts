@@ -22,10 +22,9 @@ export class CheckboxList extends Component {
 
   private handleChange = () => {
     const values = [...this.checkboxes].reduce((acc: string[], el) => {
-      const checkbox = el as HTMLInputElement;
-      return checkbox.checked
-        ? [ ...acc, checkbox.value ]
-        : acc;
+      return el instanceof HTMLInputElement && el.checked
+        ? [ ...acc, el.value ]
+        : acc;   
     }, []);
     this.handlers?.onChange(values);
   }

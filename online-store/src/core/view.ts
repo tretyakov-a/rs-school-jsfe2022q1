@@ -40,19 +40,19 @@ export class View {
   }
 
   public clear(): void {
-    (this.contentEl as HTMLElement).innerHTML = '';
+    if (this.contentEl) this.contentEl.innerHTML = '';
   }
 
   public render(data?: unknown): void {
     if (this.contentEl !== this.root) {
       this.clear();
     }
-    if (data !== undefined && data instanceof Node) {
-      this.el = data as HTMLElement;
+    if (data !== undefined && data instanceof HTMLElement) {
+      this.el = data;
       return this.contentEl?.append(data);
     } 
     if (data !== undefined && typeof data === 'string') {
-      (this.contentEl as HTMLElement).innerHTML = data;
+      if (this.contentEl) this.contentEl.innerHTML = data;
       return;
     }
   }

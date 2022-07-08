@@ -1,6 +1,15 @@
 import { DEFAULT_FILTER_OPTION } from "./constants";
 
-export const selectFrom = (el: HTMLElement | Document) => (query: string): HTMLElement => el.querySelector(query) as HTMLElement;
+export const withNullCheck = (el: Element | null): HTMLElement => {
+  if (el === null || !(el instanceof HTMLElement)) {
+    throw new TypeError();
+  }
+  return el;
+}
+
+export const selectFrom = (el: HTMLElement | Document) => (query: string): HTMLElement => {
+  return withNullCheck(el.querySelector(query));
+};
 
 const createOption = (value: string): HTMLElement => {
   const optionEl = document.createElement('option');

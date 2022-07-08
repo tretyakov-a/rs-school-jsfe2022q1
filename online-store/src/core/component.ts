@@ -1,7 +1,8 @@
+import { withNullCheck } from "@common/utils";
 import { View } from "@core/view";
 import { SpinnerView } from '@views/spinner';
 
-export type ComponentHandler = <T>(data?: T) => void;
+export type ComponentHandler = (() => void) | ((data?: unknown) => void);
 export type ComponentHandlers = Record<string, ComponentHandler>
 
 export type ComponentProps = {
@@ -27,15 +28,15 @@ export class Component {
   }
 
   protected getContentEl(): HTMLElement {
-    return this.view.getContentEl() as HTMLElement;
+    return withNullCheck(this.view.getContentEl());
   }
 
   protected getRoot(): HTMLElement {
-    return this.view.getRoot() as HTMLElement;
+    return withNullCheck(this.view.getRoot());
   }
 
   protected getElement(): HTMLElement {
-    return this.view.getElement() as HTMLElement;
+    return withNullCheck(this.view.getElement());
   }
 
   protected onLoadingStart(): void {
