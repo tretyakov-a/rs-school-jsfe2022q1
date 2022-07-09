@@ -162,33 +162,6 @@ ul {
   border: 1px solid var(--primary-color-2)
 }
 
-.cart {
-  font-family: var(--special-font-family);
-  font-size: 20px;
-  position: relative;
-  height: auto;
-
-  &__total {
-    position: absolute;
-    z-index: 1;
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    background-color: var(--secondary-color-2);
-    border-radius: 50%;
-    top: -3px;
-    right: -3px;
-    color: var(--bg-color);
-    font-weight: 700;
-    font-size: 14px;
-    text-align: center;
-  }
-
-  &__link {
-
-  }
-}
-
 .rsschool-logo {
   display: block;
   width: var(--rss-logo-size);

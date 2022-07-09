@@ -4,8 +4,8 @@ export const BASE_URL = 'https://raw.githubusercontent.com/tretyakov-a/online-st
 
 export enum EVENT {
   PRODUCTS_LOAD = 'onProductsLoad',
-  FILTER_CHANGE = 'onFilterChange',
   FILTERS_CHANGE = 'onFiltersChange',
+  ADD_TO_CART = 'onAddToCart',
 }
 
 export enum FILTER_NAME {

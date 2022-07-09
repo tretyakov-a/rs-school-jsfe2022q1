@@ -1,5 +1,4 @@
 import { selectFrom, withNullCheck } from "@common/utils";
-import { FilterOptions } from "@components/filters/filter";
 import { View, ViewOptions } from "@core/view";
 import { SpinnerView } from '@views/spinner';
 import { Emmiter } from "./emmiter";
@@ -164,6 +163,7 @@ export class Component {
   }
 
   protected onDestroy() {
+    // console.log('Removing listeners: ', this.listenersForRemove.length);
     this.listenersForRemove.forEach((fn) => fn.call(null));
     this.removeChildrens();
   }

@@ -1,10 +1,9 @@
 import { Component, ComponentProps } from '@core/component';
 import { ProductsListView } from '@views/products-list';
-import { ProductsListItemView } from '../views/products-list-item/index';
 import json from '../../assets/data-sample.json';
 import { BASE_URL, EVENT, PROPS, SPECS } from '@common/constants';
 import { Filter } from './filters/filter';
-import { useCustom } from '@common/utils';
+import { ProductsListItem } from './products-list-item';
 
 const url = `${BASE_URL}/data.json`;
 
@@ -28,18 +27,26 @@ export interface Product {
   brand: string;
   brandImage: string;
   description: string;
-  props: ProductProp
+  props: ProductProp;
+};
+
+export type ProductsLoadEventData = {
+  products: Product[];
+  productInCartIds: string[];
 };
 
 export class ProductsList extends Component {
   private products: Product[];
+  private productInCartIds: string[];
 
   constructor(props: ComponentProps) {
     super({
       ...props,
       viewConstructor: ProductsListView,
     });
+
     this.products = [];
+    this.productInCartIds = [ '795abdd5e7673332', '279079561d533332' ];
     this.onLoadingStart();
     
     // fetch(url)
@@ -61,22 +68,36 @@ export class ProductsList extends Component {
 
   private handleDataLoad = (data: Product[]) => {
     this.products = data;
-    this.emit(EVENT.PRODUCTS_LOAD, this.products);
-    this.onLoadingEnd(this.products);
+    const { products, productInCartIds } = this;
+    this.emit(EVENT.PRODUCTS_LOAD, { products, productInCartIds });
+    this.onLoadingEnd(products);
   }
 
   public update(data: Product[]): void {
     this.components = data.map((item) => {
-      return ['products', Component, {
-        viewConstructor: ProductsListItemView,
-        data: item,
+      return ['products', ProductsListItem, {
+        data: {
+          product: item,
+          isInCart: this.productInCartIds.includes(item.id),
+        },
+        handlers: {
+          onClick: this.handleAddToCart
+        }
       }]
     });
 
     super.update();
   }
 
-  public handleFiltersChange = (e: CustomEvent<Filter[]>): void => {
+  private handleAddToCart = (productId: string = ''): void => {
+    const product = this.products.find((item) => item.id === productId);
+    if (product !== undefined && !this.productInCartIds.includes(product.id)) {
+      this.emit(EVENT.ADD_TO_CART, product);
+      this.productInCartIds.push(product.id);
+    }
+  }
+
+  private handleFiltersChange = (e: CustomEvent<Filter[]>): void => {
     const filters = e.detail;
     const filtred = this.products.filter((item) => {
       return filters.reduce((acc, filter) => (

@@ -1,9 +1,9 @@
 import { Component, ComponentProps } from '@core/component';
 import { FooterView } from '@views/footer';
-import { HeaderView } from '@views/header';
-import Main from './main';
+import { Header } from './header';
+import { Main } from './main';
 
-class App extends Component {
+export class App extends Component {
   constructor(props: ComponentProps, rootSelector: string) {
     super({
       ...props,
@@ -11,11 +11,9 @@ class App extends Component {
     });
 
     this.components = [
-      ['header', Component, {
-        viewConstructor: HeaderView
-      }],
-      [ 'main', Main ],
-      [ 'footer', Component, {
+      ['header', Header],
+      ['main', Main ],
+      ['footer', Component, {
         viewConstructor: FooterView,
       }]
     ];
@@ -24,4 +22,3 @@ class App extends Component {
   }
 }
 
-export default App;

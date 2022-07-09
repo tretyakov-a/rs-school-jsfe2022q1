@@ -1,14 +1,14 @@
 import './products-list-item.scss';
-import { View, ViewOptions } from '@core/view';
-import { Product } from '@components/products-list';
+import { View } from '@core/view';
 import listItemTemplate from './products-list-item.ejs';
+import { ProductViewOptions } from '@components/products-list-item';
 
 export class ProductsListItemView extends View {
 
-  public render(data: Product): void {
+  public render(data: ProductViewOptions): void {
     const container = document.createElement('li');
     container.className = 'products-list__item';
-    container.innerHTML = listItemTemplate(data);
+    container.innerHTML = listItemTemplate(data.product);
     super.render(container);
   }
 }

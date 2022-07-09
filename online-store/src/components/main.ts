@@ -4,7 +4,7 @@ import { DisplayFilters } from './display-filters';
 import { FiltersList } from './filters/filters-list';
 import { ProductsList } from './products-list';
 
-class Main extends Component {
+export class Main extends Component {
   constructor(props: ComponentProps) {
     super({
       ...props,
@@ -20,5 +20,3 @@ class Main extends Component {
     this.update();
   }
 }
-
-export default Main;
