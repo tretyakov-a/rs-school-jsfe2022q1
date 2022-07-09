@@ -1,16 +1,18 @@
-import { Component, ComponentHandlers } from "@core/component";
+import { Component, ComponentProps } from "@core/component";
 import { RadioGroupView } from "@views/radio-group";
 
 export class RadioGroup extends Component {
 
-  constructor(root: HTMLElement, handlers: ComponentHandlers = {}) {
+  constructor(props: ComponentProps) {
     super({
-      handlers,
-      view: new RadioGroupView({
-        root,
-        contentEl: '.products-view-filter',
-      })
+      ...props,
+      viewConstructor: RadioGroupView,
+      viewOptions: {
+        mountPoint: '.products-view-filter',
+      }
     });
+
+    this.update();
   }
 
 }

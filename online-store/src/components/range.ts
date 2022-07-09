@@ -1,39 +1,57 @@
-import { Component, ComponentHandlers } from "@core/component";
+import { Component, ComponentProps } from "@core/component";
 import { RangeView } from "@views/range";
 import { selectFrom } from '@common/utils';
-import { FilterData } from "./filters/filter";
+import { withNullCheck } from '@common/utils';
 
 export type RangeOptions = {
   name: string,
   min: number;
   max: number;
 }
+
+export type RangeProps = ComponentProps & {
+  componentOptions?: RangeOptions;
+}
+
 export class Range extends Component {
   private min: number;
   private max: number;
   private left: number;
   private right: number;
-  private minEl: HTMLElement;
-  private maxEl: HTMLElement;
-  private trackEl: HTMLElement;
-  private leftInputEl: HTMLElement;
-  private rightInputEl: HTMLElement;
+  private minEl: HTMLElement | null;
+  private maxEl: HTMLElement | null;
+  private trackEl: HTMLElement | null;
+  private leftInputEl: HTMLElement | null;
+  private rightInputEl: HTMLElement | null;
 
-  constructor(data: FilterData, root: HTMLElement, handlers: ComponentHandlers = {}) {
+  constructor(props: RangeProps) {
     super({
-      handlers,
-      view: new RangeView({
-        data, root,
-        contentEl: '.filter__content',
-      })
+      ...props,
+      viewConstructor: RangeView,
     });
 
-    const select = selectFrom(this.getRoot());
-    this.min = data.min || 0;
-    this.max = data.max || 0;
+    this.minEl = null;
+    this.maxEl = null;
+    this.trackEl = null;
+    this.leftInputEl = null;
+    this.rightInputEl = null;
+    
+    const { componentOptions } = props;
+    if (!componentOptions) throw new TypeError();
 
+    this.min = componentOptions.min || 0;
+    this.max = componentOptions.max || 0;
+    
     this.left = this.min;
     this.right = this.max;
+    
+    this.update(componentOptions);
+  }
+
+  protected update(data?: RangeOptions): void {
+    super.update(data);
+
+    const select = selectFrom(this.getRoot());
     this.minEl = select('.range__min');
     this.maxEl = select('.range__max');
     this.trackEl = select('.range__track-inner');
@@ -56,13 +74,13 @@ export class Range extends Component {
   }
 
   private handleLeftRangeFocus = (): void => {
-    this.leftInputEl.classList.add('range__input_top');
-    this.rightInputEl.classList.remove('range__input_top');
+    this.leftInputEl?.classList.add('range__input_top');
+    this.rightInputEl?.classList.remove('range__input_top');
   }
   
   private handleRightRangeFocus = (): void => {
-    this.leftInputEl.classList.remove('range__input_top');
-    this.rightInputEl.classList.add('range__input_top');
+    this.leftInputEl?.classList.remove('range__input_top');
+    this.rightInputEl?.classList.add('range__input_top');
   }
 
   private handleLeftRangeChange = (e: Event): void => {
@@ -75,7 +93,7 @@ export class Range extends Component {
       return e.preventDefault();
     }
     this.left = leftValue;
-    this.minEl.textContent = `${leftValue}`;
+    withNullCheck(this.minEl).textContent = `${leftValue}`;
     this.setTrackWidth();
   }
 
@@ -89,7 +107,7 @@ export class Range extends Component {
       return e.preventDefault();
     }
     this.right = rightValue;
-    this.maxEl.textContent = `${rightValue}`;
+    withNullCheck(this.maxEl).textContent = `${rightValue}`;
     this.setTrackWidth();
   }
 
@@ -98,7 +116,7 @@ export class Range extends Component {
     const leftValue = ((left - min) / (max - min)) * 100;
     const rightValue = ((max - right) / (max - min)) * 100;
     const width = 100 - leftValue - rightValue;
-    this.trackEl.style.left = `${leftValue}%`;
-    this.trackEl.style.width = `${width}%`;
+    withNullCheck(this.trackEl).style.left = `${leftValue}%`;
+    withNullCheck(this.trackEl).style.width = `${width}%`;
   }
 }

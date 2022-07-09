@@ -1,25 +1,26 @@
-import { Component, ComponentHandlers } from "@core/component";
+import { Component, ComponentProps } from "@core/component";
 import { DisplayFiltersView } from "@views/display-filters";
 import { SelectView } from "@views/select";
 import { RadioGroup } from './radio-group';
 
 export class DisplayFilters extends Component {
 
-  constructor(handlers: ComponentHandlers = {}) {
+  constructor(props: ComponentProps) {
     super({
-      handlers,
-      view: new DisplayFiltersView(),
+      ...props,
+      viewConstructor: DisplayFiltersView,
     });
 
-    this.components = {
-      productViewFilter: new RadioGroup(this.getRoot()),
-
-      productSortFilter: new Component({
-        view: new SelectView({
-          root: this.getRoot(),
-          contentEl: '.products-sort-filter',
-        })
-      })
-    }
+    this.components = [
+      ['productViewFilter', RadioGroup],
+      ['productSortFilter', Component, {
+        viewConstructor: SelectView,
+        viewOptions: {
+          mountPoint: '.products-sort-filter'
+        }
+      }],
+    ];
+    
+    this.update();
   }
 }

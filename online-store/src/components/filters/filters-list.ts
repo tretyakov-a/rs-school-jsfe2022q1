@@ -1,48 +1,50 @@
-import { Component, ComponentHandlers } from "@core/component";
+import { ChildComponentData, Component, ComponentProps } from "@core/component";
 import { FiltersListView } from "@views/filters-list";
 import { Product } from "../products-list";
-import json from '@assets/data-sample.json';
-import { FILTER_NAME } from "@common/constants";
-import { filtersData } from './filters-data';
+import { FilterConfig, filtersData } from './filters-data';
 import { isFilters } from "./filter";
+import { useCustom } from "@common/utils";
+import { EVENT } from "@common/constants";
+
 
 export class FiltersList extends Component {
 
-  constructor(handlers: ComponentHandlers = {}) {
+  constructor(props: ComponentProps = {}) {
     super({
-      handlers,
-      view: new FiltersListView(),
+      ...props,
+      viewConstructor: FiltersListView,
     });
-
+    
+    this.on(EVENT.PRODUCTS_LOAD, this.handleDataLoad);
+    this.on(EVENT.FILTER_CHANGE, this.handleFiltersChange);
     this.onLoadingStart();
   }
 
+  private filterDataToComponent = (
+    [ name, { component, propPicker, title } ]: [string, FilterConfig]
+  ): ChildComponentData => ([
+    'filters', component,
+    {
+      handlers: {
+        onFilterChange: this.handleFiltersChange,
+      },
+      root: this.getMountPoint(),
+      componentOptions: {
+        propPicker, name, title
+      }
+    }
+  ])
+
   private handleFiltersChange = (): void => {
-    const { filters } = this.components;
-    if (Array.isArray(filters) && isFilters(filters))
-      this.handlers?.onFiltersChange(filters);
+    const { filters } = this.getComponents();
+    if (Array.isArray(filters) && isFilters(filters)) {
+      this.emit(EVENT.FILTERS_CHANGE, filters);
+    }
   }
 
-  public onDataLoad(data: Product[]): void {
-    this.onLoadingEnd();
-    this.update(data);
-  }
-
-  public update(data: Product[]): void {
-    const filtersEntries = Object.entries(filtersData);
-    this.components.filters = filtersEntries.map(([name, filterData]) => {
-      const { component, propPicker, title } = filterData;
-      return new component(
-        {
-          propPicker,
-          ...component.getFilterData(propPicker)(data),
-          name,
-          title,
-        },
-        {
-          onFilterChange: this.handleFiltersChange,
-        }
-      );
-    })
+  public handleDataLoad = (e: CustomEvent<Product[]>): void => {
+    const data = e.detail;
+    this.components = Object.entries(filtersData).map(this.filterDataToComponent);
+    this.onLoadingEnd(data);
   }
 }

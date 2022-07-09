@@ -1,26 +1,26 @@
-import { Component } from '@core/component';
-import { View } from '@core/view';
+import { Component, ComponentProps } from '@core/component';
 import { FooterView } from '@views/footer';
 import { HeaderView } from '@views/header';
 import Main from './main';
 
 class App extends Component {
-  constructor(rootSelector: string) {
+  constructor(props: ComponentProps, rootSelector: string) {
     super({
-      view: new View({
-        root: rootSelector,
-      }),
+      ...props,
+      root: rootSelector
     });
 
-    this.components = {
-      header: new Component({
-        view: new HeaderView(),
-      }),
-      main: new Main(),
-      footer: new Component({
-        view: new FooterView(),
-      })
-    }
+    this.components = [
+      ['header', Component, {
+        viewConstructor: HeaderView
+      }],
+      [ 'main', Main ],
+      [ 'footer', Component, {
+        viewConstructor: FooterView,
+      }]
+    ];
+
+    this.update();
   }
 }
 

@@ -1,38 +1,23 @@
-import { Component, ComponentHandlers } from '@core/component';
+import { Component, ComponentProps } from '@core/component';
 import { MainView } from '@views/main';
 import { DisplayFilters } from './display-filters';
-import { Filter } from './filters/filter';
 import { FiltersList } from './filters/filters-list';
-import { Product, ProductsList } from './products-list';
+import { ProductsList } from './products-list';
 
 class Main extends Component {
-  constructor(handlers: ComponentHandlers = {}) {
+  constructor(props: ComponentProps) {
     super({
-      handlers,
-      view: new MainView(),
+      ...props,
+      viewConstructor: MainView,
     });
 
-    this.components = {
-      filtersList: new FiltersList({
-        onFiltersChange: this.handleFiltersChange,
-      }),
-      displayFilters: new DisplayFilters(),
-      productsList: new ProductsList({
-        onDataLoad: this.handleDataLoad,
-      })
-    }
-  }
+    this.components = [
+      ['filtersList', FiltersList],
+      ['displayFilters', DisplayFilters],
+      ['productsList', ProductsList],
+    ];
 
-  private handleFiltersChange = (filters?: Filter[]): void => {
-    const { productsList } = this.components;
-    if (productsList instanceof ProductsList)
-      productsList.onFiltersChange(filters || []);
-  };
-
-  private handleDataLoad = (data?: Product[]): void => {
-    const { filtersList } = this.components;
-    if (filtersList instanceof FiltersList)
-      filtersList.onDataLoad(data || []);
+    this.update();
   }
 }
 

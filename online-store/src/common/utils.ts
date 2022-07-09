@@ -1,7 +1,18 @@
 import { DEFAULT_FILTER_OPTION } from "./constants";
 
-export const withNullCheck = (el: Element | null): HTMLElement => {
-  if (el === null || !(el instanceof HTMLElement)) {
+export function isCustomEvent(evt: Event): evt is CustomEvent {
+  return 'detail' in evt;
+}
+
+export const useCustom = (listener: (e: CustomEvent) => void) => (evt: Event) => {
+  if (!isCustomEvent(evt)) {
+    throw new TypeError();
+  }
+  listener(evt);
+}
+
+export const withNullCheck = (el?: Element | null): HTMLElement => {
+  if (!el || !(el instanceof HTMLElement)) {
     throw new TypeError();
   }
   return el;

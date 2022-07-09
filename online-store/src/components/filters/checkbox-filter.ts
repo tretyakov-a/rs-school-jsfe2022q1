@@ -1,24 +1,33 @@
-import { ComponentHandlers } from "@core/component";
-import { View } from "@core/view";
-import { Filter, FilterData } from "./filter";
+import { Filter, FilterProps } from "./filter";
 import { CheckboxList } from '../checkbox-list';
 import { FiltersListItem } from './fitlers-list-item';
 import { Product } from "@components/products-list";
-import { PropPicker } from "./filters-data";
 
 export class CheckboxFilter extends Filter {
   protected checkedValues: string[];
 
-  constructor(data: FilterData, handlers: ComponentHandlers = {}) {
-    super(data, {
-      handlers,
-      view: new View()
-    });
+  constructor(props: FilterProps) {
+    super(props);
+    const { data, componentOptions } = props;
+    if (!data || !componentOptions) throw new TypeError();
 
     this.checkedValues = [];
-    this.components.filterListItem = new FiltersListItem(data, CheckboxList, {
-      onChange: this.handleChange,
-    });
+    const filterData = this.getFilterData(data || []);
+
+    this.components = [
+      ['filterListItem', FiltersListItem, {
+        handlers: {
+          onChange: this.handleChange,
+        },
+        componentOptions: {
+          ...componentOptions,
+          ...filterData,
+          filterComponent: CheckboxList
+        }
+      }]
+    ];
+
+    this.update();
   }
 
   private handleChange = (data?: string[]): void => {
@@ -26,9 +35,9 @@ export class CheckboxFilter extends Filter {
     this.handlers?.onFilterChange();
   };
 
-  static getFilterData = (getProp: PropPicker) => (data: Product[]) => {
+  private getFilterData = (data: Product[]) => {
     const values = data.reduce((acc: Record<string, number>, item) => {
-      const prop = getProp(item); 
+      const prop = this.propPicker(item); 
       if (prop) {
         acc[prop] = acc[prop] ? acc[prop] + 1 : 1;
       }

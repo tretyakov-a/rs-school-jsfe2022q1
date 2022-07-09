@@ -1,22 +1,38 @@
-import { CheckboxList } from "@components/checkbox-list";
-import { Component, ComponentHandlers } from "@core/component";
+import { Component, ComponentProps } from "@core/component";
 import { FiltersListItemView } from "@views/filters-list-item";
-import { FilterData } from "./filter";
-import { Range } from "@components/range";
 
-export type FilterContentComponent = typeof CheckboxList | typeof Range;
+export type FilterItemOptions = {
+  filterComponent: typeof Component;
+  title: string;
+}
+
+export type FilterItemProps = ComponentProps & {
+  componentOptions?: FilterItemOptions
+}
 
 export class FiltersListItem extends Component {
+  private filterComponent: typeof Component;
 
-  constructor(data: FilterData, filterComponent: FilterContentComponent, handlers: ComponentHandlers = {}) {
+  constructor(props: FilterItemProps) {
     super({
-      view: new FiltersListItemView({ data }),
+      ...props,
+      viewConstructor: FiltersListItemView,
     });
+    const { componentOptions } = props;
+    if (!componentOptions) throw new TypeError();
 
-    if (filterComponent) {
-      this.components.filter = new filterComponent(
-        data, this.getElement(), handlers
-      );
-    }
+    this.filterComponent = componentOptions.filterComponent || Component;
+
+    this.components = [
+      ['filter', this.filterComponent, {
+        componentOptions,
+        handlers: this.handlers,
+        viewOptions: {
+          mountPoint: '.filter__content'
+        }
+      }]
+    ]
+
+    this.update(componentOptions);
   }
 }

@@ -3,11 +3,6 @@ import { View } from '@core/view';
 import headerTemplate from './header.ejs';
 
 export class HeaderView extends View {
-  constructor() {
-    super({
-      root: '#app',
-    })
-  }
 
   public render(): void {
     const header = document.createElement('header');

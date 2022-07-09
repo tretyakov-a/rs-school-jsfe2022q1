@@ -2,33 +2,32 @@ import { selectFrom } from '@common/utils';
 
 export type ViewOptions = {
   data?: unknown;
-  root?: string | HTMLElement;
-  contentEl?: string | HTMLElement;
+  root?: string | HtmlElement;
+  mountPoint?: string | HTMLElement;
 }
 
 type HtmlElement = HTMLElement | null;
 
 export class View {
   protected root: HtmlElement;
-  protected contentEl: HtmlElement;
+  protected mountPoint: HtmlElement;
   protected el: HtmlElement;
   
   constructor(options: ViewOptions = {}) {
-    const { root, contentEl } = options;
+    const { root, mountPoint } = options;
     this.root = root
       ? typeof root === 'string' ? selectFrom(document)(root) : root
       : null;
-    this.contentEl = contentEl
-      ? typeof contentEl === 'string'
-        ? selectFrom(this.root ? this.root : document)(contentEl)
-        : contentEl
+    this.mountPoint = mountPoint
+      ? typeof mountPoint === 'string'
+        ? selectFrom(this.root ? this.root : document)(mountPoint)
+        : mountPoint
       : this.root;
     this.el = null;
-    this.render(options.data);
   }
 
-  public getContentEl(): HtmlElement {
-    return this.contentEl === null ? this.root : this.contentEl;
+  public getMountPoint(): HtmlElement {
+    return this.mountPoint === null ? this.root : this.mountPoint;
   }
 
   public getRoot(): HtmlElement {
@@ -40,19 +39,20 @@ export class View {
   }
 
   public clear(): void {
-    if (this.contentEl) this.contentEl.innerHTML = '';
+    if (this.mountPoint) this.mountPoint.innerHTML = '';
   }
 
   public render(data?: unknown): void {
-    if (this.contentEl !== this.root) {
+    this.el = this.mountPoint;
+    if (this.mountPoint !== this.root) {
       this.clear();
     }
     if (data !== undefined && data instanceof HTMLElement) {
       this.el = data;
-      return this.contentEl?.append(data);
+      return this.mountPoint?.append(data);
     } 
     if (data !== undefined && typeof data === 'string') {
-      if (this.contentEl) this.contentEl.innerHTML = data;
+      if (this.mountPoint) this.mountPoint.innerHTML = data;
       return;
     }
   }

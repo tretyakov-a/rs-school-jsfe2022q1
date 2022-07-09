@@ -1,26 +1,35 @@
-import { ComponentHandlers } from "@core/component";
-import { View } from "@core/view";
-import { Filter, FilterData } from "./filter";
+import { Filter, FilterProps } from "./filter";
 import { Range } from "../range";
 import { FiltersListItem } from "./fitlers-list-item";
 import { Product } from "@components/products-list";
-import { PropPicker } from "./filters-data";
 
 export class RangeFilter extends Filter {
   protected left: number;
   protected right: number;
 
-  constructor(data: FilterData, handlers: ComponentHandlers = {}) {
-    super(data, {
-      handlers,
-      view: new View()
-    });
+  constructor(props: FilterProps) {
+    super(props);
+    const { data, componentOptions } = props;
+    if (!data || !componentOptions) throw new TypeError();
 
-    this.left = data.min || 0;
-    this.right = data.max || 0;
-    this.components.filterListItem = new FiltersListItem(data, Range, {
-      onChange: this.handleChange,
-    })
+    const filterData = this.getFilterData(data || []);
+    this.left = filterData.min;
+    this.right = filterData.max;
+
+    this.components = [
+      ['filterListItem', FiltersListItem, {
+        handlers: {
+          onChange: this.handleChange,
+        },
+        componentOptions: {
+          ...componentOptions,
+          ...filterData,
+          filterComponent: Range
+        }
+      }]
+    ];
+
+    this.update();
   }
 
   private handleChange = (data?: { left: number, right: number }): void => {
@@ -29,8 +38,8 @@ export class RangeFilter extends Filter {
     this.handlers?.onFilterChange();
   };
 
-  static getFilterData = (getProp: PropPicker) => (data: Product[]) => {
-    const values = data.map((item) => Number(getProp(item)));
+  private getFilterData = (data: Product[]) => {
+    const values = data.map((item) => Number(this.propPicker(item)));
     return { 
       min: Math.min(...values),
       max: Math.max(...values),

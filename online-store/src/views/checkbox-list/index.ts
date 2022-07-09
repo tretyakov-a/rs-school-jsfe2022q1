@@ -1,11 +1,10 @@
 import './checkbox-list.scss';
 import checkboxListTemplate from './checkbox-list.ejs';
 import { View } from '@core/view';
-import { FilterData } from "@components/filters/filter";
+import { CheckboxListOptions } from '@components/checkbox-list';
 
 export class CheckboxListView extends View {
-
-  public render(data: FilterData): void {
+  public render(data: CheckboxListOptions): void {
     super.render(checkboxListTemplate(data));
   }  
 }

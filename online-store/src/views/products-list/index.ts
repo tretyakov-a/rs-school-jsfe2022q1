@@ -1,12 +1,12 @@
 import './products-list.scss';
-import { View  } from '@core/view';
+import { View, ViewOptions  } from '@core/view';
 import { Product } from '@components/products-list';
 
 export class ProductsListView extends View {
-  constructor() {
+  constructor(options: ViewOptions = {}) {
     super({
-      root: '.main__right',
-      contentEl: '.products-list',
+      ...options,
+      mountPoint: '.products-list',
     })
   }
 

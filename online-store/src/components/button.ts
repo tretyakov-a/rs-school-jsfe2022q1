@@ -1,16 +1,20 @@
 import { selectFrom } from "@common/utils";
-import { Component, ComponentHandlers } from "@core/component";
-import { View } from "@core/view";
+import { Component, ComponentProps } from "@core/component";
 
 export class Button extends Component {
-  constructor(handlers: ComponentHandlers = {}, view: View) {
-    super({ handlers, view });
+  constructor(props: ComponentProps) {
+    super(props);
 
-    selectFrom(this.getRoot())('button')
-      .addEventListener('click', () => this.onClick());
+    this.update();
+  }
+
+  protected update(): void {
+    super.update();
+
+    selectFrom(this.getRoot())('button').addEventListener('click', () => this.onClick());
   }
 
   protected onClick = (): void => {
-    this.props.handlers?.onClick();
+    this.handlers?.onClick();
   }
 }

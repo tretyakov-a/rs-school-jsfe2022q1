@@ -1,9 +1,10 @@
-import { Component, ComponentHandlers } from '@core/component';
+import { Component, ComponentProps } from '@core/component';
 import { ProductsListView } from '@views/products-list';
 import { ProductsListItemView } from '../views/products-list-item/index';
 import json from '../../assets/data-sample.json';
-import { BASE_URL, PROPS, SPECS } from '@common/constants';
+import { BASE_URL, EVENT, PROPS, SPECS } from '@common/constants';
 import { Filter } from './filters/filter';
+import { useCustom } from '@common/utils';
 
 const url = `${BASE_URL}/data.json`;
 
@@ -33,52 +34,50 @@ export interface Product {
 export class ProductsList extends Component {
   private products: Product[];
 
-  constructor(handlers: ComponentHandlers = {}) {
+  constructor(props: ComponentProps) {
     super({
-      handlers,
-      view: new ProductsListView(),
+      ...props,
+      viewConstructor: ProductsListView,
     });
     this.products = [];
-
     this.onLoadingStart();
     
     // fetch(url)
     //   .then((res): Promise<Product[]> => res.json())
     //   .then((data: Product[]) => {
-    //     this.onLoadingEnd();
-    //     this.products = data;
-    //     this.handlers?.onDataLoad(this.products);
-    //     this.update(this.products);
+    //     this.onDataLoad(data);
     //   })
     //   .catch((err: Error) => {
     //     this.handlers?.onDataLoad(this.products);
     //     super.update(err.message);
     //   })
 
+    this.on(EVENT.FILTERS_CHANGE, this.handleFiltersChange);
+
     setTimeout(() => {
-      this.onLoadingEnd();
-      this.products = json;
-      this.handlers?.onDataLoad(this.products);
-      this.update(this.products);
+      this.handleDataLoad(json);
     }, 500);
   }
 
-  public update(data: Product[]): void {
-    super.clear();
-    const items: Component[] = [];
-
-    data.forEach((item) => {
-      items.push(
-        new Component({
-          view: new ProductsListItemView({ data: item })
-        })
-      )
-    });
-
-    this.components.items = items;
+  private handleDataLoad = (data: Product[]) => {
+    this.products = data;
+    this.emit(EVENT.PRODUCTS_LOAD, this.products);
+    this.onLoadingEnd(this.products);
   }
 
-  public onFiltersChange(filters: Filter[]): void {
+  public update(data: Product[]): void {
+    this.components = data.map((item) => {
+      return ['products', Component, {
+        viewConstructor: ProductsListItemView,
+        data: item,
+      }]
+    });
+
+    super.update();
+  }
+
+  public handleFiltersChange = (e: CustomEvent<Filter[]>): void => {
+    const filters = e.detail;
     const filtred = this.products.filter((item) => {
       return filters.reduce((acc, filter) => (
         acc && filter.check(item)

@@ -4,12 +4,6 @@ import { Product } from '@components/products-list';
 import listItemTemplate from './products-list-item.ejs';
 
 export class ProductsListItemView extends View {
-  constructor(options: ViewOptions = {}) {
-    super({
-      ...options,
-      root: '.products-list',
-    })
-  }
 
   public render(data: Product): void {
     const container = document.createElement('li');

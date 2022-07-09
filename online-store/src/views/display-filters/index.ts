@@ -5,8 +5,7 @@ import displayFiltersTemplate from './display-filters.ejs';
 export class DisplayFiltersView extends View {
   constructor() {
     super({
-      root: '.main__right',
-      contentEl: '.display-filters',
+      mountPoint: '.display-filters',
     })
   }
 

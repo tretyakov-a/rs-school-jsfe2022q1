@@ -1,13 +1,13 @@
 import { FILTER_NAME } from "@common/constants";
 import { Product } from "@components/products-list";
 import { CheckboxFilter } from "./checkbox-filter";
+import { Filter } from "./filter";
 import { RangeFilter } from "./range-filter";
 
 export type PropPicker = (product: Product) => string | number | undefined;
 
-export type FilterComponent = typeof RangeFilter | typeof CheckboxFilter;
-type FilterConfig = {
-  component: FilterComponent;
+export type FilterConfig = {
+  component: typeof Filter;
   propPicker: PropPicker;
   title: string;
 }

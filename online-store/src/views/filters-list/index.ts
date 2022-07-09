@@ -1,16 +1,11 @@
 import './filters-list.scss';
-// import filtersListTemplate from './filters-list.ejs';
-import { View } from '@core/view';
+import { View, ViewOptions } from '@core/view';
 
 export class FiltersListView extends View {
-  constructor() {
+  constructor(options: ViewOptions) {
     super({
-      root: '.main__left',
-      contentEl: '.filters-list',
+      ...options,
+      mountPoint: '.filters-list',
     })
-  }
-
-  public render(): void {
-    super.render();
   }
 }
