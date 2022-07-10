@@ -1,5 +1,5 @@
 import { Component, ComponentProps } from "@core/component";
-import { Product } from "@components/products-list";
+import { Product } from "@components/app";
 import { PropPicker } from "./filters-data";
 
 export type FilterOptions = {

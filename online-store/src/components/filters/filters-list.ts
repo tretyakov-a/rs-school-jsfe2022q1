@@ -1,6 +1,6 @@
 import { ChildComponentData, Component, ComponentProps } from "@core/component";
 import { FiltersListView } from "@views/filters-list";
-import { Product, ProductsLoadEventData } from "../products-list";
+import { Product, ProductsLoadEventData } from "@components/app";
 import { FilterConfig, filtersData } from './filters-data';
 import { isFilters } from "./filter";
 import { EVENT } from "@common/constants";
@@ -42,7 +42,6 @@ export class FiltersList extends Component {
 
   public handleDataLoad = (e: CustomEvent<ProductsLoadEventData>): void => {
     const products = e.detail.products;
-    console.log(products)
     this.components = Object.entries(filtersData).map(this.filterDataToComponent);
     this.onLoadingEnd(products);
   }

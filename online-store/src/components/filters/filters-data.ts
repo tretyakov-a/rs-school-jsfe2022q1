@@ -1,5 +1,5 @@
 import { FILTER_NAME } from "@common/constants";
-import { Product } from "@components/products-list";
+import { Product } from "@components/app";
 import { CheckboxFilter } from "./checkbox-filter";
 import { Filter } from "./filter";
 import { RangeFilter } from "./range-filter";

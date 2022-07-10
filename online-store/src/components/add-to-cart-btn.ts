@@ -1,3 +1,4 @@
+import { EVENT } from "@common/constants";
 import { AddToCurtBtnView } from "@views/add-to-cart-btn";
 import { Button } from "./button";
 import { ProductProps } from "./products-list-item";
@@ -17,7 +18,7 @@ export class AddToCartBtn extends Button {
   }
 
   protected onClick = (): void => {
-    this.handlers?.onClick(this.id);
+    this.emit(EVENT.ADD_TO_CART, this.id);
     this.update({ isInCart: true });
   }
 }

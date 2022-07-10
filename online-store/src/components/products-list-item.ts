@@ -1,7 +1,7 @@
 import { Component, ComponentProps } from "@core/component";
 import { ProductsListItemView } from '../views/products-list-item/index';
 import { AddToCartBtn } from '@components/add-to-cart-btn';
-import { Product } from '@components/products-list';
+import { Product } from '@components/app';
 
 export type ProductViewOptions = {
   product: Product,
@@ -22,7 +22,6 @@ export class ProductsListItem extends Component {
 
     this.components = [
       ['addToCart', AddToCartBtn, {
-        handlers: props.handlers,
         data: props.data,
       }]
     ];

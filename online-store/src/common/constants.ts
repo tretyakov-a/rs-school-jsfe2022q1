@@ -4,6 +4,7 @@ export const BASE_URL = 'https://raw.githubusercontent.com/tretyakov-a/online-st
 
 export enum EVENT {
   PRODUCTS_LOAD = 'onProductsLoad',
+  PRODUCTS_LIST_UPDATE = 'onProductsListUpdate',
   FILTERS_CHANGE = 'onFiltersChange',
   ADD_TO_CART = 'onAddToCart',
 }
@@ -77,3 +78,15 @@ export const PROPS = [
   'remoteControlDevice',
   'photoAndVideo'
 ];
+
+type PropKey = typeof PROPS[number];
+type SpecKey = typeof SPECS[number];
+type ProductPropSpec = Partial<Record<SpecKey, {
+  title: string;
+  value: string;
+}>>;
+
+export type ProductProp = Partial<Record<PropKey, {
+  title: string;
+  specs: ProductPropSpec;
+}>>;

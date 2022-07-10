@@ -1,7 +1,7 @@
 import { Filter, FilterProps } from "./filter";
 import { CheckboxList } from '../checkbox-list';
 import { FiltersListItem } from './fitlers-list-item';
-import { Product } from "@components/products-list";
+import { Product } from "@components/app";
 
 export class CheckboxFilter extends Filter {
   protected checkedValues: string[];
