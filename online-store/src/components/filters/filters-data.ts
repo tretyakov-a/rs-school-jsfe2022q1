@@ -1,10 +1,8 @@
 import { FILTER_NAME } from "@common/constants";
-import { Product } from "@components/app";
+import { PROP, PropPicker, propPickers } from "@common/product";
 import { CheckboxFilter } from "./checkbox-filter";
 import { Filter } from "./filter";
 import { RangeFilter } from "./range-filter";
-
-export type PropPicker = (product: Product) => string | number | undefined;
 
 export type FilterConfig = [
   string,
@@ -16,21 +14,21 @@ export const filtersData: Record<FILTER_NAME, FilterConfig> = {
   [FILTER_NAME.BRAND]: [
     'Бренд', 
     CheckboxFilter, 
-    (item) => item.brand
+    propPickers[PROP.BRAND]
   ],
   [FILTER_NAME.COLOR]: [
     'Цвет', 
     CheckboxFilter, 
-    (item) => item.props.classification?.specs.color?.value
+    propPickers[PROP.COLOR]
   ],
   [FILTER_NAME.PRICE]: [
     'Цена (₽)', 
     RangeFilter, 
-    (item) => item.price
+    propPickers[PROP.PRICE]
   ],
   [FILTER_NAME.WEIGHT]: [
     'Полетная масса (гр.)', 
     RangeFilter, 
-    (item) => Number.parseInt(item.props.dimensions?.specs.weight?.value || '')
+    propPickers[PROP.WEIGHT]
   ],
 }

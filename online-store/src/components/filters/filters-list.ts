@@ -1,9 +1,10 @@
 import { ChildComponentData, Component, ComponentProps } from "@core/component";
 import { FiltersListView } from "@views/filters-list";
-import { Product, ProductsLoadEventData } from "@components/app";
+import { ProductsLoadEventData } from "@components/app";
 import { FilterConfig, filtersData } from './filters-data';
 import { isFilters } from "./filter";
 import { EVENT } from "@common/constants";
+import { Product } from "@common/product";
 
 
 export class FiltersList extends Component {

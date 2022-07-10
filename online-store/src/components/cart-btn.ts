@@ -1,7 +1,7 @@
 import { EVENT } from "@common/constants";
 import { Component, ComponentProps } from "@core/component";
 import { CartBtnView } from "@views/cart-btn";
-import { Product, ProductsLoadEventData } from '@components/app';
+import { ProductsLoadEventData } from '@components/app';
 
 export type CartBtnViewOptions = {
   productsAmount: number;

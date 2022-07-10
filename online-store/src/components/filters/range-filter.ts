@@ -1,7 +1,7 @@
 import { Filter, FilterProps } from "./filter";
 import { Range } from "../range";
 import { FiltersListItem } from "./fitlers-list-item";
-import { Product } from "@components/app";
+import { Product } from "@common/product";
 
 export class RangeFilter extends Filter {
   protected left: number;

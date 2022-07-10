@@ -1,6 +1,5 @@
 import { Component, ComponentProps } from "@core/component";
-import { Product } from "@components/app";
-import { PropPicker } from "./filters-data";
+import { Product, PropPicker } from "@common/product";
 
 export type FilterOptions = {
   name: string;

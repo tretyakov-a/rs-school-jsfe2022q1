@@ -1,7 +1,7 @@
 import { Component, ComponentProps } from "@core/component";
 import { ProductsListItemView } from '../views/products-list-item/index';
 import { AddToCartBtn } from '@components/add-to-cart-btn';
-import { Product } from '@components/app';
+import { Product } from '@common/product';
 
 export type ProductViewOptions = {
   product: Product,

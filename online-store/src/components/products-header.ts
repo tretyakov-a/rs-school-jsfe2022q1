@@ -1,7 +1,7 @@
 import { Component, ComponentProps } from "@core/component";
 import { ProductsHeaderView } from "@views/products-header";
-import { SelectView } from "@views/select";
 import { DisplayOptions } from './display-options';
+import { ProductsSort } from "./products-sort";
 
 export class ProductsHeader extends Component {
 
@@ -17,8 +17,7 @@ export class ProductsHeader extends Component {
           mountPoint: '.products__display-options',
         }
       }],
-      ['productsSort', Component, {
-        viewConstructor: SelectView,
+      ['productsSort', ProductsSort, {
         viewOptions: {
           mountPoint: '.products__sort'
         }

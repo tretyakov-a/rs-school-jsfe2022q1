@@ -53,7 +53,6 @@ export class ProductsList extends Component {
     });
 
     super.update({ displayOption });
-    console.log(this.getElement());
   }
 
 }

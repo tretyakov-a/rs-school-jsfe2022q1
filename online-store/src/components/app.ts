@@ -1,23 +1,14 @@
-import { BASE_URL, EVENT, ProductProp, PROPS, SPECS } from '@common/constants';
+import { BASE_URL, EVENT } from '@common/constants';
 import { Component, ComponentProps } from '@core/component';
 import { FooterView } from '@views/footer';
 import { Filter } from './filters/filter';
 import { Header } from './header';
 import { Main } from './main';
 import json from '../../assets/data-sample.json';
+import { SORT, sortData, SortingFunction } from '@common/sorting';
+import { Product } from '@common/product';
 
 const url = `${BASE_URL}/data.json`;
-
-export interface Product {
-  id: string;
-  title: string;
-  price: number;
-  rating: string;
-  brand: string;
-  brandImage: string;
-  description: string;
-  props: ProductProp;
-};
 
 export type ProductsLoadEventData = {
   products: Product[];
@@ -26,7 +17,9 @@ export type ProductsLoadEventData = {
 
 export class App extends Component {
   private products: Product[];
+  private filtred: Product[];
   private productInCartIds: string[];
+  private sortingFunction: SortingFunction;
   
   constructor(props: ComponentProps, rootSelector: string) {
     super({
@@ -35,7 +28,11 @@ export class App extends Component {
     });
 
     this.products = [];
-    this.productInCartIds = [ '795abdd5e7673332', '279079561d533332' ];
+    this.filtred = [];
+    this.productInCartIds = [];
+    // this.productInCartIds = [ '795abdd5e7673332', '279079561d533332' ];
+
+    this.sortingFunction = sortData[SORT.PRICE_ASC][1];
 
     this.components = [
       ['header', Header],
@@ -47,6 +44,7 @@ export class App extends Component {
 
     this.on(EVENT.FILTERS_CHANGE, this.handleFiltersChange);
     this.on(EVENT.ADD_TO_CART, this.handleAddToCart);
+    this.on(EVENT.CHANGE_SORT, this.handleChangeSort)
 
     // fetch(url)
     //   .then((res): Promise<Product[]> => res.json())
@@ -65,21 +63,29 @@ export class App extends Component {
     this.update();
   }
 
+  private updateProductsList(products: Product[] = this.filtred) {
+    const { productInCartIds } = this;
+    this.sortingFunction.call(null, this.filtred);
+    this.emit(EVENT.PRODUCTS_LIST_UPDATE, { products, productInCartIds });
+  }
+
   private handleDataLoad = (data: Product[]) => {
     this.products = data;
-    const { products, productInCartIds } = this;
-    this.emit(EVENT.PRODUCTS_LOAD, { products, productInCartIds });
+    this.filtred = [...this.products];
+    this.sortingFunction.call(null, this.filtred);
+
+    const { productInCartIds } = this;
+    this.emit(EVENT.PRODUCTS_LOAD, { products: this.filtred, productInCartIds });
   }
 
   private handleFiltersChange = (e: CustomEvent<Filter[]>): void => {
-    const { products, productInCartIds } = this;
     const filters = e.detail;
-    const filtred = products.filter((item) => {
+    this.filtred = this.products.filter((item) => {
       return filters.reduce((acc, filter) => (
         acc && filter.check(item)
       ), true);
     });
-    this.emit(EVENT.PRODUCTS_LIST_UPDATE, { products: filtred, productInCartIds });
+    this.updateProductsList();
   }
 
   private handleAddToCart = (e: CustomEvent<string>): void => {
@@ -88,6 +94,11 @@ export class App extends Component {
     if (product !== undefined && !this.productInCartIds.includes(product.id)) {
       this.productInCartIds.push(product.id);
     }
+  }
+
+  private handleChangeSort = (e: CustomEvent<SORT>) => {
+    this.sortingFunction = sortData[e.detail][1];
+    this.updateProductsList();
   }
 }
 
