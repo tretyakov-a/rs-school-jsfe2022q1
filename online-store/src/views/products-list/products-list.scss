@@ -1,13 +1,16 @@
-.products-list {
-  display: flex;
-  column-gap: 1rem;
-  row-gap: 1rem;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-  margin-top: 2rem;
+.products {
+
+  &__list {
+    display: flex;
+    column-gap: 1rem;
+    row-gap: 1rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-top: 2rem;
+  }
   
-  &__item {
+  &__list-item {
     flex-basis: calc((100% - 2rem) / 3);
     padding: 1rem;
   }

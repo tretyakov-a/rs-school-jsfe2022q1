@@ -1,6 +1,6 @@
 import { Component, ComponentProps } from '@core/component';
 import { MainView } from '@views/main';
-import { DisplayFilters } from './display-filters';
+import { ProductsHeader } from './products-header';
 import { FiltersList } from './filters/filters-list';
 import { ProductsList } from './products-list';
 
@@ -15,11 +15,11 @@ export class Main extends Component {
       ['filtersList', FiltersList, {
         viewOptions: { mountPoint: '.filters-list' },
       }],
-      ['displayFilters', DisplayFilters, {
-        viewOptions: { mountPoint: '.display-filters' },
+      ['displayOptions', ProductsHeader, {
+        viewOptions: { mountPoint: '.products__header' },
       }],
       ['productsList', ProductsList, {
-        viewOptions: { mountPoint: '.products-list' },
+        viewOptions: { mountPoint: '.products__list' },
       }],
     ];
 

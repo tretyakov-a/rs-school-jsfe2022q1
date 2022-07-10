@@ -8,7 +8,7 @@ export class RadioGroup extends Component {
       ...props,
       viewConstructor: RadioGroupView,
       viewOptions: {
-        mountPoint: '.products-view-filter',
+        mountPoint: '.products__display-options',
       }
     });
 

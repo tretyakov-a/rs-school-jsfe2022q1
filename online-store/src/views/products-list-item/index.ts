@@ -7,7 +7,7 @@ export class ProductsListItemView extends View {
 
   public render(data: ProductViewOptions): void {
     const container = document.createElement('li');
-    container.className = 'products-list__item';
+    container.className = 'products__list-item product';
     container.innerHTML = listItemTemplate(data.product);
     super.render(container);
   }

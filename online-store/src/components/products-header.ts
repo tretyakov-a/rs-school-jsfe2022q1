@@ -1,22 +1,22 @@
 import { Component, ComponentProps } from "@core/component";
-import { DisplayFiltersView } from "@views/display-filters";
+import { ProductsHeaderView } from "@views/products-header";
 import { SelectView } from "@views/select";
 import { RadioGroup } from './radio-group';
 
-export class DisplayFilters extends Component {
+export class ProductsHeader extends Component {
 
   constructor(props: ComponentProps) {
     super({
       ...props,
-      viewConstructor: DisplayFiltersView,
+      viewConstructor: ProductsHeaderView,
     });
 
     this.components = [
-      ['productViewFilter', RadioGroup],
-      ['productSortFilter', Component, {
+      ['productsDisplayOptions', RadioGroup],
+      ['productsSort', Component, {
         viewConstructor: SelectView,
         viewOptions: {
-          mountPoint: '.products-sort-filter'
+          mountPoint: '.products__sort'
         }
       }],
     ];
