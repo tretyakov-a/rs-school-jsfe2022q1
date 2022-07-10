@@ -19,7 +19,7 @@ export class FiltersList extends Component {
   }
 
   private filterDataToComponent = (data: Product[]) => (
-    [ name, { component, propPicker, title } ]: [string, FilterConfig]
+    [ name, [ title, component, propPicker ] ]: [string, FilterConfig]
   ): ChildComponentData => ([
     'filters', component,
     {
