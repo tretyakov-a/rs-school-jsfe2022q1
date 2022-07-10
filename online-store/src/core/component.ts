@@ -144,7 +144,6 @@ export class Component {
     this.components.forEach(([name, constructor, props]) => {
       this.addChild(name, constructor, {
         ...props,
-        data: data || props?.data,
         root: this.getElement(),
       });
     }) 

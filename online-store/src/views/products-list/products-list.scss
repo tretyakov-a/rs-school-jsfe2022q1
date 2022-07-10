@@ -1,16 +1,25 @@
-.products {
+.products-list {
+  display: flex;
+  row-gap: 1rem;
+  margin-top: 2rem;
+  column-gap: 1rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
 
-  &__list {
-    display: flex;
-    column-gap: 1rem;
-    row-gap: 1rem;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: flex-start;
-    margin-top: 2rem;
+  &_list {
+    flex-direction: column;
+
+    .products-list__item {
+      width: 100%;
+    }
   }
-  
-  &__list-item {
+
+  &_grid {
+    flex-direction: row;
+  }
+
+  &__item {
     flex-basis: calc((100% - 2rem) / 3);
     padding: 1rem;
   }

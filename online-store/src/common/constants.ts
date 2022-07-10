@@ -7,6 +7,7 @@ export enum EVENT {
   PRODUCTS_LIST_UPDATE = 'onProductsListUpdate',
   FILTERS_CHANGE = 'onFiltersChange',
   ADD_TO_CART = 'onAddToCart',
+  CHANGE_DISPLAY_OPTION = 'onChangeDisplayOption',
 }
 
 export enum FILTER_NAME {

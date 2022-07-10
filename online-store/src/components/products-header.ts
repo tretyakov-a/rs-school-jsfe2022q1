@@ -1,7 +1,7 @@
 import { Component, ComponentProps } from "@core/component";
 import { ProductsHeaderView } from "@views/products-header";
 import { SelectView } from "@views/select";
-import { RadioGroup } from './radio-group';
+import { DisplayOptions } from './display-options';
 
 export class ProductsHeader extends Component {
 
@@ -12,7 +12,11 @@ export class ProductsHeader extends Component {
     });
 
     this.components = [
-      ['productsDisplayOptions', RadioGroup],
+      ['productsDisplayOptions', DisplayOptions, {
+        viewOptions: {
+          mountPoint: '.products__display-options',
+        }
+      }],
       ['productsSort', Component, {
         viewConstructor: SelectView,
         viewOptions: {

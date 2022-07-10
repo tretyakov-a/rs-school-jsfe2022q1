@@ -1,8 +1,14 @@
 import './products-list.scss';
-import { View, ViewOptions  } from '@core/view';
+import { View } from '@core/view';
+import { ProductListDisplayOption } from '@components/products-list';
 
 export class ProductsListView extends View {
-  constructor(options: ViewOptions = {}) {
-    super(options)
+  static readonly className: string = 'products-list';
+
+  public render(data: { displayOption: ProductListDisplayOption }): void {
+    const container = document.createElement('div');
+    const className = ProductsListView.className;
+    container.className = `${className} ${className}_${data.displayOption}`;
+    super.render(container);
   }
 }

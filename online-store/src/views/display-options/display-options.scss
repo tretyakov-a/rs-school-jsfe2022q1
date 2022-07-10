@@ -1,10 +1,12 @@
 .products__display-options {
   .radio-group {
-    display: flex;
-    background: var(--radio-bg-color);
-    border-radius: 4px;
-    height: 36px;
-
+    &__form {
+      display: flex;
+      background: var(--radio-bg-color);
+      border-radius: 4px;
+      height: 36px;
+    }
+    
     &__item {
       padding: 0;
       border: none;

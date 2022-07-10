@@ -18,7 +18,7 @@ export class FiltersList extends Component {
     this.onLoadingStart();
   }
 
-  private filterDataToComponent = (
+  private filterDataToComponent = (data: Product[]) => (
     [ name, { component, propPicker, title } ]: [string, FilterConfig]
   ): ChildComponentData => ([
     'filters', component,
@@ -29,7 +29,8 @@ export class FiltersList extends Component {
       root: this.getMountPoint(),
       componentOptions: {
         propPicker, name, title
-      }
+      },
+      data
     }
   ])
 
@@ -42,7 +43,7 @@ export class FiltersList extends Component {
 
   public handleDataLoad = (e: CustomEvent<ProductsLoadEventData>): void => {
     const products = e.detail.products;
-    this.components = Object.entries(filtersData).map(this.filterDataToComponent);
+    this.components = Object.entries(filtersData).map(this.filterDataToComponent(products));
     this.onLoadingEnd(products);
   }
 }
