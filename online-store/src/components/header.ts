@@ -10,7 +10,11 @@ export class Header extends Component {
     });
 
     this.components = [
-      ['cartBtn', CartBtn]
+      ['cartBtn', CartBtn, {
+        viewOptions: {
+          mountPoint: '.header__cart',
+        }
+      }]
     ];
 
     this.update();

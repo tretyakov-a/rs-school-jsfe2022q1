@@ -12,9 +12,15 @@ export class Main extends Component {
     });
 
     this.components = [
-      ['filtersList', FiltersList],
-      ['displayFilters', DisplayFilters],
-      ['productsList', ProductsList],
+      ['filtersList', FiltersList, {
+        viewOptions: { mountPoint: '.filters-list' },
+      }],
+      ['displayFilters', DisplayFilters, {
+        viewOptions: { mountPoint: '.display-filters' },
+      }],
+      ['productsList', ProductsList, {
+        viewOptions: { mountPoint: '.products-list' },
+      }],
     ];
 
     this.update();

@@ -23,6 +23,7 @@ export class ProductsListItem extends Component {
     this.components = [
       ['addToCart', AddToCartBtn, {
         data: props.data,
+        viewOptions: { mountPoint: '.product__add-to-curt' }
       }]
     ];
 
