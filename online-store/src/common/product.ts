@@ -76,6 +76,7 @@ export type ProductProp = Partial<Record<PropKey, {
 
 export interface Product {
   id: string;
+  imgs: string[]
   title: string;
   price: number;
   rating: string;

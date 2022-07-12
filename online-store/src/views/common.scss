@@ -162,31 +162,6 @@ ul {
   border: 1px solid var(--primary-color-2)
 }
 
-.rsschool-logo {
-  display: block;
-  width: var(--rss-logo-size);
-
-  .st0, .st1, .st2, .st3, .st4, .st5, .st6, .st8, .st9 {
-    fill: var(--text-color-2);
-    stroke: var(--text-color-3);
-  }
-
-  .st1 {
-    fill: var(--text-color-2);
-  }
-    
-  .st7 {
-    fill: var(--primary-color-2);
-  }
-  
-  .logo-path {
-    fill: var(--primary-color-2);
-    stroke: var(--primary-color-1);
-    stroke-width: 4px;
-    transition: 0.1s ease-in;
-  }
-}
-
 @media (max-width: 550px) {
   :root {
     --rss-logo-size: 100px;

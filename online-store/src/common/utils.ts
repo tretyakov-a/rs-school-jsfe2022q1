@@ -1,3 +1,4 @@
+import { Component } from "@core/component";
 import { DEFAULT_FILTER_OPTION } from "./constants";
 
 export function isCustomEvent(evt: Event): evt is CustomEvent {
@@ -21,6 +22,7 @@ export const withNullCheck = (el?: Element | null): HTMLElement => {
 export const selectFrom = (el: HTMLElement | Document) => (query: string): HTMLElement => {
   return withNullCheck(el.querySelector(query));
 };
+
 
 const createOption = (value: string): HTMLElement => {
   const optionEl = document.createElement('option');
@@ -51,3 +53,18 @@ export const loadImage = (src?: string | null): Promise<string> => new Promise((
   img.addEventListener('error', reject);
   img.addEventListener('load', () => resolve(src));
 })
+
+export function printComponentsTree(this: Component, layerCount: number = 0) {
+  console.log(`${'..'.repeat(layerCount)}${this.name}`);
+  const comps = this.getComponents();
+  if (Object.keys(comps).length === 0) return;
+
+  Object.keys(comps).forEach((key) => {
+    const comp = comps[key];
+    if (Array.isArray(comp)) {
+      comp.forEach(c => printComponentsTree.call(c, layerCount + 1));
+    } else {
+      printComponentsTree.call(comp, layerCount + 1);
+    }
+  })
+}

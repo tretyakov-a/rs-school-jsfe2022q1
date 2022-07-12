@@ -1,23 +1,23 @@
 import { Component, ComponentProps } from "@core/component";
 import { Product, PropPicker } from "@common/product";
 
-export type FilterOptions = {
+export type FilterViewOptions = {
   name: string;
   title: string;
   propPicker: PropPicker;
+  products: Product[];
 }
 
 export function isFilter(component: Component): component is Filter {
   return component instanceof Filter;
 }
 
-export function isFilters(components: Component[]): components is Filter[] {
-  return components.every(isFilter)
+export function isFilters(components: (Component[] | Component)[]): components is Filter[] {
+  return components.every((item) => !Array.isArray(item) && isFilter(item))
 }
 
 export type FilterProps = ComponentProps & {
-  componentOptions?: FilterOptions;
-  data?: Product[];
+  data?: FilterViewOptions;
 }
 
 export class Filter extends Component {
@@ -26,12 +26,12 @@ export class Filter extends Component {
   protected propPicker: PropPicker;
 
   constructor(props: FilterProps) {
-    const { componentOptions } = props;
-    if (componentOptions === undefined) throw new TypeError();
+    const { data } = props;
+    if (data === undefined) throw new TypeError();
     super(props);
-    this.name = componentOptions.name;
-    this.title = componentOptions.title;
-    this.propPicker = componentOptions.propPicker;
+    this.name = data.name;
+    this.title = data.title;
+    this.propPicker = data.propPicker;
   }
 
   public check(product?: Product): boolean {

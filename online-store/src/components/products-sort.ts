@@ -1,8 +1,8 @@
 import { Component, ComponentProps } from "@core/component";
-import { ProductsSortView } from "@views/products-sort-view";
+import { ProductsSortView } from "@views/products-sort";
 import { selectFrom } from '@common/utils';
 import { EVENT } from '@common/constants';
-import { sortData, SORT } from "@common/sorting";
+import { sortData } from "@common/sorting";
 
 export type ProductsSortViewOptions = {
   options: typeof sortData;
@@ -14,8 +14,6 @@ export class ProductsSort extends Component {
       ...props,
       viewConstructor: ProductsSortView,
     });
-
-    this.update({ options: sortData });
   }
 
   private onChange = (e: Event) => {
@@ -25,9 +23,12 @@ export class ProductsSort extends Component {
     }
   }
 
-  protected update(data?: ProductsSortViewOptions): void {
-    super.update(data);
+  protected render(): string {
+    return super.render({ options: sortData });
+  }
 
-    selectFrom(this.getElement())('select').addEventListener('change', this.onChange);
+  protected afterRender() {
+    super.afterRender();
+    selectFrom(this.getRoot())('select').addEventListener('change', this.onChange);
   }
 }

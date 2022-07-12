@@ -1,7 +1,7 @@
 import { Filter, FilterProps } from "./filter";
 import { Range } from "../range";
-import { FiltersListItem } from "./fitlers-list-item";
 import { Product } from "@common/product";
+import { EVENT } from "@common/constants";
 
 export class RangeFilter extends Filter {
   protected left: number;
@@ -9,33 +9,18 @@ export class RangeFilter extends Filter {
 
   constructor(props: FilterProps) {
     super(props);
-    const { data, componentOptions } = props;
-    if (!data || !componentOptions) throw new TypeError();
+    const { data } = props;
+    if (data === undefined) throw new TypeError();
 
-    const filterData = this.getFilterData(data || []);
+    const filterData = this.getFilterData(data.products);
     this.left = filterData.min;
     this.right = filterData.max;
-
-    this.components = [
-      ['filterListItem', FiltersListItem, {
-        handlers: {
-          onChange: this.handleChange,
-        },
-        componentOptions: {
-          ...componentOptions,
-          ...filterData,
-          filterComponent: Range
-        }
-      }]
-    ];
-
-    this.update();
   }
 
   private handleChange = (data?: { left: number, right: number }): void => {
     this.left = data?.left || 0;
     this.right = data?.right || 0;
-    this.handlers?.onFilterChange();
+    this.emit(EVENT.FILTER_CHANGE);
   };
 
   private getFilterData = (data: Product[]) => {
@@ -50,5 +35,19 @@ export class RangeFilter extends Filter {
     const value = Number(this.propPicker(product));
 
     return value >= this.left && value <= this.right;
+  }
+
+  protected render(): string {
+    const { left, right } = this;
+    return this.renderChild('filterContent', Range, {
+      handlers: {
+        onChange: this.handleChange,
+      },
+      data: {
+        inputName: this.name,
+        min: left,
+        max: right
+      }
+    });
   }
 }

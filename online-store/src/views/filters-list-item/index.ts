@@ -1,14 +1,50 @@
 import './filters-list-item.scss';
-import filterListItemTemplate from './filters-list-item.ejs';
-import { View } from '@core/view';
-import { FilterItemOptions } from '@components/filters/fitlers-list-item';
+import { View, ViewOptions } from '@core/view';
+import { Product } from '@common/product';
+import { ComponentProps } from '@core/component';
+import { FILTER_NAME } from '@common/constants';
+import { filtersData } from '@components/filters/filters-data';
+
+export type FilterItemViewOptions = {
+  filterName: FILTER_NAME;
+  title: string;
+  products: Product[];
+}
+
+export type FilterItemProps = ComponentProps & {
+  data: FilterItemViewOptions;
+}
 
 export class FiltersListItemView extends View {
-  public render(data: FilterItemOptions): void {
-    const { title } = data;
-    const container = document.createElement('li');
-    container.className = 'filters-list__item filter';
-    container.innerHTML = filterListItemTemplate(title);
-    super.render(container);
+  constructor(options: ViewOptions) {
+    super({
+      ...options,
+      root: '.filters-list__item'
+    })
+  }
+
+  public render(data: FilterItemViewOptions): string {
+    const { filterName, products } = data;
+    const [ title, component, propPicker ] = filtersData[filterName];
+    return super.render(`
+      <div class="filters-list__item filter">
+        <input class="filter__expander" type="checkbox" name="filter-expand" value="${filterName}" id="${filterName}">
+        <div class="filter__expander-wrapper">
+          <label class="filter__expander-label" for="${filterName}">
+            <h2 class="filter__title">${title}</h2>
+          </label>
+        </div>
+        <div class="filter__content">
+          ${this.renderChild('filter', component, {
+            data: {
+              name: filterName,
+              title,
+              propPicker,
+              products,
+            }
+          })}
+        </div>
+      </div>
+    `);
   }  
 }

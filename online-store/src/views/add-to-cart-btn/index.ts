@@ -1,10 +1,22 @@
 import './add-to-cart-btn.scss';
-import btnTemplate from './add-to-cart-btn.ejs';
-import { View } from '@core/view';
-import { ProductViewOptions } from '@components/products-list-item';
+import { View, ViewOptions } from '@core/view';
+import { ProductViewOptions } from '@views/products-list-item';
 
 export class AddToCurtBtnView extends View {
-  public render(data: ProductViewOptions): void {
-    super.render(btnTemplate(data));
+  constructor(options: ViewOptions) {
+    super({
+      ...options,
+      root: '.product__add-to-curt',
+    })
+  }
+
+  public render(data: ProductViewOptions): string {
+    const html = data.isInCart
+      ? `<span class="product__in-cart">В корзине</span>`
+      : `<button class="button button_icon">
+          <i class="fa-solid fa-cart-plus"></i>
+        </button>`;
+
+    return super.render(`<div class="product__add-to-curt">${html}</div>`);
   }  
 }

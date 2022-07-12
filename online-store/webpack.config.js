@@ -26,10 +26,6 @@ const baseConfig = (isProd) => ({
         type: 'asset/resource',
       },
       {
-        test: /\.(ejs)/,
-        loader: 'ejs-compiled-loader',
-      },
-      {
         test: /\.(s[ca]ss)$/,
         use: [
           isProd ? MiniCssExtractPlugin.loader : 'style-loader',

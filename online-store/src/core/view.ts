@@ -1,59 +1,58 @@
 import { selectFrom } from '@common/utils';
+import { Component, renderChildOptions } from '@core/component';
+import { withNullCheck } from '@common/utils';
+
+type Root = string | HTMLElement | null;
 
 export type ViewOptions = {
+  component: Component,
   data?: unknown;
-  root?: string | HtmlElement;
-  mountPoint?: string | HTMLElement;
+  root?: Root;
 }
 
-type HtmlElement = HTMLElement | null;
-
 export class View {
-  protected root: HtmlElement;
-  protected mountPoint: HtmlElement;
-  protected el: HtmlElement;
+  protected component: Component;
+  protected root: Root;
+  protected _root: HTMLElement | null;
+  public isLoading: boolean;
   
-  constructor(options: ViewOptions = {}) {
-    const { root, mountPoint } = options;
-    this.root = root
-      ? typeof root === 'string' ? selectFrom(document)(root) : root
-      : null;
-    this.mountPoint = mountPoint
-      ? typeof mountPoint === 'string'
-        ? selectFrom(this.root ? this.root : document)(mountPoint)
-        : mountPoint
+  constructor(options: ViewOptions) {
+    const { root } = options;
+    this.component = options.component;
+    this.root = root || null;
+    this._root = null;
+    this.isLoading = false;
+  }
+
+  public getRoot(): HTMLElement {
+    return this._root === null
+      ? typeof this.root !== 'string'
+        ? withNullCheck(this.root)
+        : selectFrom(document)(this.root)
+      : this._root;
+  }
+
+  public afterRender(parent: Component | null, id: number = -1): void {
+    this._root = (typeof this.root === 'string')
+      ? id === -1
+        ? selectFrom(parent!.getRoot())(this.root)
+        : selectFrom(parent!.getRoot())(`${this.root}:nth-child(${id + 1})`)
       : this.root;
-    this.el = null;
-  }
-
-  public getMountPoint(): HtmlElement {
-    return this.mountPoint === null ? this.root : this.mountPoint;
-  }
-
-  public getRoot(): HtmlElement {
-    return this.root;
-  }
-
-  public getElement(): HtmlElement {
-    return this.el;
-  }
-
-  public clear(): void {
-    if (this.mountPoint) this.mountPoint.innerHTML = '';
-  }
-
-  public render(data?: unknown): void {
-    this.el = this.mountPoint;
-    if (this.mountPoint !== this.root) {
-      this.clear();
+    if (this.root === null) {
+      this.root = parent!.getRoot();
     }
-    if (data !== undefined && data instanceof HTMLElement) {
-      this.el = data;
-      return this.mountPoint?.append(data);
-    } 
+  }
+
+  protected renderChild(
+    ...options: renderChildOptions
+  ): string {
+    return this.component.renderChild(...options)
+  }
+
+  public render(data?: unknown): string {
     if (data !== undefined && typeof data === 'string') {
-      if (this.mountPoint) this.mountPoint.innerHTML = data;
-      return;
+      return data;
     }
+    return '';
   }
 }

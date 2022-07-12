@@ -1,12 +1,11 @@
 import { BASE_URL, EVENT } from '@common/constants';
 import { Component, ComponentProps } from '@core/component';
-import { FooterView } from '@views/footer';
 import { Filter } from './filters/filter';
-import { Header } from './header';
-import { Main } from './main';
-import json from '../../assets/data-sample.json';
+import json from '@assets/data-sample.json';
 import { SORT, sortData, SortingFunction } from '@common/sorting';
 import { Product } from '@common/product';
+import { ShopPageView } from '@views/shop-page';
+import { printComponentsTree, selectFrom } from '@common/utils';
 
 const url = `${BASE_URL}/data.json`;
 
@@ -24,23 +23,18 @@ export class App extends Component {
   constructor(props: ComponentProps, rootSelector: string) {
     super({
       ...props,
-      root: rootSelector
+      viewConstructor: ShopPageView,
+      viewOptions: {
+        root: selectFrom(document)(rootSelector),
+      }
     });
 
     this.products = [];
     this.filtred = [];
-    this.productInCartIds = [];
-    // this.productInCartIds = [ '795abdd5e7673332', '279079561d533332' ];
+    // this.productInCartIds = [];
+    this.productInCartIds = [ '795abdd5e7673332', '279079561d533332' ];
 
     this.sortingFunction = sortData[SORT.PRICE_ASC][1];
-
-    this.components = [
-      ['header', Header],
-      ['main', Main ],
-      ['footer', Component, {
-        viewConstructor: FooterView,
-      }]
-    ];
 
     this.on(EVENT.FILTERS_CHANGE, this.handleFiltersChange);
     this.on(EVENT.ADD_TO_CART, this.handleAddToCart);
@@ -53,16 +47,18 @@ export class App extends Component {
     //   })
     //   .catch((err: Error) => {
     //     this.handlers?.onDataLoad(this.products);
-    //     super.update(err.message);
+    //     super.render(err.message);
     //   })
 
     setTimeout(() => {
       this.handleDataLoad(json);
+      // printComponentsTree.call(this);
     }, 500);
 
-    this.update();
+    this.getRoot().insertAdjacentHTML('beforeend', this.render());
+    this.afterRender();
   }
-
+  
   private updateProductsList(products: Product[] = this.filtred) {
     const { productInCartIds } = this;
     this.sortingFunction.call(null, this.filtred);

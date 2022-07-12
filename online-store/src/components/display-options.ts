@@ -1,10 +1,13 @@
 import { Component, ComponentProps } from "@core/component";
 import { DisplayOptionsView } from "@views/display-options";
 import { selectFrom } from '@common/utils';
-import { EVENT } from '@common/constants';
+import { DISPLAY_OPTION_DEFAULT, EVENT } from '@common/constants';
+import { DISPLAY_OPTION } from '@common/constants';
 
 export type DisplayOptionsViewData = {
-  name: string;
+  inputName: string;
+  values: DISPLAY_OPTION[];
+  checked: DISPLAY_OPTION;
 }
 
 export class DisplayOptions extends Component {
@@ -15,8 +18,6 @@ export class DisplayOptions extends Component {
       ...props,
       viewConstructor: DisplayOptionsView,
     });
-
-    this.update({ name: DisplayOptions.nameAttrValue });
   }
 
   private onChange = (e: Event) => {
@@ -27,9 +28,16 @@ export class DisplayOptions extends Component {
     }
   }
 
-  protected update(data: DisplayOptionsViewData): void {
-    super.update(data);
-
-    selectFrom(this.getMountPoint())('.radio-group__form').addEventListener('change', this.onChange);
+  protected render(): string {
+    return super.render({
+      inputName: DisplayOptions.nameAttrValue,
+      values: Object.values(DISPLAY_OPTION),
+      checked: DISPLAY_OPTION_DEFAULT,
+    });
+  }
+  
+  protected afterRender() {
+    super.afterRender();
+    selectFrom(this.getRoot())('.radio-group__form').addEventListener('change', this.onChange);
   }
 }

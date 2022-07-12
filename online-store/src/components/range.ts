@@ -3,17 +3,18 @@ import { RangeView } from "@views/range";
 import { selectFrom } from '@common/utils';
 import { withNullCheck } from '@common/utils';
 
-export type RangeOptions = {
-  name: string,
+export type RangeViewOptions = {
+  inputName: string,
   min: number;
   max: number;
 }
 
 export type RangeProps = ComponentProps & {
-  componentOptions?: RangeOptions;
+  data?: RangeViewOptions;
 }
 
 export class Range extends Component {
+  private inputName: string;
   private min: number;
   private max: number;
   private left: number;
@@ -36,21 +37,25 @@ export class Range extends Component {
     this.leftInputEl = null;
     this.rightInputEl = null;
     
-    const { componentOptions } = props;
-    if (!componentOptions) throw new TypeError();
+    const { data } = props;
+    if (!data) throw new TypeError();
 
-    this.min = componentOptions.min || 0;
-    this.max = componentOptions.max || 0;
+    this.min = data.min;
+    this.max = data.max;
+    this.inputName = data.inputName;
     
     this.left = this.min;
     this.right = this.max;
-    
-    this.update(componentOptions);
   }
 
-  protected update(data?: RangeOptions): void {
-    super.update(data);
+  protected render(): string {
+    const { inputName, min, max } = this;
+    return super.render({ inputName, min, max });
+  }
 
+  protected afterRender() {
+    super.afterRender();
+    
     const select = selectFrom(this.getRoot());
     this.minEl = select('.range__min');
     this.maxEl = select('.range__max');

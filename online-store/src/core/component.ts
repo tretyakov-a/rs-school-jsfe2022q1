@@ -1,7 +1,7 @@
-import { selectFrom, withNullCheck } from "@common/utils";
+import { withNullCheck } from "@common/utils";
 import { View, ViewOptions } from "@core/view";
-import { SpinnerView } from '@views/spinner';
 import { Emmiter } from "./emmiter";
+import { ComponentEmmiter } from './componentEmmiter';
 
 const isLog = false;
 
@@ -13,140 +13,139 @@ export type ComponentOptions = {
 }
 
 export type ComponentProps = {
+  name?: string,
+  parent?: Component;
   view?: View;
-  emmiter?: Emmiter | null;
+  emmiter: Emmiter;
   handlers?: ComponentHandlers;
   root?: HTMLElement | string | null;
-  viewOptions?: ViewOptions;
+  viewOptions?: Partial<ViewOptions>;
   viewConstructor?: typeof View;
-  componentOptions?: unknown;
   data?: unknown;
 };
 
 export type ChildComponentData = [ string, typeof Component, ComponentProps? ];
 
-export class Component {
-  protected components: ChildComponentData[];
+export type renderChildOptions = [ string, typeof Component, Partial<ComponentProps>? ];
+
+function log(this: Component, message: string, { data, forceLog = isLog }: { data?: unknown, forceLog?: boolean} = {} ) {
+  forceLog && console.log(`%c${message}`, 'color: blue;', Object.getPrototypeOf(this).constructor.name, this.viewConstructor?.name, data || '');
+}
+
+export class Component extends ComponentEmmiter {
+  protected name: string;
+  protected id: number;
+  protected parent: Component | null;
   protected _components: Record<string, Component | Component[]>;
-  protected emmiter: Emmiter | null;
   protected handlers: ComponentHandlers;
-  protected _root: HTMLElement | string | null;
   protected viewConstructor: typeof View;
   protected view: View;
-  protected listenersForRemove: (() => void)[];
 
   constructor(props: ComponentProps) {
-    isLog && console.log('COMPONENT CONSTRUCTING...', Object.getPrototypeOf(this).constructor.name, props);
+    super(props.emmiter);
 
-    this.components = [];
+    this.name = props.name || '';
+    this.id = -1;
+    this.parent = props.parent || null;
     this._components = {};
-    this.emmiter = props.emmiter || null;
     this.handlers = props.handlers || {};
-    this._root = props.root || null;
     this.viewConstructor = props.viewConstructor || View;
     this.view = new this.viewConstructor({
       ...props.viewOptions,
-      root: props.root,
+      component: this,
     });
-    this.listenersForRemove = [];
     
-    if (Object.getPrototypeOf(this).constructor.name === 'Component') {
-      isLog && console.log('COMPONENT CONSTRUCTING... UPDATE CALLED')
-      this.update(props.data);
-    }
+    log.call(this, 'COMPONENT CONSTRUCTING END');
   }
 
-  protected addChild(
-    name: string,
-    componentConstructor: typeof Component,
-    childProps: ComponentProps = {},
-  ): void{
-    isLog && console.log(`ADD CHILD: '${name}'[${componentConstructor.name}]`)
+  public renderChild(...[name, componentConstructor, childProps = {}]: renderChildOptions): string {
+
+    log.call(this, 'COMPONENT ADD CHILD:', { data: `'${name}'[${componentConstructor.name}]` });
     const newComponent = new componentConstructor({
-      emmiter: this.emmiter,
-      root: this.getMountPoint(),
       ...childProps,
+      name,
+      parent: this,
+      emmiter: this.emmiter,
     });
     const child = this._components[name];
     if (child !== undefined) {
-      if (Array.isArray(child))
+      if (Array.isArray(child)) {
+        newComponent.id = child.length;
         child.push(newComponent);
-      else {
+      } else {
+        child.id = 0;
+        newComponent.id = 1;
         this._components[name] = [child, newComponent];
       }
     } else {
       this._components[name] = newComponent;
     }
+    return newComponent.render(childProps.data);
   }
 
-  protected getChild(name: string) {
+  public isArrayItem() {
+    return this.id !== -1;
+  }
+  
+  protected update(data?: unknown) {
+    this.parent?.updateChild(this, data);
+  }
+
+  protected updateChild(child: Component, data?: unknown) {
+    log.call(this, 'UPDATING', { data: child.getRoot() });
+    const el = child.getRoot();
+    const html = child.render(data);
+    el.insertAdjacentHTML('afterend', html);
+    el.parentNode?.removeChild(el);
+    child.afterRender();
+  }
+
+  protected getChild(name: string): Component | Component[] {
     return this._components[name];
   }
 
-  protected get root(): HTMLElement | null {
-    if (!this._root) {
-      return null;
-    }
-    if (typeof this._root === 'string') {
-      this._root = selectFrom(document)(this._root);
-    }
-    return this._root;
+  public getComponent(name: string) {
+    return this._components[name];
   }
 
-  protected getComponents() {
+  public getComponents() {
     return this._components;
   }
-  
-  protected getMountPoint(): HTMLElement {
-    return withNullCheck(this.view?.getMountPoint());
-  }
 
-  protected getRoot(): HTMLElement {
-    return withNullCheck(this.root);
-  }
-
-  protected getElement(): HTMLElement {
-    return withNullCheck(this.view?.getElement());
+  public getRoot(): HTMLElement {
+    return withNullCheck(this.view.getRoot());
   }
 
   protected onLoadingStart(): void {
-    this.addChild('spinner', Component, {
-      viewConstructor: SpinnerView,
-      root: this.getMountPoint(),
-    })
+    this.view.isLoading = true;
   }
 
   protected onLoadingEnd(data?: unknown): void {
+    this.view.isLoading = false;
     this.update(data);
   }
 
-  protected clear(): void {
-    this.view?.clear();
-  }
-
-  protected update(data?: unknown): void {
-    isLog && console.log('SUPER UPDATE: ', Object.getPrototypeOf(this).constructor.name, this.viewConstructor.name);
-    if (!this.root) return;
-    
+  protected render(data?: unknown): string {
+    log.call(this, 'COMPONENT RENDER: ');
     if (Object.keys(this._components).length > 0)  {
       this.removeChildrens();
     }
 
-    this.view.render(data);
-    if (this.components.length !== 0) {
-      this.renderChildrens(data);
-    }
+    return this.view.render(data);
   }
 
-  private renderChildrens(data?: unknown): void {
-    isLog && console.log('BUILD components width data:', data);
+  protected afterRender(): void {
+    log.call(this, 'COMPONENT AFTER RENDER', { data: this.parent?.getRoot() });
+    this.view.afterRender(this.parent, this.id);
 
-    this.components.forEach(([name, constructor, props]) => {
-      this.addChild(name, constructor, {
-        ...props,
-        root: this.getElement(),
-      });
-    }) 
+    Object.keys(this._components).forEach((key) => {
+      const comp = this._components[key];
+      if (Array.isArray(comp)) {
+        comp.forEach((item) => item.afterRender());
+      } else {
+        comp.afterRender();
+      }
+    });
   }
 
   private removeChildrens() {
@@ -162,20 +161,7 @@ export class Component {
   }
 
   protected onDestroy() {
-    // console.log('Removing listeners: ', this.listenersForRemove.length);
     this.listenersForRemove.forEach((fn) => fn.call(null));
     this.removeChildrens();
-  }
-
-  protected emit(event: string, data?: unknown) {
-    this.emmiter?.emit(event, data);
-  }
-
-  protected on(event: string, listener: (e: CustomEvent) => void) {
-    if (this.emmiter) {
-      this.listenersForRemove.push(
-        this.emmiter.on(event, listener)
-      )
-    }
   }
 }

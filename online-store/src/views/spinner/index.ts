@@ -1,10 +1,22 @@
 import './spinner.scss';
-import spinnerTemplate from './spinner.ejs';
-import { View } from '@core/view';
+import { View, ViewOptions } from '@core/view';
 
 export class SpinnerView extends View {
-  
-  render(): void {
-    super.render(spinnerTemplate());
+  constructor(options: ViewOptions) {
+    super({
+      ...options,
+      root: '.lds-ellipsis',
+    })
+  }
+
+  render(): string {
+    return super.render(`
+      <div class="lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    `);
   }
 }

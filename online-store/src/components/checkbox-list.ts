@@ -1,16 +1,18 @@
 import { Component, ComponentProps } from "@core/component";
 import { CheckboxListView } from "@views/checkbox-list";
 
-export type CheckboxListOptions = {
-  name: string,
+export type CheckboxListViewOptions = {
+  inputName: string,
   values: Record<string, number>;
 }
 
 export type CheckboxListProps = ComponentProps & {
-  componentOptions?: CheckboxListOptions;
+  data?: CheckboxListViewOptions;
 }
 
 export class CheckboxList extends Component {
+  private inputName: string;
+  private values: Record<string, number>;
   private checkboxes: NodeList | null;
 
   constructor(props: CheckboxListProps) {
@@ -19,18 +21,24 @@ export class CheckboxList extends Component {
       viewConstructor: CheckboxListView,
     });
 
+    const { data } = props;
+    if (!data) throw new TypeError();
+
+    this.inputName = data.inputName;
+    this.values = data.values;
     this.checkboxes = null;
-
-    const { componentOptions } = props;
-    if (!componentOptions) throw new TypeError();
-
-    this.update(componentOptions);
   }
 
-  protected update(data?: CheckboxListOptions): void {
-    super.update(data);
+  protected render(): string {
+    const { inputName, values } = this;
 
-    this.checkboxes = this.getRoot().querySelectorAll(`input[name="${data?.name}"]`);
+    return super.render({ inputName, values });
+  }
+
+  afterRender() {
+    super.afterRender();
+    
+    this.checkboxes = this.getRoot().querySelectorAll(`input[name="${this.inputName}"]`);
     this.checkboxes.forEach((el) => {
       el.addEventListener('change', this.handleChange);
     });  

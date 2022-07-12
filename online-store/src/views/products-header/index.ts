@@ -1,9 +1,22 @@
 import './products-header.scss';
-import { View } from '@core/view';
-import headerTemplate from './products-header.ejs';
+import { View, ViewOptions } from '@core/view';
+import { DisplayOptions } from '@components/display-options';
+import { ProductsSort } from '@components/products-sort';
 
 export class ProductsHeaderView extends View {
-  public render(): void {
-    super.render(headerTemplate())
+  constructor(options: ViewOptions) {
+    super({
+      ...options,
+      root: '.products__header',
+    })
+  }
+
+  public render(): string {  
+    return super.render(`
+      <div class="products__header">
+        ${this.renderChild('productsSort', ProductsSort)}
+        ${this.renderChild('productsDisplayOptions', DisplayOptions)}
+      </div>
+    `);
   }
 }

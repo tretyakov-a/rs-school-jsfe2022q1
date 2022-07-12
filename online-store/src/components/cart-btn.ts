@@ -20,21 +20,22 @@ export class CartBtn extends Component {
 
     this.on(EVENT.ADD_TO_CART, this.handleAddToCart);
     this.on(EVENT.PRODUCTS_LOAD, this.handleDataLoad);
-    
-    this.update();
+
+    this.onLoadingStart();
   }
 
   private handleAddToCart = (e: CustomEvent<string>): void => {
     this.productIds.push(e.detail);
-    this.update();
+    this.update({ productsAmount: this.productIds.length });
   };
 
   public handleDataLoad = (e: CustomEvent<ProductsLoadEventData>): void => {
     this.productIds = [ ...e.detail.productInCartIds ];
-    this.update();
+    this.onLoadingEnd({ productsAmount: this.productIds.length });
   }
 
-  protected update(): void {
-    super.update({ productsAmount: this.productIds.length });
+  protected render(data: CartBtnViewOptions): string {
+    return super.render(data);
   }
+
 }
