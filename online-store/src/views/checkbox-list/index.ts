@@ -12,12 +12,12 @@ export class CheckboxListView extends View {
   }
 
   private renderItems(data: CheckboxListViewOptions): string {
-    const { inputName, values } = data;
+    const { inputName, values, checkedValues } = data;
     return Object.keys(values)
       .map((key) => (`
         <li class="checkbox-list__item">
           <label class="checkbox">
-            <input type="checkbox" name="${inputName}" value="${key}">
+            <input type="checkbox" name="${inputName}" value="${key}" ${checkedValues.includes(key) ? 'checked' : ''}>
             <span class="checkbox__check"></span>
             <span class="checkbox__title">${key} (${values[key]})</span>
           </label>

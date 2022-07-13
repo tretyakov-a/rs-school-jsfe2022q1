@@ -4,8 +4,10 @@ import { Product } from "@common/product";
 import { EVENT } from "@common/constants";
 
 export class RangeFilter extends Filter {
-  protected left: number;
-  protected right: number;
+  private left: number;
+  private right: number;
+  private min: number;
+  private max: number;
 
   constructor(props: FilterProps) {
     super(props);
@@ -15,11 +17,16 @@ export class RangeFilter extends Filter {
     const filterData = this.getFilterData(data.products);
     this.left = filterData.min;
     this.right = filterData.max;
+    this.min = filterData.min;
+    this.max = filterData.max;
   }
 
   private handleChange = (data?: { left: number, right: number }): void => {
-    this.left = data?.left || 0;
-    this.right = data?.right || 0;
+    if (!data) return;
+    const { left, right } = data;
+    if (left === this.left && right === this.right) return;
+    this.left = left;
+    this.right = right;
     this.emit(EVENT.FILTER_CHANGE);
   };
 
@@ -38,15 +45,14 @@ export class RangeFilter extends Filter {
   }
 
   protected render(): string {
-    const { left, right } = this;
+    const { left, right, min, max } = this;
     return this.renderChild('filterContent', Range, {
       handlers: {
         onChange: this.handleChange,
       },
       data: {
         inputName: this.name,
-        min: left,
-        max: right
+        min, max, left, right,
       }
     });
   }

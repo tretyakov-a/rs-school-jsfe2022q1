@@ -7,6 +7,8 @@ export type RangeViewOptions = {
   inputName: string,
   min: number;
   max: number;
+  left: number;
+  right: number;
 }
 
 export type RangeProps = ComponentProps & {
@@ -14,7 +16,6 @@ export type RangeProps = ComponentProps & {
 }
 
 export class Range extends Component {
-  private inputName: string;
   private min: number;
   private max: number;
   private left: number;
@@ -39,18 +40,12 @@ export class Range extends Component {
     
     const { data } = props;
     if (!data) throw new TypeError();
+    const { min, max, left, right } = data;
 
-    this.min = data.min;
-    this.max = data.max;
-    this.inputName = data.inputName;
-    
-    this.left = this.min;
-    this.right = this.max;
-  }
-
-  protected render(): string {
-    const { inputName, min, max } = this;
-    return super.render({ inputName, min, max });
+    this.min = min;
+    this.max = max;
+    this.left = left >= min && left <= max ? left : min;
+    this.right = right >= min && right <= max ? right : max;
   }
 
   protected afterRender() {
@@ -71,6 +66,7 @@ export class Range extends Component {
 
     this.leftInputEl.addEventListener('change', this.handleChange);
     this.rightInputEl.addEventListener('change', this.handleChange);
+    this.setTrackWidth();
   }
 
   private handleChange = () => {

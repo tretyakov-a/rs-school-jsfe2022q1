@@ -1,25 +1,55 @@
 import { Filter, FilterProps } from "./filter";
-import { CheckboxList } from '../checkbox-list';
 import { Product } from "@common/product";
 import { EVENT } from '@common/constants';
+import { CheckboxListView } from "@views/checkbox-list";
 
 export class CheckboxFilter extends Filter {
   protected checkedValues: string[];
   protected values: Record<string, number>;
+  private checkboxes: NodeList | null;
 
   constructor(props: FilterProps) {
-    super(props);
+    super({
+      ...props,
+      viewConstructor: CheckboxListView,
+    });
+
     const { data } = props;
     if (data === undefined) throw new TypeError();
 
     this.checkedValues = [];
     this.values = this.getFilterData(data.products);
+    this.checkboxes = null;
   }
 
-  private handleChange = (data?: string[]): void => {
-    this.checkedValues = [ ...(data || []) ];
+  protected render(): string {
+    const { values, checkedValues } = this;
+    return super.render({
+      inputName: this.name,
+      values,
+      checkedValues,
+    })
+  }
+
+  afterRender() {
+    super.afterRender();
+    
+    this.checkboxes = this.getRoot().querySelectorAll(`input[name="${this.name}"]`);
+    this.checkboxes.forEach((el) => {
+      el.addEventListener('change', this.handleChange);
+    });  
+  }
+
+  private handleChange = (): void => {
+    if (!this.checkboxes) return;
+    const values = [...this.checkboxes].reduce((acc: string[], el) => {
+      return el instanceof HTMLInputElement && el.checked
+        ? [ ...acc, el.value ]
+        : acc;   
+    }, []);
+    this.checkedValues = [ ...values ];
     this.emit(EVENT.FILTER_CHANGE);
-  };
+  }
 
   private getFilterData = (data: Product[]) => {
     const values = data.reduce((acc: Record<string, number>, item) => {
@@ -38,18 +68,5 @@ export class CheckboxFilter extends Filter {
     }
     const value = String(this.propPicker(product));
     return this.checkedValues.includes(value);
-  }
-
-  protected render(): string {
-    const { values } = this;
-    return this.renderChild('filterContent', CheckboxList, {
-      handlers: {
-        onChange: this.handleChange,
-      },
-      data: {
-        inputName: this.name,
-        values,
-      }
-    });
   }
 }

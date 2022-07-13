@@ -22,7 +22,7 @@ export class RangeView extends View {
   }
 
   public render(data: RangeViewOptions): string {
-    const { min, max } = data;
+    const { min, max, left, right } = data;
     return super.render(`
       <label class="range">
         <span class="range__min">${min}</span>
@@ -30,8 +30,8 @@ export class RangeView extends View {
           <div class="range__track">
             <div class="range__track-inner"></div>
           </div>
-          ${this.renderInput(data, min, 'range__input-left range__input_top')}
-          ${this.renderInput(data, max, 'range__input-right')}
+          ${this.renderInput(data, left, 'range__input-left range__input_top')}
+          ${this.renderInput(data, right, 'range__input-right')}
         </div>
         <span class="range__max">${max}</span>
       </label>
