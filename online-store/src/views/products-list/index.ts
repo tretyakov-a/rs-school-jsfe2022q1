@@ -31,17 +31,19 @@ export class ProductsListView extends View {
       .join('');
   }
 
-  public render(data?: ProductsListViewOptions): string {
+  public render(data: ProductsListViewOptions): string {
     const className = ProductsListView.className;
     const displayMod = data ? `${className}_${data.displayOption}` : '';
     return super.render(`
-      <ul class="products__list ${className} ${displayMod}">
+      <div class="products__list">
         ${!data || this.isLoading
           ? this.renderChild('spinner', Component, {
               viewConstructor: SpinnerView
             })
-          : this.renderItems(data)}
-      </ul>
+          : data.products.length === 0
+            ? `<p class="products__empty">Товары не найдены! Попробуйте изменить критерии фильтрации.</p>`
+            : `<ul class="${className} ${displayMod}">${this.renderItems(data)}</ul>`}
+      </div>
     `);
   }
 }

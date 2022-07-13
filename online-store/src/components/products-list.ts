@@ -38,9 +38,12 @@ export class ProductsList extends Component {
     const prevOptions = this.displayOption;
     this.displayOption = e.detail;
     const className = ProductsListView.className;
-    this.getRoot().classList.replace(
-      `${className}_${prevOptions}`,
-      `${className}_${this.displayOption}`
-    );
+    const listEl = this.getRoot().querySelector(`.${className}`);
+    if (listEl !== null) {
+      listEl.classList.replace(
+        `${className}_${prevOptions}`,
+        `${className}_${this.displayOption}`
+      );
+    }
   }
 }

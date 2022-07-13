@@ -1,7 +1,17 @@
+
+.products {
+  &__list {
+    margin-top: 2rem;
+  }
+
+  &__empty {
+    text-align: center;
+  }
+}
+
 .products-list {
   display: flex;
   row-gap: 1rem;
-  margin-top: 2rem;
   column-gap: 1rem;
   flex-wrap: wrap;
   align-items: flex-start;
