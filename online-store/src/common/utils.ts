@@ -68,3 +68,14 @@ export function printComponentsTree(this: Component, layerCount: number = 0) {
     }
   })
 }
+
+export function debounce(this: unknown, ms: number, fn: (arg: Event) => void) {
+  let timer: number = -1;
+  const wrapper = (e: Event) => {
+    clearTimeout(timer);
+    timer = window.setTimeout(() => {
+      fn.call(this, e);
+    }, ms);
+  }
+  return wrapper;
+}

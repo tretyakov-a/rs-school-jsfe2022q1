@@ -70,7 +70,8 @@ ul {
 .button,
 .radio,
 .range,
-.select {
+.select,
+.text {
   display: block;
   outline: none;
   padding: 6px 12px;
@@ -113,6 +114,7 @@ ul {
     width: 18px;
     height: 18px;
     border: 1px solid var(--text-color-4);
+    border-radius: 4px;
     margin-right: 1rem;
 
     &::after {

@@ -96,6 +96,7 @@ export enum PROP {
   WEIGHT = 'weight',
   MOBILE_CONTROL = 'mobileControl',
   CAMERA_INCLUDED = 'cameraIncluded',
+  TITLE = 'title',
 }
 
 export const propPickers: Record<string, PropPicker> = {
@@ -103,7 +104,12 @@ export const propPickers: Record<string, PropPicker> = {
   [PROP.RATING]: (item: Product): number => Number(item.rating),
   [PROP.BRAND]: (item) => item.brand,
   [PROP.COLOR]: (item) => item.props.classification?.specs.color?.value,
-  [PROP.WEIGHT]: (item) => Number.parseInt(item.props.dimensions?.specs.weight?.value || ''),
+  [PROP.WEIGHT]: (item): number => Number.parseInt(item.props.dimensions?.specs.weight?.value || ''),
   [PROP.MOBILE_CONTROL]: (item) => item.props.mobileSupport?.specs.mobileControl?.value,
   [PROP.CAMERA_INCLUDED]: (item) => item.props.camera?.specs.cameraIncluded?.value,
+  [PROP.TITLE]: (item: Product): string => item.title,
+}
+
+export function isEqualProductsArrays(a: Product[], b: Product[]) {
+  return a.length === b.length && a.every((aItem, i) => b[i].id === aItem.id);
 }

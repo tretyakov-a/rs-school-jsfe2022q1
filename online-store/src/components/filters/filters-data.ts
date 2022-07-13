@@ -4,6 +4,7 @@ import { CheckboxFilter } from "./checkbox-filter";
 import { Filter } from "./filter";
 import { RangeFilter } from "./range-filter";
 import { SwitchFilter } from './switch-filter';
+import { SearchFilter } from './search-filter';
 
 export type FilterConfig = [
   string,
@@ -13,6 +14,12 @@ export type FilterConfig = [
 ]
 
 export const filtersData: Record<FILTER_NAME, FilterConfig> = {
+  [FILTER_NAME.SEARCH]: [
+    'Поиск по названию', 
+    SearchFilter, 
+    propPickers[PROP.TITLE],
+    false,
+  ],
   [FILTER_NAME.CAMERA_INCLUDED]: [
     'Наличие камеры в комплекте', 
     SwitchFilter, 

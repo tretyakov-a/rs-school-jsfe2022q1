@@ -1,0 +1,59 @@
+.search {
+  position: relative;
+  padding: 6px 12px;
+
+  $button-height: 36px;
+  $button-width: 24px;
+
+  &__clear,
+  &__submit {
+    position: absolute;
+    top: 6px;
+    width: $button-width;
+    height: $button-height;
+    line-height: $button-height;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: var(--text-color-4);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.25s;
+
+    &:active {
+      transform: translateY(1px);
+    }
+  }
+
+  &__clear {
+    right: calc(20px + #{$button-width});
+    display: none;
+  }
+
+  &_show-clear {
+    .search__clear {
+      display: block;
+    }
+  }
+
+  &__submit {
+    right: 20px;
+  }
+
+  &__input.text {
+    width: 100%;
+    border: 1px solid var(--text-color-4);
+    height: $button-height;
+    color: var(--text-color-2);
+    font-weight: 400;
+    padding-right: calc(#{$button-width} * 2 + 0.5rem);
+
+    &:focus {
+      border-color: var(--text-color-2);
+    }
+
+    &:focus ~ button {
+      color: var(--text-color-2);
+    }
+  }
+}

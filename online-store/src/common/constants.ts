@@ -19,6 +19,7 @@ export enum FILTER_NAME {
   COLOR = 'color',
   MOBILE_CONTROL = 'mobileControl',
   CAMERA_INCLUDED = 'cameraIncluded',
+  SEARCH = 'search',
 }
 
 export enum DISPLAY_OPTION {
