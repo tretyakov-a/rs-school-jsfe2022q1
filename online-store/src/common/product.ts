@@ -94,6 +94,8 @@ export enum PROP {
   BRAND = 'brand',
   COLOR = 'color',
   WEIGHT = 'weight',
+  MOBILE_CONTROL = 'mobileControl',
+  CAMERA_INCLUDED = 'cameraIncluded',
 }
 
 export const propPickers: Record<string, PropPicker> = {
@@ -102,4 +104,6 @@ export const propPickers: Record<string, PropPicker> = {
   [PROP.BRAND]: (item) => item.brand,
   [PROP.COLOR]: (item) => item.props.classification?.specs.color?.value,
   [PROP.WEIGHT]: (item) => Number.parseInt(item.props.dimensions?.specs.weight?.value || ''),
+  [PROP.MOBILE_CONTROL]: (item) => item.props.mobileSupport?.specs.mobileControl?.value,
+  [PROP.CAMERA_INCLUDED]: (item) => item.props.camera?.specs.cameraIncluded?.value,
 }

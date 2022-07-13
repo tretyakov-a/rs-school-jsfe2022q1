@@ -1,0 +1,17 @@
+.switch {
+  .checkbox {
+    border: none;
+
+    &:hover {
+      .checkbox__title {
+        color: var(--primary-color-1);
+      }
+    }
+  
+    &__title {
+      color: var(--text-color-2);
+      font-weight: 400;
+    }
+  }
+  
+}

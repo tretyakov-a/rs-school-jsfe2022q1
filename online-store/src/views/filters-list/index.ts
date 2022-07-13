@@ -16,13 +16,14 @@ export class FiltersListView extends View {
 
   private renderItems(products: Product[]) {
     return Object.entries(filtersData)
-      .map(([ name, [ title ] ]: [string, FilterConfig]): string => {
+      .map(([ name, [ title, _, __, isExpanded = true ] ]: [string, FilterConfig]): string => {
         return this.renderChild('filterItems', Component, {
           viewConstructor: FiltersListItemView,
           data: {
             filterName: name,
             title,
             products,
+            isExpanded,
           }
         });
       })

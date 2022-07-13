@@ -17,6 +17,8 @@ export enum FILTER_NAME {
   WEIGHT = 'weight',
   BRAND = 'brand',
   COLOR = 'color',
+  MOBILE_CONTROL = 'mobileControl',
+  CAMERA_INCLUDED = 'cameraIncluded',
 }
 
 export enum DISPLAY_OPTION {

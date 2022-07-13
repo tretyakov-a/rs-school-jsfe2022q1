@@ -78,3 +78,19 @@
     border-bottom-right-radius: 4px;
   }
 }
+
+.filter_no-expander {
+  .filter {
+    &__expander-wrapper {
+      display: none;
+    }
+  
+    &__expander {
+      display: none;
+    }
+  
+    &__content {
+      padding-top: 0.5rem;
+    }
+  }
+}

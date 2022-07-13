@@ -3,14 +3,28 @@ import { PROP, PropPicker, propPickers } from "@common/product";
 import { CheckboxFilter } from "./checkbox-filter";
 import { Filter } from "./filter";
 import { RangeFilter } from "./range-filter";
+import { SwitchFilter } from './switch-filter';
 
 export type FilterConfig = [
   string,
   typeof Filter,
   PropPicker,
+  boolean?,
 ]
 
 export const filtersData: Record<FILTER_NAME, FilterConfig> = {
+  [FILTER_NAME.CAMERA_INCLUDED]: [
+    'Наличие камеры в комплекте', 
+    SwitchFilter, 
+    propPickers[PROP.CAMERA_INCLUDED],
+    false,
+  ],
+  [FILTER_NAME.MOBILE_CONTROL]: [
+    'Управление со смартфона', 
+    SwitchFilter, 
+    propPickers[PROP.MOBILE_CONTROL],
+    false,
+  ],
   [FILTER_NAME.BRAND]: [
     'Бренд', 
     CheckboxFilter, 

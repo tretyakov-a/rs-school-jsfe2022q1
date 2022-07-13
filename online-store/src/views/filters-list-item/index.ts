@@ -9,6 +9,7 @@ export type FilterItemViewOptions = {
   filterName: FILTER_NAME;
   title: string;
   products: Product[];
+  isExpanded: boolean;
 }
 
 export type FilterItemProps = ComponentProps & {
@@ -24,10 +25,10 @@ export class FiltersListItemView extends View {
   }
 
   public render(data: FilterItemViewOptions): string {
-    const { filterName, products } = data;
+    const { filterName, products, isExpanded } = data;
     const [ title, component, propPicker ] = filtersData[filterName];
     return super.render(`
-      <div class="filters-list__item filter">
+      <div class="filters-list__item filter ${isExpanded ? '' : 'filter_no-expander'}">
         <input class="filter__expander" type="checkbox" name="filter-expand" value="${filterName}" id="${filterName}">
         <div class="filter__expander-wrapper">
           <label class="filter__expander-label" for="${filterName}">
