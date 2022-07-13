@@ -3,7 +3,7 @@ import { Component, ComponentProps } from '@core/component';
 import { Filter } from './filters/filter';
 import json from '@assets/data-sample.json';
 import { SORT, sortData, SortingFunction } from '@common/sorting';
-import { Product } from '@common/product';
+import { isEqualProductsArrays, Product } from '@common/product';
 import { ShopPageView } from '@views/shop-page';
 import { printComponentsTree, selectFrom } from '@common/utils';
 
@@ -76,12 +76,15 @@ export class App extends Component {
 
   private handleFiltersChange = (e: CustomEvent<Filter[]>): void => {
     const filters = e.detail;
-    this.filtred = this.products.filter((item) => {
+    const filtred = this.products.filter((item) => {
       return filters.reduce((acc, filter) => (
         acc && filter.check(item)
       ), true);
     });
-    this.updateProductsList();
+    if (!isEqualProductsArrays(this.filtred, filtred)) {
+      this.filtred = filtred;
+      this.updateProductsList();
+    }
   }
 
   private handleAddToCart = (e: CustomEvent<string>): void => {
