@@ -7,9 +7,11 @@ export enum EVENT {
   PRODUCTS_LIST_UPDATE = 'onProductsListUpdate',
   FILTERS_CHANGE = 'onFiltersChange',
   FILTER_CHANGE = 'onFilterChange',
+  TRY_ADD_TO_CART = 'onTryAddToCart',
   ADD_TO_CART = 'onAddToCart',
   CHANGE_DISPLAY_OPTION = 'onChangeDisplayOption',
   CHANGE_SORT = 'onChangeSort',
+  SHOW_ALERT = 'onShowAlert',
 }
 
 export enum FILTER_NAME {
@@ -29,3 +31,4 @@ export enum DISPLAY_OPTION {
 };
 
 export const DISPLAY_OPTION_DEFAULT = DISPLAY_OPTION.GRID;
+export const CART_PRODUCTS_LIMIT = 3;

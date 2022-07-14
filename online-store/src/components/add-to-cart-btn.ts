@@ -19,10 +19,17 @@ export class AddToCartBtn extends Button {
     });
 
     this.productId = props.data.product.id;
+    this.on(EVENT.ADD_TO_CART, this.handleAddToCart);
   }
 
-  protected onClick = (): void => {
-    this.emit(EVENT.ADD_TO_CART, this.id);
-    this.update({ isInCart: true });
+  private handleAddToCart = (e: CustomEvent<string>) => {
+    const productId = e.detail;
+    if (this.productId === productId) {
+      this.update({ isInCart: true });
+    }
+  }
+
+  protected onClick = async () => {
+    this.emit(EVENT.TRY_ADD_TO_CART, this.productId);
   }
 }

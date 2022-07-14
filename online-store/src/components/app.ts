@@ -1,4 +1,4 @@
-import { BASE_URL, EVENT } from '@common/constants';
+import { BASE_URL, CART_PRODUCTS_LIMIT, EVENT } from '@common/constants';
 import { Component, ComponentProps } from '@core/component';
 import { Filter } from './filters/filter';
 import json from '@assets/data-sample.json';
@@ -37,7 +37,7 @@ export class App extends Component {
     this.sortingFunction = sortData[SORT.TITLE_ASC][1];
 
     this.on(EVENT.FILTERS_CHANGE, this.handleFiltersChange);
-    this.on(EVENT.ADD_TO_CART, this.handleAddToCart);
+    this.on(EVENT.TRY_ADD_TO_CART, this.handleTryAddToCart);
     this.on(EVENT.CHANGE_SORT, this.handleChangeSort)
 
     // fetch(url)
@@ -87,11 +87,16 @@ export class App extends Component {
     }
   }
 
-  private handleAddToCart = (e: CustomEvent<string>): void => {
+  private handleTryAddToCart = (e: CustomEvent<string>): void => {
     const productId = e.detail;
     const product = this.products.find((item) => item.id === productId);
     if (product !== undefined && !this.productInCartIds.includes(product.id)) {
-      this.productInCartIds.push(product.id);
+      if (this.productInCartIds.length === CART_PRODUCTS_LIMIT) {
+        this.emit(EVENT.SHOW_ALERT, `Cart is overflown! Its limited to ${CART_PRODUCTS_LIMIT} products`);
+      } else {
+        this.productInCartIds.push(product.id);
+        this.emit(EVENT.ADD_TO_CART, product.id);
+      }
     }
   }
 

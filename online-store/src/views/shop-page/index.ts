@@ -3,11 +3,13 @@ import { Component } from '@core/component';
 import { FooterView } from '@views/footer';
 import { HeaderView } from '@views/header';
 import { MainView } from '@views/main';
+import { Alert } from '@components/alert';
 
 export class ShopPageView extends View {
 
   public render(): string {
     return super.render(`
+      ${this.renderChild('alert', Alert)}
       ${this.renderChild('header', Component, {
         viewConstructor: HeaderView
       })}
