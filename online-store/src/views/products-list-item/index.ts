@@ -28,11 +28,15 @@ export class ProductsListItemView extends View {
       <li class="products-list__item product">
         <div class="product__img">
           <img
-            src="${imgUrl}"
+            src="${sampleProductImg}"
             alt="${title}">
         </div>
         <div class="product__description">
           <h3 class="product__title">${title}</h3>
+          <p class="product__extra">
+            ${data.product.props.additionalInfo?.specs.equipment?.value}
+            ${data.product.props.additionalInfo?.specs.extra?.value}
+          </p>
           <div class="product__buy">
             <div class="product__price">${price} ₽</div>
             ${this.renderChild('addToCart', AddToCartBtn, { data })}
