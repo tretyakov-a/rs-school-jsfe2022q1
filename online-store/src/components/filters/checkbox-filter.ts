@@ -90,4 +90,10 @@ export class CheckboxFilter extends Filter {
   public getState(): CheckboxFilterState {
     return { checkedValues: this.checkedValues };
   };
+
+  public reset(): void {
+    if (this.checkedValues.length === 0) return;
+    this.checkedValues = [];
+    this.update();
+  }
 }

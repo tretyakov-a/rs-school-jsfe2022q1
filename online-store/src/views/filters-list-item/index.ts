@@ -32,7 +32,10 @@ export class FiltersListItemView extends View {
           </label>
         </div>
         <div class="filter__content">
-          ${this.renderChild('filter', component, { data })}
+          ${this.renderChild('filter', component, { 
+            data, 
+            viewOptions: { root: '.filter__content'} 
+          })}
         </div>
       </li>
     `);

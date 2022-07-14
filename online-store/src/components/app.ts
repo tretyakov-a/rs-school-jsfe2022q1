@@ -25,10 +25,14 @@ export class App extends Component {
   private storageService: IStorageService<AppState>;
   private products: Product[];
   private filtred: Product[];
-  private productInCartIds: string[];
-  private sort: SORT;
-  private filterStates: Record<string, unknown>;
-  
+  private state: AppState;
+
+  static defaultState: AppState = {
+    productInCartIds: [],
+    sort: SORT.TITLE_ASC,
+    filterStates: {},
+  }
+
   constructor(props: ComponentProps, rootSelector: string) {
     super({
       ...props,
@@ -38,20 +42,19 @@ export class App extends Component {
       }
     });
 
-    // this.productsService = new DummyProductsService();
-    this.productsService = new ProductsService();
+    this.productsService = new DummyProductsService();
+    // this.productsService = new ProductsService();
 
     this.storageService = new LocalStorageService<AppState>('appState');
     this.products = [];
     this.filtred = [];
-    this.productInCartIds = [];
-    this.sort = SORT.TITLE_ASC;
-    this.filterStates = {};
+    this.state = this.getDefaultState();
 
     this.on(EVENT.FILTERS_CHANGE, this.handleFiltersChange);
     this.on(EVENT.TRY_ADD_TO_CART, this.handleTryAddToCart);
-    this.on(EVENT.CHANGE_SORT, this.handleChangeSort)
-
+    this.on(EVENT.CHANGE_SORT, this.handleChangeSort);
+    this.on(EVENT.RESET_SETTINGS, this.handleResetSettings);
+    
     window.addEventListener('beforeunload', this.saveState);
 
     this.productsService.load()
@@ -66,10 +69,13 @@ export class App extends Component {
     this.afterRender();
   }
   
+  private get sort() {
+    const [_, sortingFunction] = sortData[this.state.sort];
+    return sortingFunction;
+  }
+
   private updateProductsList(products: Product[] = this.filtred) {
-    const [_, sortingFunction] = sortData[this.sort];
-    sortingFunction.call(null, this.filtred);
-    this.emit(EVENT.PRODUCTS_LIST_UPDATE, { products, state: this.getState() });
+    this.emit(EVENT.PRODUCTS_LIST_UPDATE, { products, state: this.state });
   }
 
   private handleDataLoad = async (data: Product[]) => {
@@ -81,7 +87,7 @@ export class App extends Component {
   private handleFiltersChange = (e: CustomEvent<Filter[]>): void => {
     const filters = e.detail;
     
-    this.filterStates = filters.reduce((acc: Record<string, unknown>, filter) => {
+    this.state.filterStates = filters.reduce((acc: Record<string, unknown>, filter) => {
       acc[filter.getName()] = filter.getState();
       return acc;
     }, {});
@@ -91,6 +97,8 @@ export class App extends Component {
         acc && filter.check(item)
       ), true);
     });
+    this.sort.call(null, filtred);
+
     if (!isEqualProductsArrays(this.filtred, filtred)) {
       this.filtred = filtred;
       this.updateProductsList();
@@ -98,53 +106,40 @@ export class App extends Component {
   }
 
   private handleTryAddToCart = (e: CustomEvent<string>): void => {
+    const { productInCartIds }= this.state;
     const productId = e.detail;
     const product = this.products.find((item) => item.id === productId);
-    if (product !== undefined && !this.productInCartIds.includes(product.id)) {
-      if (this.productInCartIds.length === CART_PRODUCTS_LIMIT) {
+    if (product !== undefined && !productInCartIds.includes(product.id)) {
+      if (productInCartIds.length === CART_PRODUCTS_LIMIT) {
         this.emit(EVENT.SHOW_ALERT, `Корзина переполнена! Лимит товаров в корзине: ${CART_PRODUCTS_LIMIT}.`);
       } else {
-        this.productInCartIds.push(product.id);
+        productInCartIds.push(product.id);
         this.emit(EVENT.ADD_TO_CART, product.id);
       }
     }
   }
 
   private handleChangeSort = (e: CustomEvent<SORT>) => {
-    if (this.sort === e.detail) return;
-    this.sort = e.detail;
+    if (this.state.sort === e.detail) return;
+    this.state.sort = e.detail;
+    this.sort.call(null, this.filtred);
     this.updateProductsList();
-  }
-
-  private getState(): AppState {
-    const { productInCartIds, sort, filterStates } = this;
-    return {
-      productInCartIds, sort, filterStates
-    }
-  }
-
-  private setState(state: AppState): void {
-    const { productInCartIds, sort, filterStates } = state;
-    this.productInCartIds = productInCartIds;
-    this.sort = sort;
-    this.filterStates = filterStates;
   }
 
   private handleAppLoad = async (error: Error | null = null) => {
     const products = error ? [] : this.filtred;
-    this.emit(EVENT.APP_LOAD, { products, state: this.getState(), error });
+    this.emit(EVENT.APP_LOAD, { products, state: this.state, error });
   }
 
   private handleStateLoad = async (state: AppState | null): Promise<void> => {
     if (state === null) {
       this.saveState();
     } else {
-      this.setState(state);
+      this.state = state;
     }
 
     this.filtred = [...this.products];
-    const [_, sortingFunction] = sortData[this.sort];
-    sortingFunction.call(null, this.filtred);
+    this.sort.call(null, this.filtred);
 
     this.handleAppLoad(null);
   }
@@ -154,7 +149,17 @@ export class App extends Component {
   }
 
   private saveState = async (): Promise<void> => {
-    this.storageService.save(this.getState());
+    this.storageService.save(this.state);
+  }
+
+  private handleResetSettings = async (): Promise<void> => {
+    await this.storageService.save(null);
+    this.state = this.getDefaultState();
+    this.handleStateLoad(null);
+  }
+
+  public getDefaultState(): AppState {
+    return JSON.parse(JSON.stringify(App.defaultState));
   }
 }
 

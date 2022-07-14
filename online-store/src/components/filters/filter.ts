@@ -48,6 +48,10 @@ export class Filter extends Component {
     return {};
   }
 
+  public reset(): void {
+    return;
+  }
+
   protected getFilterData = (data: Product[]): unknown => {
     return {};
   };

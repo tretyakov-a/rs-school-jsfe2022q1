@@ -12,6 +12,8 @@ export enum EVENT {
   CHANGE_DISPLAY_OPTION = 'onChangeDisplayOption',
   CHANGE_SORT = 'onChangeSort',
   SHOW_ALERT = 'onShowAlert',
+  RESET_FILTERS = 'onResetFilters',
+  RESET_SETTINGS = 'onResetSettings',
 }
 
 export enum FILTER_NAME {

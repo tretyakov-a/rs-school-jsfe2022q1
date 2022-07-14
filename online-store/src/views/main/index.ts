@@ -4,6 +4,8 @@ import { Component } from '@core/component';
 import { ProductsHeaderView } from '@views/products-header';
 import { ProductsList } from '@components/products-list';
 import { FiltersList } from '@components/filters/filters-list';
+import { ResetSettingsBtn } from '@components/reset-settings-btn';
+import { ResetFilterBtn } from '../../components/reset-filters-btn';
 
 export class MainView extends View {
   
@@ -19,6 +21,10 @@ export class MainView extends View {
       <div class="main">
         <div class="main__container container">
           <aside class="main__left">
+            <div class="controls">
+              ${this.renderChild('resetFiltersBtn', ResetFilterBtn)}
+              ${this.renderChild('resetSettingsBtn', ResetSettingsBtn)}
+            </div>
             ${this.renderChild('filters', FiltersList)}
           </aside>
           <div class="main__right">

@@ -60,8 +60,18 @@ export class RangeFilter extends Filter {
     return { left, right };
   };
 
+  public reset(): void {
+    const { min, max } = this;
+    if (this.left === min && this.right === max) return;
+    this.left = min;
+    this.right = max;
+    this.update();
+  }
+
   protected render(): string {
     const { left, right, min, max } = this;
+    super.render();
+
     return this.renderChild('filterContent', Range, {
       handlers: {
         onChange: this.handleChange,
@@ -70,6 +80,6 @@ export class RangeFilter extends Filter {
         inputName: this.name,
         min, max, left, right,
       }
-    });
+    })
   }
 }

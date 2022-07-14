@@ -114,5 +114,7 @@ export const propPickers: Record<string, PropPicker> = {
 }
 
 export function isEqualProductsArrays(a: Product[], b: Product[]) {
-  return a.length === b.length && a.every((aItem, i) => b[i].id === aItem.id);
+  return a.length === b.length && a.every((aItem, i) => {
+    return b[i].id === aItem.id
+  });
 }

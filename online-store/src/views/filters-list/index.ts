@@ -1,6 +1,5 @@
 import './filters-list.scss';
 import { ViewOptions } from '@core/view';
-import { Product } from '@common/product';
 import { Component } from '@core/component';
 import { FilterConfig, filtersData } from '@components/filters/filters-data';
 import { FiltersListItemView } from '@views/filters-list-item';
@@ -16,7 +15,6 @@ export class FiltersListView extends LoaderView {
   }
 
   private renderItems({ products, state: { filterStates }}: AppLoadEventData) {
-    console.log(filterStates)
     return Object.entries(filtersData)
       .map(([ name, [ title, _, __, isExpanded = true ] ]: [string, FilterConfig]): string => {
         return this.renderChild('filterItems', Component, {

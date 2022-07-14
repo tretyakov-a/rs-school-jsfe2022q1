@@ -14,16 +14,32 @@ export class FiltersList extends Component {
     
     this.on(EVENT.APP_LOAD, this.handleAppLoad);
     this.on(EVENT.FILTER_CHANGE, this.handleFiltersChange);
+    this.on(EVENT.RESET_FILTERS, this.handleResetFilters);
     this.onLoadingStart();
   }
 
-  private handleFiltersChange = (): void => {
+  private getFilters() {
     const { filterItems } = this.getComponents();
     if (Array.isArray(filterItems)) {
       const filters = filterItems.map((item) => item.getComponent('filter'))
       if (isFilters(filters)) {
-        this.emit(EVENT.FILTERS_CHANGE, filters);
+        return filters;
       }
+    }
+  }
+
+  private handleResetFilters = (): void => {
+    const filters = this.getFilters();
+    if (filters !== undefined) {
+      filters.forEach((filter) => filter.reset());
+      this.emit(EVENT.FILTERS_CHANGE, filters);
+    }
+  }
+
+  private handleFiltersChange = (): void => {
+    const filters = this.getFilters();
+    if (filters !== undefined) {
+      this.emit(EVENT.FILTERS_CHANGE, filters);
     }
   }
 

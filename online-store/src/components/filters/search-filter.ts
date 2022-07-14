@@ -15,9 +15,8 @@ type SearchFilterProps = FilterProps & {
 }
 
 export class SearchFilter extends Filter {
-  private value: string;
+  private _value: string;
   private searchInput: HTMLInputElement | null;
-  private showClearBtn: boolean;
 
   constructor(props: SearchFilterProps) {
     super({
@@ -27,11 +26,21 @@ export class SearchFilter extends Filter {
     const { data } = props;
     if (data === undefined) throw new TypeError();
 
-    this.value = data.state?.value || '';
+    this._value = data.state?.value || '';
     this.searchInput = null;
-    this.showClearBtn = this.value === '';
   }
   
+  get value() {
+    return this._value;
+  }
+
+  set value(newValue) {
+    const method = newValue === '' ? 'remove' : 'add';
+    this.getRoot().classList[method]('search_show-clear');
+
+    this._value = newValue;
+  }
+
   protected render(): string {
     const { title, name, value } = this;
     return super.render({ title, inputName: name, value });
@@ -39,7 +48,6 @@ export class SearchFilter extends Filter {
 
   afterRender() {
     super.afterRender();
-    this.toggleClearBtn();
     const input = selectFrom(this.getRoot())(`input[name="${this.name}"]`);
     if (input instanceof HTMLInputElement) {
       input.addEventListener('input', debounce.call(this, 200, this.handleInput));
@@ -50,28 +58,16 @@ export class SearchFilter extends Filter {
   }
 
   private handleClear = (): void => {
-    this.toggleClearBtn();
     this.value = '';
     this.searchInput!.value = '';
     this.handleChange();
-  }
-
-  private toggleClearBtn() {
-    this.showClearBtn = !this.showClearBtn;
-    const method = this.showClearBtn ? 'add' : 'remove';
-    this.getRoot().classList[method]('search_show-clear');
   }
 
   private handleInput = (e: Event): void => {
     const el = e.target;
     if (el instanceof HTMLInputElement && this.value !== el.value) {
       this.value = el.value;
-      if (this.value === '') {
-        this.handleClear();
-      } else {
-        !this.showClearBtn && this.toggleClearBtn();
-        this.handleChange();
-      }
+      this.handleChange();
     }
   }
 
@@ -85,6 +81,12 @@ export class SearchFilter extends Filter {
     return { value: this.value };
   };
 
+  public reset(): void {
+    if (this.value === '') return;
+    this.value = '';
+    this.update();
+  }
+  
   private handleChange = (): void => {
     this.emit(EVENT.FILTER_CHANGE);
   };

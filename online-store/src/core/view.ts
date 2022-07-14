@@ -38,9 +38,6 @@ export class View {
         ? selectFrom(parent!.getRoot())(this.root)
         : selectFrom(parent!.getRoot())(`${this.root}:nth-child(${id + 1})`)
       : this.root;
-    if (this.root === null) {
-      this.root = parent!.getRoot();
-    }
   }
 
   protected renderChild(

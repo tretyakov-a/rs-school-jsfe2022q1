@@ -28,7 +28,7 @@ export class ProductsListItemView extends View {
       <li class="products-list__item product">
         <div class="product__img">
           <img
-            src="${sampleProductImg}"
+            src="${imgUrl}"
             alt="${title}">
         </div>
         <div class="product__description">

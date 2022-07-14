@@ -94,8 +94,15 @@ export class Component extends ComponentEmmiter {
   protected updateChild(child: Component, data?: unknown) {
     log.call(this, 'UPDATING', { data: `CHILD: ${child.name}` });
     const el = child.getRoot();
-    const html = child.render(data);
-    el.insertAdjacentHTML('afterend', html);
+    
+    let html = child.render(data);
+    if (child.view.constructor.name === 'View') {
+      const elClone = el.cloneNode() as HTMLElement;
+      elClone.innerHTML = html;
+      el.after(elClone);
+    } else {
+      el.insertAdjacentHTML('afterend', html);
+    }
     el.parentNode?.removeChild(el);
     child.afterRender();
   }

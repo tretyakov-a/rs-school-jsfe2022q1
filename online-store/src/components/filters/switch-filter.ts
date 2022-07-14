@@ -59,6 +59,12 @@ export class SwitchFilter extends Filter {
     return { checked: this.checked };
   };
 
+  public reset(): void {
+    if (!this.checked) return;
+    this.checked = false;
+    this.update();
+  }
+
   private handleChange = (): void => {
     if (!this.checkbox) return;
     if (this.checkbox instanceof HTMLInputElement) {

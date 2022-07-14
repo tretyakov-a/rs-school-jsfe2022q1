@@ -1,6 +1,6 @@
 
 export interface IStorageService<T> {
-  save(data: T): Promise<void>;
+  save(data: T | null): Promise<void>;
   load(): Promise<T | null>;
 }
 

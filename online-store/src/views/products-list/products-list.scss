@@ -30,7 +30,24 @@
   }
 
   &__item {
-    flex-basis: calc((100% - 2rem) / 3);
+    flex-basis: calc((100% - 3rem) / 4);
     padding: 1rem;
+  }
+}
+
+
+@media (max-width: 1480px) {
+  .products-list {
+    &__item {
+      flex-basis: calc((100% - 2rem) / 3);
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .products-list {
+    &__item {
+      flex-basis: calc((100% - 1rem) / 2);
+    }
   }
 }
