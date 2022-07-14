@@ -29,7 +29,6 @@ export class FiltersList extends Component {
   }
 
   public handleDataLoad = (e: CustomEvent<ProductsLoadEventData>): void => {
-    const products = e.detail.products;
-    this.onLoadingEnd(products);
+    this.onLoadingEnd(e.detail);
   }
 }

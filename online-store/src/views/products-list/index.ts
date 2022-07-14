@@ -1,12 +1,11 @@
 import './products-list.scss';
-import { View } from '@core/view';
 import { ViewOptions } from '@core/view';
 import { Component } from '@core/component';
-import { SpinnerView } from '@views/spinner';
 import { ProductsListViewOptions } from '@components/products-list';
 import { ProductsListItemView } from '@views/products-list-item';
+import { LoaderView } from '@core/loader-view';
 
-export class ProductsListView extends View {
+export class ProductsListView extends LoaderView {
   static readonly className: string = 'products-list';
 
   constructor(options: ViewOptions) {
@@ -31,18 +30,22 @@ export class ProductsListView extends View {
       .join('');
   }
 
-  public render(data: ProductsListViewOptions): string {
-    const className = ProductsListView.className;
-    const displayMod = data ? `${className}_${data.displayOption}` : '';
-    return super.render(`
+  public render(data?: ProductsListViewOptions): string {
+    let html = '';
+    if (data !== undefined) {
+      const className = ProductsListView.className;
+      const { error, products } = data;
+      const displayMod = `${className}_${data.displayOption}`;
+      html = !error
+        ? products.length === 0
+          ? `<p class="products__empty">Товары не найдены! Попробуйте изменить критерии фильтрации.</p>`
+          : `<ul class="${className} ${displayMod}">${this.renderItems(data)}</ul>`
+        : `Ошибка загрузки товаров`;
+    }
+    
+    return super.render((loader: string) => `
       <div class="products__list">
-        ${!data || this.isLoading
-          ? this.renderChild('spinner', Component, {
-              viewConstructor: SpinnerView
-            })
-          : data.products.length === 0
-            ? `<p class="products__empty">Товары не найдены! Попробуйте изменить критерии фильтрации.</p>`
-            : `<ul class="${className} ${displayMod}">${this.renderItems(data)}</ul>`}
+        ${loader !== '' ? loader : html}
       </div>
     `);
   }

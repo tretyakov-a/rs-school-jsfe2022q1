@@ -1,12 +1,13 @@
 import './filters-list.scss';
-import { View, ViewOptions } from '@core/view';
+import { ViewOptions } from '@core/view';
 import { Product } from '@common/product';
 import { Component } from '@core/component';
-import { SpinnerView } from '@views/spinner';
 import { FilterConfig, filtersData } from '@components/filters/filters-data';
 import { FiltersListItemView } from '@views/filters-list-item';
+import { ProductsLoadEventData } from '@components/app';
+import { LoaderView } from '@core/loader-view';
 
-export class FiltersListView extends View {
+export class FiltersListView extends LoaderView {
   constructor(options: ViewOptions) {
     super({
       ...options,
@@ -30,16 +31,20 @@ export class FiltersListView extends View {
       .join('');
   }
 
-  public render(data?: Product[]): string {
-    return super.render(`
+  public render(data?: ProductsLoadEventData): string {
+    let html = '';
+    if (data !== undefined) {
+      const { products, error } = data;
+      html = !error
+        ? `<ul class="filters__list filters-list">
+              ${this.renderItems(products)}
+          </ul>`
+        : 'Ошибка загрузки товаров';
+    }
+
+    return super.render((loader: string) => `
       <div class="filters">
-        ${!data || this.isLoading
-          ? this.renderChild('spinner', Component, {
-              viewConstructor: SpinnerView
-            })
-          : `<ul class="filters__list filters-list">
-                ${this.renderItems(data)}
-            </ul>`}
+        ${loader !== '' ? loader : html}
       </div>
     `);
   }

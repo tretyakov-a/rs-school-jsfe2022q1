@@ -1,10 +1,9 @@
 import './cart-btn.scss';
-import { View, ViewOptions } from '@core/view';
+import { ViewOptions } from '@core/view';
 import { CartBtnViewOptions } from '@components/cart-btn';
-import { Component } from '@core/component';
-import { SpinnerView } from '@views/spinner';
+import { LoaderView } from '@core/loader-view';
 
-export class CartBtnView extends View {
+export class CartBtnView extends LoaderView {
   constructor(options: ViewOptions) {
     super({
       ...options,
@@ -12,23 +11,25 @@ export class CartBtnView extends View {
     })
   }
 
-  private renderCart(data: CartBtnViewOptions) {
+  private renderCart(productsAmount: number) {
     return `
       <div class="cart">
-        <div class="cart__total">${data.productsAmount}</div>
+        <div class="cart__total">${productsAmount}</div>
         <a class="button button_special cart__link" href="#cart">Корзина</a>
       </div>`;
   }
 
   public render(data?: CartBtnViewOptions): string {
-    const html =  `
+
+    let html = '';
+    if (data !== undefined) {
+      html = this.renderCart(data.productsAmount);
+    }
+    
+    return super.render((loader: string) => `
       <div class="header__cart">
-        ${!data || this.isLoading
-          ? this.renderChild('spinner', Component, {
-              viewConstructor: SpinnerView
-            })
-          : this.renderCart(data)}
-      </div>`;
-    return super.render(html);
+        ${loader !== '' ? loader : html}
+      </div>
+    `);
   }
 }
