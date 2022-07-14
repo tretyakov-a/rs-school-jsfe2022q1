@@ -1,6 +1,7 @@
 import './products-sort.scss';
 import { View, ViewOptions } from '@core/view';
-import { ProductsSortViewOptions } from '@components/products-sort';
+import { SORT } from '@common/sorting';
+import { sortData } from '../../common/sorting';
 
 export class ProductsSortView extends View {
   constructor(options: ViewOptions) {
@@ -10,20 +11,20 @@ export class ProductsSortView extends View {
     })
   }
 
-  private renderOptions({ options }: ProductsSortViewOptions) {
-    const keys = Object.entries(options);
+  private renderOptions() {
+    const keys = Object.entries(sortData);
     return keys
       .map(([ key, [ value ]]) => `<option value="${key}">${value}</option>`)
       .join('');
   }
 
-  public render(data: ProductsSortViewOptions): string {
+  public render(data: { value: SORT }): string {
     return super.render(`
       <div class="products__sort">
         <div class="select">
           <div class="select__title">Сортировать</div>
-          <select class="select__input" name="products-sort">
-            ${this.renderOptions(data)}
+          <select class="select__input" name="products-sort" value="${data?.value || SORT.TITLE_ASC}">
+            ${this.renderOptions()}
           </select>
         </div>
       </div>

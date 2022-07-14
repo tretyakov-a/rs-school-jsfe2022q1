@@ -1,7 +1,18 @@
-import { Filter, FilterProps } from "./filter";
+import { Filter, FilterProps, FilterViewOptions } from "./filter";
 import { Range } from "../range";
 import { Product } from "@common/product";
 import { EVENT } from "@common/constants";
+
+type RangeFilterState = {
+  left: number;
+  right: number;
+}
+
+type RangeFilterProps = FilterProps & {
+  data: FilterViewOptions & {
+    state?: RangeFilterState;
+  }
+}
 
 export class RangeFilter extends Filter {
   private left: number;
@@ -9,16 +20,16 @@ export class RangeFilter extends Filter {
   private min: number;
   private max: number;
 
-  constructor(props: FilterProps) {
+  constructor(props: RangeFilterProps) {
     super(props);
     const { data } = props;
     if (data === undefined) throw new TypeError();
 
-    const filterData = this.getFilterData(data.products);
-    this.left = filterData.min;
-    this.right = filterData.max;
-    this.min = filterData.min;
-    this.max = filterData.max;
+    const { min, max } = this.getFilterData(data.products);
+    this.left = data.state?.left || min;
+    this.right = data.state?.right || max;
+    this.min = min;
+    this.max = max;
   }
 
   private handleChange = (data?: { left: number, right: number }): void => {
@@ -30,7 +41,7 @@ export class RangeFilter extends Filter {
     this.emit(EVENT.FILTER_CHANGE);
   };
 
-  private getFilterData = (data: Product[]) => {
+  protected getFilterData = (data: Product[]) => {
     const values = data.map((item) => Number(this.propPicker(item)));
     return { 
       min: Math.min(...values),
@@ -43,6 +54,11 @@ export class RangeFilter extends Filter {
 
     return value >= this.left && value <= this.right;
   }
+
+  public getState(): RangeFilterState {
+    const { left, right } = this;
+    return { left, right };
+  };
 
   protected render(): string {
     const { left, right, min, max } = this;

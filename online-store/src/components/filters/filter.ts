@@ -1,11 +1,13 @@
 import { Component, ComponentProps } from "@core/component";
 import { Product, PropPicker } from "@common/product";
+import { FILTER_NAME } from '@common/constants';
+import { filtersData } from '@components/filters/filters-data';
 
 export type FilterViewOptions = {
-  name: string;
+  name: FILTER_NAME;
   title: string;
-  propPicker: PropPicker;
   products: Product[];
+  state: unknown;
 }
 
 export function isFilter(component: Component): component is Filter {
@@ -31,14 +33,23 @@ export class Filter extends Component {
     super(props);
     this.name = data.name;
     this.title = data.title;
-    this.propPicker = data.propPicker;
+    this.propPicker = filtersData[data.name][2];
   }
 
   public check(product?: Product): boolean {
     return product !== undefined && this.propPicker(product) !== undefined;
   }
 
-  static getFilterData = (data: Product[]) => {
+  public getName(): string {
+    return this.name;
+  }
+
+  public getState(): unknown {
+    return {};
+  }
+
+  protected getFilterData = (data: Product[]): unknown => {
     return {};
   };
+
 }

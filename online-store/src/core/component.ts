@@ -92,7 +92,7 @@ export class Component extends ComponentEmmiter {
   }
 
   protected updateChild(child: Component, data?: unknown) {
-    log.call(this, 'UPDATING', { data: child.getRoot() });
+    log.call(this, 'UPDATING', { data: `CHILD: ${child.name}` });
     const el = child.getRoot();
     const html = child.render(data);
     el.insertAdjacentHTML('afterend', html);

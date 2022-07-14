@@ -3,7 +3,7 @@ export const DEFAULT_FILTER_OPTION = 'all';
 export const BASE_URL = 'https://raw.githubusercontent.com/tretyakov-a/online-store/main';
 
 export enum EVENT {
-  PRODUCTS_LOAD = 'onProductsLoad',
+  APP_LOAD = 'onProductsLoad',
   PRODUCTS_LIST_UPDATE = 'onProductsListUpdate',
   FILTERS_CHANGE = 'onFiltersChange',
   FILTER_CHANGE = 'onFilterChange',

@@ -2,11 +2,22 @@ import { Filter, FilterProps } from "./filter";
 import { Product } from "@common/product";
 import { EVENT } from '@common/constants';
 import { CheckboxListView } from "@views/checkbox-list";
+import { FilterViewOptions } from '@components/filters/filter';
 
 export type CheckboxListViewOptions = {
-  inputName: string,
-  values: Record<string, number>,
-  checkedValues: string[],
+  inputName: string;
+  values: Record<string, number>;
+  checkedValues: string[];
+}
+
+type CheckboxFilterState = {
+  checkedValues: string[];
+}
+
+type CheckboxFilterProps = FilterProps & {
+  data: FilterViewOptions & {
+    state?: CheckboxFilterState;
+  }
 }
 
 export class CheckboxFilter extends Filter {
@@ -14,7 +25,7 @@ export class CheckboxFilter extends Filter {
   protected values: Record<string, number>;
   private checkboxes: NodeList | null;
 
-  constructor(props: FilterProps) {
+  constructor(props: CheckboxFilterProps) {
     super({
       ...props,
       viewConstructor: CheckboxListView,
@@ -23,7 +34,7 @@ export class CheckboxFilter extends Filter {
     const { data } = props;
     if (data === undefined) throw new TypeError();
 
-    this.checkedValues = [];
+    this.checkedValues = data.state?.checkedValues || [];
     this.values = this.getFilterData(data.products);
     this.checkboxes = null;
   }
@@ -57,7 +68,7 @@ export class CheckboxFilter extends Filter {
     this.emit(EVENT.FILTER_CHANGE);
   }
 
-  private getFilterData = (data: Product[]) => {
+  protected getFilterData = (data: Product[]) => {
     const values = data.reduce((acc: Record<string, number>, item) => {
       const prop = this.propPicker(item); 
       if (prop) {
@@ -75,4 +86,8 @@ export class CheckboxFilter extends Filter {
     const value = String(this.propPicker(product));
     return this.checkedValues.includes(value);
   }
+
+  public getState(): CheckboxFilterState {
+    return { checkedValues: this.checkedValues };
+  };
 }

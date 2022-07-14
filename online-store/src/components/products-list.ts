@@ -1,9 +1,9 @@
 import { Component, ComponentProps } from '@core/component';
 import { ProductsListView } from '@views/products-list';
 import { EVENT, DISPLAY_OPTION_DEFAULT, DISPLAY_OPTION } from '@common/constants';
-import { ProductsLoadEventData } from './app';
+import { AppLoadEventData } from './app';
 
-export type ProductsListViewOptions = ProductsLoadEventData & {
+export type ProductsListViewOptions = AppLoadEventData & {
   displayOption: DISPLAY_OPTION
 };
 
@@ -19,17 +19,17 @@ export class ProductsList extends Component {
     this.displayOption = DISPLAY_OPTION_DEFAULT;
     this.onLoadingStart();
     
-    this.on(EVENT.PRODUCTS_LOAD, this.handleProductsListLoad);
+    this.on(EVENT.APP_LOAD, this.handleAppLoad);
     this.on(EVENT.PRODUCTS_LIST_UPDATE, this.handleProductsListUpdate);
     this.on(EVENT.CHANGE_DISPLAY_OPTION, this.onChangeDisplayOption);
   }
 
-  private handleProductsListLoad = (e: CustomEvent<ProductsLoadEventData>) => {
+  private handleAppLoad = (e: CustomEvent<AppLoadEventData>) => {
     const { displayOption } = this;
     this.onLoadingEnd({ ...e.detail, displayOption });
   }
 
-  private handleProductsListUpdate = (e: CustomEvent<ProductsLoadEventData>) => {
+  private handleProductsListUpdate = (e: CustomEvent<AppLoadEventData>) => {
     const { displayOption } = this;
     this.update({ ...e.detail, displayOption });
   }

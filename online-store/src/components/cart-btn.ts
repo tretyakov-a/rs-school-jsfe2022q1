@@ -1,7 +1,7 @@
 import { EVENT } from "@common/constants";
 import { Component, ComponentProps } from "@core/component";
 import { CartBtnView } from "@views/cart-btn";
-import { ProductsLoadEventData } from '@components/app';
+import { AppLoadEventData } from '@components/app';
 
 export type CartBtnViewOptions = {
   productsAmount: number;
@@ -19,7 +19,7 @@ export class CartBtn extends Component {
     this.productIds = [];
 
     this.on(EVENT.ADD_TO_CART, this.handleAddToCart);
-    this.on(EVENT.PRODUCTS_LOAD, this.handleDataLoad);
+    this.on(EVENT.APP_LOAD, this.handleDataLoad);
 
     this.onLoadingStart();
   }
@@ -29,8 +29,8 @@ export class CartBtn extends Component {
     this.update({ productsAmount: this.productIds.length });
   };
 
-  public handleDataLoad = (e: CustomEvent<ProductsLoadEventData>): void => {
-    this.productIds = [ ...e.detail.productInCartIds ];
+  public handleDataLoad = (e: CustomEvent<AppLoadEventData>): void => {
+    this.productIds = [ ...e.detail.state.productInCartIds ];
     this.onLoadingEnd({ productsAmount: this.productIds.length });
   }
 

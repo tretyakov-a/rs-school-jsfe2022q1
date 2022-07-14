@@ -5,11 +5,12 @@ import { SORT, sortData } from '@common/sorting';
 import { isEqualProductsArrays, Product } from '@common/product';
 import { ShopPageView } from '@views/shop-page';
 import { printComponentsTree, selectFrom } from '@common/utils';
-import { DummyProductsService, IProductsService } from '../common/products-service';
+import { DummyProductsService, IProductsService, ProductsService } from '@common/products-service';
+import { IStorageService, LocalStorageService } from '@common/storage-service';
 
-export type ProductsLoadEventData = {
+export type AppLoadEventData = {
   products: Product[];
-  productInCartIds: string[];
+  state: AppState;
   error: Error | null;
 };
 
@@ -21,6 +22,7 @@ type AppState = {
 
 export class App extends Component {
   private productsService: IProductsService;
+  private storageService: IStorageService<AppState>;
   private products: Product[];
   private filtred: Product[];
   private productInCartIds: string[];
@@ -36,23 +38,28 @@ export class App extends Component {
       }
     });
 
-    this.productsService = new DummyProductsService();
+    // this.productsService = new DummyProductsService();
+    this.productsService = new ProductsService();
+
+    this.storageService = new LocalStorageService<AppState>('appState');
     this.products = [];
     this.filtred = [];
     this.productInCartIds = [];
-    // this.productInCartIds = [ '795abdd5e7673332', '279079561d533332' ];
     this.sort = SORT.TITLE_ASC;
     this.filterStates = {};
 
     this.on(EVENT.FILTERS_CHANGE, this.handleFiltersChange);
     this.on(EVENT.TRY_ADD_TO_CART, this.handleTryAddToCart);
-    this.on(EVENT.CHANGE_SORT, this.handleChangeSort);
-    
+    this.on(EVENT.CHANGE_SORT, this.handleChangeSort)
+
+    window.addEventListener('beforeunload', this.saveState);
+
     this.productsService.load()
-      .then((data) => this.handleDataLoad(data))
+      .then(this.handleDataLoad)
+      .then(this.handleStateLoad)
       .catch((err: Error) => {
         this.emit(EVENT.SHOW_ALERT, `Ошибка при загрузке данных: ${err.message}`);
-        this.handleDataLoad([], err);
+        this.handleAppLoad(err);
       })
 
     this.getRoot().insertAdjacentHTML('beforeend', this.render());
@@ -60,20 +67,15 @@ export class App extends Component {
   }
   
   private updateProductsList(products: Product[] = this.filtred) {
-    const { productInCartIds } = this;
     const [_, sortingFunction] = sortData[this.sort];
     sortingFunction.call(null, this.filtred);
-    this.emit(EVENT.PRODUCTS_LIST_UPDATE, { products, productInCartIds });
+    this.emit(EVENT.PRODUCTS_LIST_UPDATE, { products, state: this.getState() });
   }
 
-  private handleDataLoad = (data: Product[], error: Error | null = null) => {
+  private handleDataLoad = async (data: Product[]) => {
     this.products = data;
-    this.filtred = [...this.products];
-    const [_, sortingFunction] = sortData[this.sort];
-    sortingFunction.call(null, this.filtred);
 
-    const { productInCartIds } = this;
-    this.emit(EVENT.PRODUCTS_LOAD, { products: this.filtred, productInCartIds, error });
+    return this.loadState();
   }
 
   private handleFiltersChange = (e: CustomEvent<Filter[]>): void => {
@@ -112,6 +114,47 @@ export class App extends Component {
     if (this.sort === e.detail) return;
     this.sort = e.detail;
     this.updateProductsList();
+  }
+
+  private getState(): AppState {
+    const { productInCartIds, sort, filterStates } = this;
+    return {
+      productInCartIds, sort, filterStates
+    }
+  }
+
+  private setState(state: AppState): void {
+    const { productInCartIds, sort, filterStates } = state;
+    this.productInCartIds = productInCartIds;
+    this.sort = sort;
+    this.filterStates = filterStates;
+  }
+
+  private handleAppLoad = async (error: Error | null = null) => {
+    const products = error ? [] : this.filtred;
+    this.emit(EVENT.APP_LOAD, { products, state: this.getState(), error });
+  }
+
+  private handleStateLoad = async (state: AppState | null): Promise<void> => {
+    if (state === null) {
+      this.saveState();
+    } else {
+      this.setState(state);
+    }
+
+    this.filtred = [...this.products];
+    const [_, sortingFunction] = sortData[this.sort];
+    sortingFunction.call(null, this.filtred);
+
+    this.handleAppLoad(null);
+  }
+
+  private async loadState(): Promise<AppState | null> {
+    return await this.storageService.load();
+  }
+
+  private saveState = async (): Promise<void> => {
+    this.storageService.save(this.getState());
   }
 }
 

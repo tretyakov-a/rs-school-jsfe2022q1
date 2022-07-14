@@ -1,4 +1,4 @@
-import { Filter, FilterProps } from "./filter";
+import { Filter, FilterProps, FilterViewOptions } from "./filter";
 import { Product } from "@common/product";
 import { EVENT } from '@common/constants';
 import { SwitchFilterView } from "@views/switch-filter";
@@ -9,12 +9,22 @@ enum SwitchValue {
   NO = 'нет',
 }
 
+type SwitchFilterState = {
+  checked: boolean;
+}
+
+type SwitchFilterProps = FilterProps & {
+  data: FilterViewOptions & {
+    state?: SwitchFilterState;
+  }
+}
+
 export class SwitchFilter extends Filter {
   private matchedProductsNumber: number;
   private checked: boolean;
   private checkbox: Node | null;
 
-  constructor(props: FilterProps) {
+  constructor(props: SwitchFilterProps) {
     super({
       ...props,
       viewConstructor: SwitchFilterView
@@ -23,7 +33,7 @@ export class SwitchFilter extends Filter {
     if (data === undefined) throw new TypeError();
 
     this.matchedProductsNumber = this.getFilterData(data.products);
-    this.checked = false;
+    this.checked = data.state?.checked || false;
     this.checkbox = null;
   }
   
@@ -45,6 +55,10 @@ export class SwitchFilter extends Filter {
     return (value === SwitchValue.YES) === this.checked;
   }
 
+  public getState(): SwitchFilterState {
+    return { checked: this.checked };
+  };
+
   private handleChange = (): void => {
     if (!this.checkbox) return;
     if (this.checkbox instanceof HTMLInputElement) {
@@ -54,7 +68,7 @@ export class SwitchFilter extends Filter {
     this.emit(EVENT.FILTER_CHANGE);
   };
 
-  private getFilterData = (data: Product[]): number => {
+  protected getFilterData = (data: Product[]): number => {
     return data.reduce((acc: number, item) => {
       const prop = this.propPicker(item);
       return acc + Number(prop === SwitchValue.YES);

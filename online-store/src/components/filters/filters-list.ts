@@ -1,9 +1,8 @@
 import { Component, ComponentProps } from "@core/component";
 import { FiltersListView } from "@views/filters-list";
-import { ProductsLoadEventData } from "@components/app";
+import { AppLoadEventData } from "@components/app";
 import { isFilters } from "./filter";
 import { EVENT } from "@common/constants";
-
 
 export class FiltersList extends Component {
 
@@ -13,7 +12,7 @@ export class FiltersList extends Component {
       viewConstructor: FiltersListView,
     });
     
-    this.on(EVENT.PRODUCTS_LOAD, this.handleDataLoad);
+    this.on(EVENT.APP_LOAD, this.handleAppLoad);
     this.on(EVENT.FILTER_CHANGE, this.handleFiltersChange);
     this.onLoadingStart();
   }
@@ -28,7 +27,9 @@ export class FiltersList extends Component {
     }
   }
 
-  public handleDataLoad = (e: CustomEvent<ProductsLoadEventData>): void => {
+  public handleAppLoad = (e: CustomEvent<AppLoadEventData>): void => {
     this.onLoadingEnd(e.detail);
+    
+    queueMicrotask(this.handleFiltersChange);
   }
 }

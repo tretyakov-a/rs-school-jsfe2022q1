@@ -1,14 +1,10 @@
 import './filters-list-item.scss';
 import { View, ViewOptions } from '@core/view';
-import { Product } from '@common/product';
 import { ComponentProps } from '@core/component';
-import { FILTER_NAME } from '@common/constants';
 import { filtersData } from '@components/filters/filters-data';
+import { FilterViewOptions } from '@components/filters/filter';
 
-export type FilterItemViewOptions = {
-  filterName: FILTER_NAME;
-  title: string;
-  products: Product[];
+export type FilterItemViewOptions = FilterViewOptions & {
   isExpanded: boolean;
 }
 
@@ -25,25 +21,18 @@ export class FiltersListItemView extends View {
   }
 
   public render(data: FilterItemViewOptions): string {
-    const { filterName, products, isExpanded } = data;
-    const [ title, component, propPicker ] = filtersData[filterName];
+    const { name, title, isExpanded } = data;
+    const [ _, component ] = filtersData[name];
     return super.render(`
       <li class="filters-list__item filter ${isExpanded ? '' : 'filter_no-expander'}">
-        <input class="filter__expander" type="checkbox" name="filter-expand" value="${filterName}" id="${filterName}">
+        <input class="filter__expander" type="checkbox" name="filter-expand" value="${name}" id="${name}">
         <div class="filter__expander-wrapper">
-          <label class="filter__expander-label" for="${filterName}">
+          <label class="filter__expander-label" for="${name}">
             <h2 class="filter__title">${title}</h2>
           </label>
         </div>
         <div class="filter__content">
-          ${this.renderChild('filter', component, {
-            data: {
-              name: filterName,
-              title,
-              propPicker,
-              products,
-            }
-          })}
+          ${this.renderChild('filter', component, { data })}
         </div>
       </li>
     `);

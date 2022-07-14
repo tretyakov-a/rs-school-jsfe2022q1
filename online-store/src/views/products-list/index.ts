@@ -16,7 +16,7 @@ export class ProductsListView extends LoaderView {
   }
 
   private renderItems(data: ProductsListViewOptions) {
-    const { products, productInCartIds } = data;
+    const { products, state: { productInCartIds } } = data;
     return products
       .map((item) => {
         return this.renderChild('productsListItem', Component, {
