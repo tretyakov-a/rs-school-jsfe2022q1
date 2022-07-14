@@ -32,6 +32,11 @@ export const filtersData: Record<FILTER_NAME, FilterConfig> = {
     propPickers[PROP.MOBILE_CONTROL],
     false,
   ],
+  [FILTER_NAME.YEAR]: [
+    'Год выпуска', 
+    CheckboxFilter, 
+    propPickers[PROP.YEAR]
+  ],
   [FILTER_NAME.BRAND]: [
     'Бренд', 
     CheckboxFilter, 
@@ -48,7 +53,7 @@ export const filtersData: Record<FILTER_NAME, FilterConfig> = {
     propPickers[PROP.PRICE]
   ],
   [FILTER_NAME.WEIGHT]: [
-    'Полетная масса (гр.)', 
+    'Полетная масса (ПМ) (гр.)', 
     RangeFilter, 
     propPickers[PROP.WEIGHT]
   ],

@@ -34,7 +34,7 @@ export class App extends Component {
     // this.productInCartIds = [];
     this.productInCartIds = [ '795abdd5e7673332', '279079561d533332' ];
 
-    this.sortingFunction = sortData[SORT.PRICE_ASC][1];
+    this.sortingFunction = sortData[SORT.TITLE_ASC][1];
 
     this.on(EVENT.FILTERS_CHANGE, this.handleFiltersChange);
     this.on(EVENT.ADD_TO_CART, this.handleAddToCart);
@@ -43,7 +43,7 @@ export class App extends Component {
     // fetch(url)
     //   .then((res): Promise<Product[]> => res.json())
     //   .then((data: Product[]) => {
-    //     this.onDataLoad(data);
+    //     this.handleDataLoad(data);
     //   })
     //   .catch((err: Error) => {
     //     this.handlers?.onDataLoad(this.products);

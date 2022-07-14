@@ -1,6 +1,6 @@
 import './checkbox-list.scss';
 import { View } from '@core/view';
-import { CheckboxListViewOptions } from '@components/checkbox-list';
+import { CheckboxListViewOptions } from '@components/filters/checkbox-filter';
 import { ViewOptions } from '@core/view';
 
 export class CheckboxListView extends View {

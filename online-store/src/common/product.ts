@@ -79,7 +79,8 @@ export interface Product {
   imgs: string[]
   title: string;
   price: number;
-  rating: string;
+  rating: number;
+  year: number;
   brand: string;
   brandImage: string;
   description: string;
@@ -91,6 +92,7 @@ export type PropPicker = (product: Product) => string | number | undefined;
 export enum PROP {
   PRICE = 'price',
   RATING = 'rating',
+  YEAR = 'year',
   BRAND = 'brand',
   COLOR = 'color',
   WEIGHT = 'weight',
@@ -101,7 +103,8 @@ export enum PROP {
 
 export const propPickers: Record<string, PropPicker> = {
   [PROP.PRICE]: (item: Product): number => item.price,
-  [PROP.RATING]: (item: Product): number => Number(item.rating),
+  [PROP.RATING]: (item: Product): number => item.rating,
+  [PROP.YEAR]: (item: Product): number => item.year,
   [PROP.BRAND]: (item) => item.brand,
   [PROP.COLOR]: (item) => item.props.classification?.specs.color?.value,
   [PROP.WEIGHT]: (item): number => Number.parseInt(item.props.dimensions?.specs.weight?.value || ''),

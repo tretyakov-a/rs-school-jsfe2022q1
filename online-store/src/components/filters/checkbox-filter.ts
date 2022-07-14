@@ -3,6 +3,12 @@ import { Product } from "@common/product";
 import { EVENT } from '@common/constants';
 import { CheckboxListView } from "@views/checkbox-list";
 
+export type CheckboxListViewOptions = {
+  inputName: string,
+  values: Record<string, number>,
+  checkedValues: string[],
+}
+
 export class CheckboxFilter extends Filter {
   protected checkedValues: string[];
   protected values: Record<string, number>;

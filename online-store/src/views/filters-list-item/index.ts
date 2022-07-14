@@ -28,7 +28,7 @@ export class FiltersListItemView extends View {
     const { filterName, products, isExpanded } = data;
     const [ title, component, propPicker ] = filtersData[filterName];
     return super.render(`
-      <div class="filters-list__item filter ${isExpanded ? '' : 'filter_no-expander'}">
+      <li class="filters-list__item filter ${isExpanded ? '' : 'filter_no-expander'}">
         <input class="filter__expander" type="checkbox" name="filter-expand" value="${filterName}" id="${filterName}">
         <div class="filter__expander-wrapper">
           <label class="filter__expander-label" for="${filterName}">
@@ -45,7 +45,7 @@ export class FiltersListItemView extends View {
             }
           })}
         </div>
-      </div>
+      </li>
     `);
   }  
 }

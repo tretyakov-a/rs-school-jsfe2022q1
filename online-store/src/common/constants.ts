@@ -20,6 +20,7 @@ export enum FILTER_NAME {
   MOBILE_CONTROL = 'mobileControl',
   CAMERA_INCLUDED = 'cameraIncluded',
   SEARCH = 'search',
+  YEAR = 'year',
 }
 
 export enum DISPLAY_OPTION {

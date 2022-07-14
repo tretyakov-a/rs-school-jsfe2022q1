@@ -23,7 +23,6 @@ export const selectFrom = (el: HTMLElement | Document) => (query: string): HTMLE
   return withNullCheck(el.querySelector(query));
 };
 
-
 const createOption = (value: string): HTMLElement => {
   const optionEl = document.createElement('option');
   optionEl.value = value;

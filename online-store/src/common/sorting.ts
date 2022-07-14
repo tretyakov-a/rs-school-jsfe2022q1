@@ -1,6 +1,8 @@
 import { propPickers, Product, PropPicker, PROP } from "@common/product";
 
 export enum SORT {
+  TITLE_ASC = 'titleAsc',
+  TITLE_DESC = 'titleDesc',
   PRICE_ASC = 'priceAsc',
   PRICE_DESC = 'priceDesc',
   RATING_ASC = 'ratingAsc',
@@ -28,12 +30,15 @@ const getSortingFn = (getProp: PropPicker) => (dir: Dir) => (items: Product[]) =
   })
 }
 
+const sortByTitle = getSortingFn(propPickers[PROP.TITLE]);
 const sortByPrice = getSortingFn(propPickers[PROP.PRICE]);
 const sortByRating = getSortingFn(propPickers[PROP.RATING]);
 
 export type SortingFunction = (items: Product[]) => void;
 
 export const sortData: Record<SORT, [string, SortingFunction]> = {
+  [SORT.TITLE_ASC]: ['По имени (А-Я)', sortByTitle('asc')],
+  [SORT.TITLE_DESC]: ['По имени (Я-А)', sortByTitle('desc')],
   [SORT.PRICE_ASC]: ['По возрастанию цены', sortByPrice('asc')],
   [SORT.PRICE_DESC]: ['По убыванию цены', sortByPrice('desc')],
   [SORT.RATING_ASC]: ['По возрастанию рейтинга', sortByRating('asc')],
