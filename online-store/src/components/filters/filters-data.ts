@@ -32,11 +32,6 @@ export const filtersData: Record<FILTER_NAME, FilterConfig> = {
     propPickers[PROP.MOBILE_CONTROL],
     false,
   ],
-  [FILTER_NAME.YEAR]: [
-    'Год выпуска', 
-    CheckboxFilter, 
-    propPickers[PROP.YEAR]
-  ],
   [FILTER_NAME.BRAND]: [
     'Бренд', 
     CheckboxFilter, 
@@ -46,6 +41,11 @@ export const filtersData: Record<FILTER_NAME, FilterConfig> = {
     'Цвет', 
     CheckboxFilter, 
     propPickers[PROP.COLOR]
+  ],
+  [FILTER_NAME.YEAR]: [
+    'Год выпуска', 
+    RangeFilter, 
+    propPickers[PROP.YEAR]
   ],
   [FILTER_NAME.PRICE]: [
     'Цена (₽)', 
