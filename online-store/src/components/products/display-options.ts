@@ -3,6 +3,7 @@ import { DisplayOptionsView } from "@views/display-options";
 import { selectFrom } from '@common/utils';
 import { DISPLAY_OPTION_DEFAULT, EVENT } from '@common/constants';
 import { DISPLAY_OPTION } from '@common/constants';
+import { AppLoadEventData } from "@components/app";
 
 export type DisplayOptionsViewData = {
   inputName: string;
@@ -11,6 +12,7 @@ export type DisplayOptionsViewData = {
 }
 
 export class DisplayOptions extends Component {
+  private radioElements: NodeList | null;
   static readonly nameAttrValue: string = 'display-options';
 
   constructor(props: ComponentProps) {
@@ -18,6 +20,19 @@ export class DisplayOptions extends Component {
       ...props,
       viewConstructor: DisplayOptionsView,
     });
+    
+    this.radioElements = null;
+
+    this.on(EVENT.LOAD_APP, this.handleAppLoad);
+  }
+
+  private handleAppLoad = (e: CustomEvent<AppLoadEventData>) => {
+    const { displayOption } = e.detail.state.appearance;
+    this.radioElements?.forEach((el) => {
+      if (el instanceof HTMLInputElement && el.getAttribute('value') === displayOption) {
+        el.checked = true;
+      }
+    })
   }
 
   private onChange = (e: Event) => {
@@ -38,6 +53,7 @@ export class DisplayOptions extends Component {
   
   protected afterRender() {
     super.afterRender();
+    this.radioElements = this.getRoot().querySelectorAll(`input[name="${DisplayOptions.nameAttrValue}"]`);
     selectFrom(this.getRoot())('.radio-group__form').addEventListener('change', this.onChange);
   }
 }

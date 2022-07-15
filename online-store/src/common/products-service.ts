@@ -11,9 +11,9 @@ export class DummyProductsService implements IProductsService {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const random = Math.random();
-        if (random < 0.1) {
-          return reject(new Error('Data load error!'));
-        }
+        // if (random < 0.1) {
+        //   return reject(new Error('Data load error!'));
+        // }
         resolve(json);
       }, 500);
     });

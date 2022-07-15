@@ -1,16 +1,7 @@
 import './filters-list-item.scss';
 import { View, ViewOptions } from '@core/view';
-import { ComponentProps } from '@core/component';
 import { filtersData } from '@components/filters/filters-data';
-import { FilterViewOptions } from '@components/filters/filter';
-
-export type FilterItemViewOptions = FilterViewOptions & {
-  isExpanded: boolean;
-}
-
-export type FilterItemProps = ComponentProps & {
-  data: FilterItemViewOptions;
-}
+import { FilterItemViewOptions } from '@components/filters/filters-list-item';
 
 export class FiltersListItemView extends View {
   constructor(options: ViewOptions) {
@@ -21,11 +12,16 @@ export class FiltersListItemView extends View {
   }
 
   public render(data: FilterItemViewOptions): string {
-    const { name, title, isExpanded } = data;
+    const { name, title, isExpandable, isExpanded } = data;
     const [ _, component ] = filtersData[name];
     return super.render(`
-      <li class="filters-list__item filter ${isExpanded ? '' : 'filter_no-expander'}">
-        <input class="filter__expander" type="checkbox" name="filter-expand" value="${name}" id="${name}">
+      <li class="filters-list__item filter ${isExpandable ? '' : 'filter_no-expander'}">
+        <input class="filter__expander"
+          type="checkbox"
+          name="${name}"
+          value="${name}"
+          id="${name}"
+          ${isExpanded ? '' : 'checked'}> 
         <div class="filter__expander-wrapper">
           <label class="filter__expander-label" for="${name}">
             <h2 class="filter__title">${title}</h2>

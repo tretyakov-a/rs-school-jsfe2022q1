@@ -1,12 +1,12 @@
-import { CART_PRODUCTS_LIMIT, EVENT } from '@common/constants';
-import { Component, ComponentProps } from '@core/component';
+import { CART_PRODUCTS_LIMIT, EVENT, DISPLAY_OPTION } from '@common/constants';
+import { ComponentProps } from '@core/component';
 import { Filter } from './filters/filter';
 import { SORT, sortData } from '@common/sorting';
 import { isEqualProductsArrays, Product } from '@common/product';
 import { ShopPageView } from '@views/shop-page';
 import { printComponentsTree, selectFrom } from '@common/utils';
 import { DummyProductsService, IProductsService, ProductsService } from '@common/products-service';
-import { IStorageService, LocalStorageService } from '@common/storage-service';
+import { AppState, AppStateProcessor } from './app-state';
 
 export type AppLoadEventData = {
   products: Product[];
@@ -14,24 +14,10 @@ export type AppLoadEventData = {
   error: Error | null;
 };
 
-type AppState = {
-  productInCartIds: string[];
-  sort: SORT;
-  filterStates: Record<string, unknown>;
-}
-
-export class App extends Component {
+export class App extends AppStateProcessor {
   private productsService: IProductsService;
-  private storageService: IStorageService<AppState>;
   private products: Product[];
   private filtred: Product[];
-  private state: AppState;
-
-  static defaultState: AppState = {
-    productInCartIds: [],
-    sort: SORT.TITLE_ASC,
-    filterStates: {},
-  }
 
   constructor(props: ComponentProps, rootSelector: string) {
     super({
@@ -43,18 +29,16 @@ export class App extends Component {
     });
 
     this.productsService = new DummyProductsService();
-    // this.productsService = new ProductsService();
-
-    this.storageService = new LocalStorageService<AppState>('appState');
     this.products = [];
     this.filtred = [];
-    this.state = this.getDefaultState();
 
-    this.on(EVENT.FILTERS_CHANGE, this.handleFiltersChange);
+    this.on(EVENT.CHANGE_FILTERS, this.handleFiltersChange);
     this.on(EVENT.TRY_ADD_TO_CART, this.handleTryAddToCart);
     this.on(EVENT.CHANGE_SORT, this.handleChangeSort);
     this.on(EVENT.RESET_SETTINGS, this.handleResetSettings);
-    
+    this.on(EVENT.CHANGE_DISPLAY_OPTION, this.handleChangeDisplayOption);
+    this.on(EVENT.CHANGE_FILTER_APPEARANCE, this.handleFilterAppearanceChange);
+
     window.addEventListener('beforeunload', this.saveState);
 
     this.productsService.load()
@@ -75,7 +59,7 @@ export class App extends Component {
   }
 
   private updateProductsList(products: Product[] = this.filtred) {
-    this.emit(EVENT.PRODUCTS_LIST_UPDATE, { products, state: this.state });
+    this.emit(EVENT.UPDATE_PRODUCTS_LIST, { products, state: this.state });
   }
 
   private handleDataLoad = async (data: Product[]) => {
@@ -105,6 +89,10 @@ export class App extends Component {
     }
   }
 
+  private handleChangeDisplayOption = (e: CustomEvent<DISPLAY_OPTION>) => {
+    this.state.appearance.displayOption = e.detail;
+  }
+
   private handleTryAddToCart = (e: CustomEvent<string>): void => {
     const { productInCartIds }= this.state;
     const productId = e.detail;
@@ -128,7 +116,7 @@ export class App extends Component {
 
   private handleAppLoad = async (error: Error | null = null) => {
     const products = error ? [] : this.filtred;
-    this.emit(EVENT.APP_LOAD, { products, state: this.state, error });
+    this.emit(EVENT.LOAD_APP, { products, state: this.state, error });
   }
 
   private handleStateLoad = async (state: AppState | null): Promise<void> => {
@@ -144,22 +132,16 @@ export class App extends Component {
     this.handleAppLoad(null);
   }
 
-  private async loadState(): Promise<AppState | null> {
-    return await this.storageService.load();
-  }
-
-  private saveState = async (): Promise<void> => {
-    this.storageService.save(this.state);
-  }
-
   private handleResetSettings = async (): Promise<void> => {
-    await this.storageService.save(null);
     this.state = this.getDefaultState();
     this.handleStateLoad(null);
   }
 
-  public getDefaultState(): AppState {
-    return JSON.parse(JSON.stringify(App.defaultState));
+  private handleFilterAppearanceChange = (
+    e: CustomEvent<{ filterName: string, isExpanded: boolean }>
+  ) => {
+    const { filterName, isExpanded } = e.detail;
+    this.state.appearance.filters[filterName] = { isExpanded };
   }
 }
 

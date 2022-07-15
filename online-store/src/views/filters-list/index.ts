@@ -1,10 +1,10 @@
 import './filters-list.scss';
 import { ViewOptions } from '@core/view';
-import { Component } from '@core/component';
 import { FilterConfig, filtersData } from '@components/filters/filters-data';
 import { FiltersListItemView } from '@views/filters-list-item';
 import { AppLoadEventData } from '@components/app';
 import { LoaderView } from '@core/loader-view';
+import { FiltersListItem } from '@components/filters/filters-list-item';
 
 export class FiltersListView extends LoaderView {
   constructor(options: ViewOptions) {
@@ -14,13 +14,14 @@ export class FiltersListView extends LoaderView {
     })
   }
 
-  private renderItems({ products, state: { filterStates }}: AppLoadEventData) {
+  private renderItems({ products, state: { filterStates, appearance }}: AppLoadEventData) {
     return Object.entries(filtersData)
-      .map(([ name, [ title, _, __, isExpanded = true ] ]: [string, FilterConfig]): string => {
-        return this.renderChild('filterItems', Component, {
+      .map(([ name, [ title, _, __, isExpandable = true ] ]: [string, FilterConfig]): string => {
+        const { isExpanded = true } = appearance?.filters[name] || {};
+        return this.renderChild('filterItems', FiltersListItem, {
           viewConstructor: FiltersListItemView,
           data: {
-            name, title, products, isExpanded,
+            name, title, products, isExpandable, isExpanded,
             state: filterStates[name],
           }
         });
