@@ -1,11 +1,13 @@
 import './products-list-item.scss';
 import { View, ViewOptions } from '@core/view';
 import sampleProductImg from '@assets/sample-product.jpg';
+import imgPlaceholder from '@assets/img-placeholder-quadrocopter.png';
 import { Product } from '@common/product';
 import { AddToCartBtn } from '@components/products/add-to-cart-btn';
 import { Component } from '@core/component';
 import { RatingView } from '@views/rating';
 import { BASE_URL } from '@common/constants';
+import { loadImage, selectFrom } from '@common/utils';
 
 export type ProductViewOptions = {
   product: Product,
@@ -23,12 +25,16 @@ export class ProductsListItemView extends View {
   public render(data: ProductViewOptions): string {
     const { product: { title, price, rating, imgs, id } } = data;
     const imgUrl = `${BASE_URL}/${imgs[0]}`;
-
+    loadImage(imgUrl)
+      .then((src) => {
+        const img = selectFrom(this.getRoot())('.product__img img');
+        if (img instanceof HTMLImageElement) img.src = src;
+      })
     return super.render(`
       <li class="products-list__item product" data-product-id="${id}">
         <div class="product__img">
           <img
-            src="${imgUrl}"
+            src="${imgPlaceholder}"
             alt="${title}">
         </div>
         <div class="product__description">

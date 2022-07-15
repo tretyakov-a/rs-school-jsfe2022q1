@@ -29,6 +29,9 @@ export class FiltersListItemView extends View {
         <div class="filter__expander-wrapper">
           <label class="filter__expander-label" for="${name}">
             <h2 class="filter__title">${title}</h2>
+            <div class="filter__expander-icon">
+              <i class="fa-solid fa-chevron-up"></i>
+            </div>
           </label>
         </div>
         <div class="filter__content">

@@ -5,6 +5,10 @@
   border-radius: 8px;
 
   &__img {
+    display: flex;
+    align-items: center;
+    height: 215px;
+    
     img {
       display: block;
       width: 100%;

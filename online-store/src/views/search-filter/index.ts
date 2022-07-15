@@ -21,7 +21,12 @@ export class SearchFilterView extends View {
 
     return super.render(`
       <div class="search">
-        <input class="search__input text" type="text" name="${inputName}" value="${value}" placeholder="${title}">
+        <input class="search__input text"
+          type="text"
+          autocomplete="off"
+          name="${inputName}"
+          value="${value}"
+          placeholder="${title}">
         <button class="search__clear">
           <i class="fa-solid fa-xmark"></i>
         </button>

@@ -52,6 +52,7 @@ export class SearchFilter extends Filter {
     if (input instanceof HTMLInputElement) {
       input.addEventListener('input', debounce.call(this, 200, this.handleInput));
       this.searchInput = input;
+      this.searchInput.focus();
     }
     selectFrom(this.getRoot())(`.search__clear`).addEventListener('click', this.handleClear);
     selectFrom(this.getRoot())(`.search__submit`).addEventListener('click', this.handleChange);

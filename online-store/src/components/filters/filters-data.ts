@@ -10,7 +10,7 @@ export type FilterConfig = [
   string,
   typeof Filter,
   PropPicker,
-  boolean?,
+  boolean?, // isExpandable
 ]
 
 export const filtersData: Record<FILTER_NAME, FilterConfig> = {

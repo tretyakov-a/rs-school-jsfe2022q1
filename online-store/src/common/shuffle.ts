@@ -26,6 +26,13 @@ export function extractItemsInfo(
   })
 }
 
+function isSameInfo(a: ItemInfo, b: ItemInfo) {
+  return a.x === b.x
+    && a.y === b.y
+    && a.width === b.width
+    && a.height === b.height;
+}
+
 export function animateItems(
   oldItemsInfo: ItemInfo[],
   newItemsInfo: ItemInfo[]
@@ -35,8 +42,8 @@ export function animateItems(
       (itemInfo) => itemInfo.id === newItem.id
     )
     
-    if (oldItem === undefined) continue;
-
+    if (oldItem === undefined || isSameInfo(oldItem, newItem)) continue;
+    
     const translateX = oldItem.x - newItem.x
     const translateY = oldItem.y - newItem.y
     const scaleX = oldItem.width / newItem.width

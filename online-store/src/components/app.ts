@@ -111,7 +111,7 @@ export class App extends Component {
     const product = this.products.find((item) => item.id === productId);
     if (product !== undefined && !productInCartIds.includes(product.id)) {
       if (productInCartIds.length === CART_PRODUCTS_LIMIT) {
-        this.emit(EVENT.SHOW_ALERT, `Корзина переполнена! Лимит товаров в корзине: ${CART_PRODUCTS_LIMIT}.`);
+        this.emit(EVENT.SHOW_ALERT, `Извините, все слоты в корзине (${CART_PRODUCTS_LIMIT}) заполнены!`);
       } else {
         productInCartIds.push(product.id);
         this.emit(EVENT.ADD_TO_CART, product.id);

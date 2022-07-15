@@ -50,6 +50,11 @@ export class Component extends ComponentEmmiter {
     this._components = {};
     this.handlers = props.handlers || {};
     this.viewConstructor = props.viewConstructor || View;
+
+    if (this.viewConstructor.name === 'View' && props.viewOptions?.root === undefined) {
+      throw new Error(`You should specify root for component (${this.constructor.name}) with no view`);
+    }
+
     this.view = new this.viewConstructor({
       ...props.viewOptions,
       component: this,
@@ -120,7 +125,7 @@ export class Component extends ComponentEmmiter {
   }
 
   public getRoot(): HTMLElement {
-    return withNullCheck(this.view.getRoot());
+    return this.view.getRoot();
   }
 
   protected onLoadingStart(): void {
