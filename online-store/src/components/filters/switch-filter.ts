@@ -1,4 +1,4 @@
-import { Filter, FilterProps, FilterViewOptions } from "./filter";
+import { Filter, FilterProps, FilterTagInfo, FilterViewOptions } from "./filter";
 import { Product } from "@common/product";
 import { EVENT } from '@common/constants';
 import { SwitchFilterView } from "@views/switch-filter";
@@ -81,4 +81,12 @@ export class SwitchFilter extends Filter {
     }, 0);
   };
 
+  public getTag(): FilterTagInfo {
+    const { name, title } = this;
+    return {
+      ...super.getTag(),
+      isSmthToPrint: this.checked,
+      info: '',
+    };
+  }
 }

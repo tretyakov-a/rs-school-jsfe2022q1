@@ -1,4 +1,4 @@
-import { Filter, FilterProps, FilterViewOptions } from "./filter";
+import { Filter, FilterProps, FilterTagInfo, FilterViewOptions } from "./filter";
 import { Range } from "../range";
 import { Product } from "@common/product";
 import { EVENT } from "@common/constants";
@@ -81,5 +81,15 @@ export class RangeFilter extends Filter {
         min, max, left, right,
       }
     })
+  }
+
+  public getTag(): FilterTagInfo {
+    const { left, right, min, max } = this;
+    const isSmthToPrint = left !== min || right !== max;
+    return {
+      ...super.getTag(),
+      isSmthToPrint,
+      info: `${left}-${right}`,
+    };
   }
 }

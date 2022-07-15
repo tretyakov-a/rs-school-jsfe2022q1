@@ -1,4 +1,4 @@
-import { Filter, FilterProps } from "./filter";
+import { Filter, FilterProps, FilterTagInfo } from "./filter";
 import { Product } from "@common/product";
 import { EVENT } from '@common/constants';
 import { CheckboxListView } from "@views/checkbox-list";
@@ -70,10 +70,18 @@ export class CheckboxFilter extends Filter {
 
   protected getFilterData = (data: Product[]) => {
     const values = data.reduce((acc: Record<string, number>, item) => {
-      const prop = this.propPicker(item); 
-      if (prop) {
+      const prop = this.propPicker(item);
+      if (!prop || typeof prop !== 'string') return acc;
+
+      const propValues = prop.split(',').map((value) => value.trim());
+      if (propValues.length === 1)
         acc[prop] = acc[prop] ? acc[prop] + 1 : 1;
+      else {
+        propValues.forEach((value) => {
+          acc[value] = acc[value] ? acc[value] + 1 : 1;
+        })
       }
+
       return acc;
     }, {});
     return values;
@@ -83,8 +91,12 @@ export class CheckboxFilter extends Filter {
     if (this.checkedValues.length === 0) {
       return true;
     }
-    const value = String(this.propPicker(product));
-    return this.checkedValues.includes(value);
+    const prop = this.propPicker(product);
+    if (!prop || typeof prop !== 'string') return false;
+
+    const propValues = prop.split(',').map((value) => value.trim());
+
+    return propValues.some((value) => this.checkedValues.includes(value));
   }
 
   public getState(): CheckboxFilterState {
@@ -95,5 +107,14 @@ export class CheckboxFilter extends Filter {
     if (this.checkedValues.length === 0) return;
     this.checkedValues = [];
     this.update();
+  }
+
+  public getTag(): FilterTagInfo {
+    const { checkedValues } = this;
+    return {
+      ...super.getTag(),
+      isSmthToPrint: checkedValues.length !== 0,
+      info: checkedValues.join(', '),
+    };
   }
 }

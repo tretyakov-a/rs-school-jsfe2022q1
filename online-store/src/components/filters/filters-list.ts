@@ -15,6 +15,7 @@ export class FiltersList extends Component {
     this.on(EVENT.LOAD_APP, this.handleAppLoad);
     this.on(EVENT.CHANGE_FILTER, this.handleFiltersChange);
     this.on(EVENT.RESET_FILTERS, this.handleResetFilters);
+    this.on(EVENT.RESET_FILTER, this.handleResetFilter);
     this.onLoadingStart();
   }
 
@@ -26,21 +27,30 @@ export class FiltersList extends Component {
         return filters;
       }
     }
+    return [];
+  }
+
+  private handleResetFilter = (e: CustomEvent<{ filterName: string }>) => {
+    const { filterName } = e.detail;
+    const filters = this.getFilters();
+    const filter = filters.find((filter) => filter.getName() === filterName);
+
+    if (filter === undefined) return;
+    filter.reset();
+    this.emit(EVENT.CHANGE_FILTERS, filters);
   }
 
   private handleResetFilters = (): void => {
     const filters = this.getFilters();
-    if (filters !== undefined) {
-      filters.forEach((filter) => filter.reset());
-      this.emit(EVENT.CHANGE_FILTERS, filters);
-    }
+
+    filters.forEach((filter) => filter.reset());
+    this.emit(EVENT.CHANGE_FILTERS, filters);
   }
 
   private handleFiltersChange = (): void => {
     const filters = this.getFilters();
-    if (filters !== undefined) {
-      this.emit(EVENT.CHANGE_FILTERS, filters);
-    }
+
+    this.emit(EVENT.CHANGE_FILTERS, filters);
   }
 
   public handleAppLoad = (e: CustomEvent<AppLoadEventData>): void => {

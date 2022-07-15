@@ -10,6 +10,13 @@ export type FilterViewOptions = {
   state: unknown;
 }
 
+export type FilterTagInfo = {
+  name: string,
+  title: string,
+  isSmthToPrint: boolean;
+  info: string;
+}
+
 export function isFilter(component: Component): component is Filter {
   return component instanceof Filter;
 }
@@ -50,6 +57,15 @@ export class Filter extends Component {
 
   public reset(): void {
     return;
+  }
+
+  public getTag(): FilterTagInfo {
+    const { name, title } = this;
+    return {
+      name, title,
+      isSmthToPrint: false,
+      info: '',
+    };
   }
 
   protected getFilterData = (data: Product[]): unknown => {

@@ -19,6 +19,17 @@
   }
 }
 
+.products {
+  &__list,
+  &__selected-filters {
+    margin-top: 1rem;
+  }
+
+  &__empty {
+    text-align: center;
+  }
+}
+
 .controls {
   display: flex;
   column-gap: 0.5rem;

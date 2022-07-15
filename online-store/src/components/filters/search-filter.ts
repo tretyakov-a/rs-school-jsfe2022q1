@@ -1,4 +1,4 @@
-import { Filter, FilterProps, FilterViewOptions } from "./filter";
+import { Filter, FilterProps, FilterTagInfo, FilterViewOptions } from "./filter";
 import { Product } from "@common/product";
 import { EVENT } from '@common/constants';
 import { debounce, selectFrom } from "@common/utils";
@@ -35,10 +35,13 @@ export class SearchFilter extends Filter {
   }
 
   set value(newValue) {
-    const method = newValue === '' ? 'remove' : 'add';
-    this.getRoot().classList[method]('search_show-clear');
-
     this._value = newValue;
+    this.toogleClearBtn();
+  }
+
+  private toogleClearBtn() {
+    const method = this.value === '' ? 'remove' : 'add';
+    this.getRoot().classList[method]('search_show-clear');
   }
 
   protected render(): string {
@@ -48,6 +51,8 @@ export class SearchFilter extends Filter {
 
   afterRender() {
     super.afterRender();
+    this.toogleClearBtn();
+    
     const input = selectFrom(this.getRoot())(`input[name="${this.name}"]`);
     if (input instanceof HTMLInputElement) {
       input.addEventListener('input', debounce.call(this, 200, this.handleInput));
@@ -92,4 +97,13 @@ export class SearchFilter extends Filter {
     this.emit(EVENT.CHANGE_FILTER);
   };
 
+
+  public getTag(): FilterTagInfo {
+    const { name, title } = this;
+    return {
+      ...super.getTag(),
+      isSmthToPrint: this.value !== '',
+      info: `'${this.value}'`,
+    };
+  }
 }

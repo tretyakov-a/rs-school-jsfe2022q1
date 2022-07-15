@@ -6,6 +6,7 @@ import { ProductsList } from '@components/products/products-list';
 import { FiltersList } from '@components/filters/filters-list';
 import { ResetSettingsBtn } from '@components/reset-settings-btn';
 import { ResetFilterBtn } from '../../components/filters/reset-filters-btn';
+import { SelectedFilters } from '@components/filters/selected-filters';
 
 export class MainView extends View {
   
@@ -32,6 +33,7 @@ export class MainView extends View {
               ${this.renderChild('productsHeader', Component, {
                 viewConstructor: ProductsHeaderView
               })}
+              ${this.renderChild('selectedFilters', SelectedFilters)}
               ${this.renderChild('productsList', ProductsList)}
             </div>
           </div>
