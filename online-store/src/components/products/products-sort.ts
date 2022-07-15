@@ -19,7 +19,7 @@ export class ProductsSort extends Component {
     });
     this.inputEl = null;
     
-    this.on(EVENT.APP_LOAD, this.handleAppLoad);
+    this.on(EVENT.LOAD_APP, this.handleAppLoad);
   }
   
   private handleAppLoad = ({ detail: { state }}: CustomEvent<AppLoadEventData>) => {

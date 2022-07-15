@@ -3,10 +3,11 @@ export const DEFAULT_FILTER_OPTION = 'all';
 export const BASE_URL = 'https://raw.githubusercontent.com/tretyakov-a/online-store/main';
 
 export enum EVENT {
-  APP_LOAD = 'onProductsLoad',
-  PRODUCTS_LIST_UPDATE = 'onProductsListUpdate',
-  FILTERS_CHANGE = 'onFiltersChange',
-  FILTER_CHANGE = 'onFilterChange',
+  LOAD_APP = 'onProductsLoad',
+  UPDATE_PRODUCTS_LIST = 'onProductsListUpdate',
+  CHANGE_FILTERS = 'onFiltersChange',
+  CHANGE_FILTER = 'onFilterChange',
+  CHANGE_FILTER_APPEARANCE = 'onFilterAppearanceChange',
   TRY_ADD_TO_CART = 'onTryAddToCart',
   ADD_TO_CART = 'onAddToCart',
   CHANGE_DISPLAY_OPTION = 'onChangeDisplayOption',

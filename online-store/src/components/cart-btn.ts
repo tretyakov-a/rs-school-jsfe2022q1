@@ -19,7 +19,7 @@ export class CartBtn extends Component {
     this.productIds = [];
 
     this.on(EVENT.ADD_TO_CART, this.handleAddToCart);
-    this.on(EVENT.APP_LOAD, this.handleDataLoad);
+    this.on(EVENT.LOAD_APP, this.handleDataLoad);
 
     this.onLoadingStart();
   }

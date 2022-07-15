@@ -65,7 +65,7 @@ export class CheckboxFilter extends Filter {
         : acc;   
     }, []);
     this.checkedValues = [ ...values ];
-    this.emit(EVENT.FILTER_CHANGE);
+    this.emit(EVENT.CHANGE_FILTER);
   }
 
   protected getFilterData = (data: Product[]) => {

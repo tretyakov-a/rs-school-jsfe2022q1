@@ -38,7 +38,7 @@ export class RangeFilter extends Filter {
     if (left === this.left && right === this.right) return;
     this.left = left;
     this.right = right;
-    this.emit(EVENT.FILTER_CHANGE);
+    this.emit(EVENT.CHANGE_FILTER);
   };
 
   protected getFilterData = (data: Product[]) => {

@@ -89,7 +89,7 @@ export class SearchFilter extends Filter {
   }
   
   private handleChange = (): void => {
-    this.emit(EVENT.FILTER_CHANGE);
+    this.emit(EVENT.CHANGE_FILTER);
   };
 
 }

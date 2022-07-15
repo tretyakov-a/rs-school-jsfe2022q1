@@ -12,8 +12,8 @@ export class FiltersList extends Component {
       viewConstructor: FiltersListView,
     });
     
-    this.on(EVENT.APP_LOAD, this.handleAppLoad);
-    this.on(EVENT.FILTER_CHANGE, this.handleFiltersChange);
+    this.on(EVENT.LOAD_APP, this.handleAppLoad);
+    this.on(EVENT.CHANGE_FILTER, this.handleFiltersChange);
     this.on(EVENT.RESET_FILTERS, this.handleResetFilters);
     this.onLoadingStart();
   }
@@ -32,20 +32,20 @@ export class FiltersList extends Component {
     const filters = this.getFilters();
     if (filters !== undefined) {
       filters.forEach((filter) => filter.reset());
-      this.emit(EVENT.FILTERS_CHANGE, filters);
+      this.emit(EVENT.CHANGE_FILTERS, filters);
     }
   }
 
   private handleFiltersChange = (): void => {
     const filters = this.getFilters();
     if (filters !== undefined) {
-      this.emit(EVENT.FILTERS_CHANGE, filters);
+      this.emit(EVENT.CHANGE_FILTERS, filters);
     }
   }
 
   public handleAppLoad = (e: CustomEvent<AppLoadEventData>): void => {
     this.onLoadingEnd(e.detail);
-    
+  
     queueMicrotask(this.handleFiltersChange);
   }
 }

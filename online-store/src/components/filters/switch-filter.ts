@@ -71,7 +71,7 @@ export class SwitchFilter extends Filter {
       this.checked = this.checkbox.checked;
     }
     
-    this.emit(EVENT.FILTER_CHANGE);
+    this.emit(EVENT.CHANGE_FILTER);
   };
 
   protected getFilterData = (data: Product[]): number => {

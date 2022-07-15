@@ -21,9 +21,9 @@ export class ProductsList extends AnimatedProductsList {
 
     this.onLoadingStart();
     
-    this.on(EVENT.APP_LOAD, this.handleAppLoad);
-    this.on(EVENT.PRODUCTS_LIST_UPDATE, this.handleProductsListUpdate);
-    this.on(EVENT.CHANGE_DISPLAY_OPTION, this.onChangeDisplayOption);
+    this.on(EVENT.LOAD_APP, this.handleAppLoad);
+    this.on(EVENT.UPDATE_PRODUCTS_LIST, this.handleProductsListUpdate);
+    this.on(EVENT.CHANGE_DISPLAY_OPTION, this.handleChangeDisplayOption);
   }
 
   get displayOption() {
@@ -36,7 +36,8 @@ export class ProductsList extends AnimatedProductsList {
   }
 
   private handleAppLoad = (e: CustomEvent<AppLoadEventData>) => {
-    const { displayOption } = this;
+    const { displayOption } = e.detail.state.appearance;
+    this.displayOption = displayOption;
     this.onLoadingEnd({ ...e.detail, displayOption });
   }
 
@@ -45,7 +46,7 @@ export class ProductsList extends AnimatedProductsList {
     this.update({ ...e.detail, displayOption });
   }
 
-  private onChangeDisplayOption = (e: CustomEvent<DISPLAY_OPTION>) => {
+  private handleChangeDisplayOption = (e: CustomEvent<DISPLAY_OPTION>) => {
     const prevOptions = this.displayOption;
     this.displayOption = e.detail;
     const className = ProductsListView.className;
