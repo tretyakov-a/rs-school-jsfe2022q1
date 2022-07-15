@@ -1,6 +1,6 @@
 import './display-options.scss';
 import { View, ViewOptions } from '@core/view';
-import { DisplayOptionsViewData } from '@components/display-options';
+import { DisplayOptionsViewData } from '@components/products/display-options';
 import { DISPLAY_OPTION, DISPLAY_OPTION_DEFAULT } from '@common/constants';
 
 const icons = {

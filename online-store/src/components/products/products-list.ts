@@ -1,7 +1,7 @@
 import { ComponentProps } from '@core/component';
 import { ProductsListView } from '@views/products-list';
 import { EVENT, DISPLAY_OPTION_DEFAULT, DISPLAY_OPTION } from '@common/constants';
-import { AppLoadEventData } from './app';
+import { AppLoadEventData } from '../app';
 import { AnimatedProductsList } from './animated-products-list';
 
 export type ProductsListViewOptions = AppLoadEventData & {

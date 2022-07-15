@@ -3,7 +3,7 @@ import { ProductsSortView } from "@views/products-sort";
 import { selectFrom } from '@common/utils';
 import { EVENT } from '@common/constants';
 import { sortData } from "@common/sorting";
-import { AppLoadEventData } from "./app";
+import { AppLoadEventData } from "../app";
 
 export type ProductsSortViewOptions = {
   options: typeof sortData;

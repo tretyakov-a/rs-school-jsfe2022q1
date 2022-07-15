@@ -2,7 +2,7 @@ import './products-list-item.scss';
 import { View, ViewOptions } from '@core/view';
 import sampleProductImg from '@assets/sample-product.jpg';
 import { Product } from '@common/product';
-import { AddToCartBtn } from '@components/add-to-cart-btn';
+import { AddToCartBtn } from '@components/products/add-to-cart-btn';
 import { Component } from '@core/component';
 import { RatingView } from '@views/rating';
 import { BASE_URL } from '@common/constants';

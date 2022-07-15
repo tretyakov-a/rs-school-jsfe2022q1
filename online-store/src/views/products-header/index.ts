@@ -1,7 +1,7 @@
 import './products-header.scss';
 import { View, ViewOptions } from '@core/view';
-import { DisplayOptions } from '@components/display-options';
-import { ProductsSort } from '@components/products-sort';
+import { DisplayOptions } from '@components/products/display-options';
+import { ProductsSort } from '@components/products/products-sort';
 
 export class ProductsHeaderView extends View {
   constructor(options: ViewOptions) {
