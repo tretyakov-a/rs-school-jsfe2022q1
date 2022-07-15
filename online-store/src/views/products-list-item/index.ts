@@ -21,11 +21,11 @@ export class ProductsListItemView extends View {
   }
   
   public render(data: ProductViewOptions): string {
-    const { product: { title, price, rating, imgs } } = data;
+    const { product: { title, price, rating, imgs, id } } = data;
     const imgUrl = `${BASE_URL}/${imgs[0]}`;
 
     return super.render(`
-      <li class="products-list__item product">
+      <li class="products-list__item product" data-product-id="${id}">
         <div class="product__img">
           <img
             src="${imgUrl}"
