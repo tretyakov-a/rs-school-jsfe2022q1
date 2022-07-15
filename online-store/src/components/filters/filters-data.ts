@@ -42,6 +42,11 @@ export const filtersData: Record<FILTER_NAME, FilterConfig> = {
     CheckboxFilter, 
     propPickers[PROP.COLOR]
   ],
+  [FILTER_NAME.SIZE]: [
+    'Размер', 
+    CheckboxFilter, 
+    propPickers[PROP.SIZE]
+  ],
   [FILTER_NAME.YEAR]: [
     'Год выпуска', 
     RangeFilter, 

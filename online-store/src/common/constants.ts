@@ -25,6 +25,7 @@ export enum FILTER_NAME {
   CAMERA_INCLUDED = 'cameraIncluded',
   SEARCH = 'search',
   YEAR = 'year',
+  SIZE = 'size',
 }
 
 export enum DISPLAY_OPTION {

@@ -99,18 +99,20 @@ export enum PROP {
   MOBILE_CONTROL = 'mobileControl',
   CAMERA_INCLUDED = 'cameraIncluded',
   TITLE = 'title',
+  SIZE = 'size',
 }
 
 export const propPickers: Record<string, PropPicker> = {
-  [PROP.PRICE]: (item: Product): number => item.price,
-  [PROP.RATING]: (item: Product): number => item.rating,
-  [PROP.YEAR]: (item: Product): number => item.year,
+  [PROP.PRICE]: (item): number => item.price,
+  [PROP.RATING]: (item): number => item.rating,
+  [PROP.YEAR]: (item): number => item.year,
   [PROP.BRAND]: (item) => item.brand,
   [PROP.COLOR]: (item) => item.props.classification?.specs.color?.value,
   [PROP.WEIGHT]: (item): number => Number.parseInt(item.props.dimensions?.specs.weight?.value || ''),
   [PROP.MOBILE_CONTROL]: (item) => item.props.mobileSupport?.specs.mobileControl?.value,
   [PROP.CAMERA_INCLUDED]: (item) => item.props.camera?.specs.cameraIncluded?.value,
-  [PROP.TITLE]: (item: Product): string => item.title,
+  [PROP.TITLE]: (item): string => item.title,
+  [PROP.SIZE]: (item) => item.props.classification?.specs.size?.value,
 }
 
 export function isEqualProductsArrays(a: Product[], b: Product[]) {
