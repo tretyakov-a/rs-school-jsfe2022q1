@@ -7,6 +7,7 @@ import { EVENT } from '@common/constants';
 export type FilterItemViewOptions = FilterViewOptions & {
   isExpandable: boolean;
   isExpanded: boolean;
+  filterStyle: string;
 }
 
 export type FilterItemProps = ComponentProps & {

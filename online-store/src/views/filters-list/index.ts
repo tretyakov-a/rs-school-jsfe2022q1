@@ -16,12 +16,13 @@ export class FiltersListView extends LoaderView {
 
   private renderItems({ products, state: { filterStates, appearance }}: AppLoadEventData) {
     return Object.entries(filtersData)
-      .map(([ name, [ title, _, __, isExpandable = true ] ]: [string, FilterConfig]): string => {
+      .map(([ name, [ title, _, __, style ] ]: [string, FilterConfig]): string => {
+        const [ isExpandable = true, filterStyle = '' ] = style || [];
         const { isExpanded = true } = appearance?.filters[name] || {};
         return this.renderChild('filterItems', FiltersListItem, {
           viewConstructor: FiltersListItemView,
           data: {
-            name, title, products, isExpandable, isExpanded,
+            name, title, products, isExpandable, isExpanded, filterStyle,
             state: filterStates[name],
           }
         });

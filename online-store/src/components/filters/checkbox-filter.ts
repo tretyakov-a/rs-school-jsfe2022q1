@@ -8,6 +8,7 @@ export type CheckboxListViewOptions = {
   inputName: string;
   values: Record<string, number>;
   checkedValues: string[];
+  style: string;
 }
 
 type CheckboxFilterState = {
@@ -40,11 +41,12 @@ export class CheckboxFilter extends Filter {
   }
 
   protected render(): string {
-    const { values, checkedValues } = this;
+    const { values, checkedValues, style } = this;
     return super.render({
       inputName: this.name,
       values,
       checkedValues,
+      style,
     })
   }
 

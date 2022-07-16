@@ -6,11 +6,16 @@ import { RangeFilter } from "./range-filter";
 import { SwitchFilter } from './switch-filter';
 import { SearchFilter } from './search-filter';
 
+type FilterStyle = [
+  boolean?, // isExpandable
+  string?,
+]
+
 export type FilterConfig = [
   string,
   typeof Filter,
   PropPicker,
-  boolean?, // isExpandable
+  FilterStyle?,
 ]
 
 export const filtersData: Record<FILTER_NAME, FilterConfig> = {
@@ -18,19 +23,19 @@ export const filtersData: Record<FILTER_NAME, FilterConfig> = {
     'Поиск по названию', 
     SearchFilter, 
     propPickers[PROP.TITLE],
-    false,
+    [false],
   ],
   [FILTER_NAME.CAMERA_INCLUDED]: [
     'Наличие камеры в комплекте', 
     SwitchFilter, 
     propPickers[PROP.CAMERA_INCLUDED],
-    false,
+    [false],
   ],
   [FILTER_NAME.MOBILE_CONTROL]: [
     'Управление со смартфона', 
     SwitchFilter, 
     propPickers[PROP.MOBILE_CONTROL],
-    false,
+    [false],
   ],
   [FILTER_NAME.BRAND]: [
     'Бренд', 
@@ -40,7 +45,8 @@ export const filtersData: Record<FILTER_NAME, FilterConfig> = {
   [FILTER_NAME.COLOR]: [
     'Цвет', 
     CheckboxFilter, 
-    propPickers[PROP.COLOR]
+    propPickers[PROP.COLOR],
+    [true, 'color-pick']
   ],
   [FILTER_NAME.SIZE]: [
     'Размер', 

@@ -8,6 +8,7 @@ export type FilterViewOptions = {
   title: string;
   products: Product[];
   state: unknown;
+  filterStyle: string;
 }
 
 export type FilterTagInfo = {
@@ -33,6 +34,7 @@ export class Filter extends Component {
   protected name: string;
   protected title: string;
   protected propPicker: PropPicker;
+  protected style: string;
 
   constructor(props: FilterProps) {
     const { data } = props;
@@ -41,6 +43,7 @@ export class Filter extends Component {
     this.name = data.name;
     this.title = data.title;
     this.propPicker = filtersData[data.name][2];
+    this.style = data.filterStyle || '';
   }
 
   public check(product?: Product): boolean {

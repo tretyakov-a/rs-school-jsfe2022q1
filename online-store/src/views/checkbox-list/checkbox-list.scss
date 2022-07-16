@@ -15,3 +15,40 @@
     }
   }
 }
+
+.checkbox-list_color-pick {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 6px 12px;
+  column-gap: 1rem;
+  row-gap: 1rem;
+
+  .checkbox {
+    padding: 0;
+
+    &__title {
+      display: none;
+    }
+
+    &__check {
+      margin-right: 0;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      
+      &:hover {
+        border-color: var(--bg-color);
+      }
+    }
+    
+
+    input:checked ~ .checkbox__check::after {
+      content: "";
+    }
+
+    input:checked ~ .checkbox__check {
+      box-shadow: 0 0 2px 4px var(--primary-color-2);
+      border-color: var(--bg-color);
+    }
+  }
+}
