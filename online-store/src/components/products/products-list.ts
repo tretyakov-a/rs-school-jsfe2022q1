@@ -58,4 +58,28 @@ export class ProductsList extends AnimatedProductsList {
       );
     }
   }
+
+  protected afterRender(): void {
+    super.afterRender();
+
+    this.getRoot().addEventListener('click', this.handleClick);
+  }
+
+  private handleClick = (e: Event) => {
+    const target = e.target;
+    if (target === null || !(target instanceof HTMLElement)) return;
+    
+    const cartBtn = target.closest('.product__add-to-curt');
+    if (cartBtn !== null) return;
+
+    const el = target.closest('.product');
+
+    if (el === null || !(el instanceof HTMLElement)) return;
+    const productId = el.getAttribute('data-product-id');
+
+    if (productId === null) return;
+
+    const { origin, pathname } = location;
+    location.replace(`${origin}${pathname}#product?id=${productId}`);
+  }
 }

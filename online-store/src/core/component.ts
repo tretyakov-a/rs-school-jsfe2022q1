@@ -8,9 +8,6 @@ const isLog = false;
 export type ComponentHandler = (() => void) | ((data?: unknown) => void);
 export type ComponentHandlers = Record<string, ComponentHandler>;
 
-export type ComponentOptions = {
-  data?: unknown
-}
 
 export type ComponentProps = {
   name?: string,
@@ -85,7 +82,8 @@ export class Component extends ComponentEmmiter {
     } else {
       this._components[name] = newComponent;
     }
-    return newComponent.render(childProps.data);
+    // return newComponent.render(childProps.data);
+    return newComponent.render(childProps.viewOptions?.data);
   }
 
   public isArrayItem() {

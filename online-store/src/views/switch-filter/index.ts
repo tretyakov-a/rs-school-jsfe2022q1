@@ -30,7 +30,9 @@ export class SwitchFilterView extends View {
           <span class="checkbox__title">${title}</span>
           ${this.renderChild('productsNumber', Component, {
             viewConstructor: ProductsNumberView,
-            data: matchedProductsNumber
+            viewOptions: {
+              data: matchedProductsNumber
+            },
           })}
         </label>
       </div>

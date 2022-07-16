@@ -10,7 +10,7 @@ export class ListedProductsAmountView extends View {
 
   public render(productsAmount?: number): string {
     const content = productsAmount !== undefined
-      ? `${productsAmount} товаров`
+      ? `Найдено товаров: ${productsAmount}`
       : '';
     return super.render(`
       <div class="products__amount">

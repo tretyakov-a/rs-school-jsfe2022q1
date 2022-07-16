@@ -20,9 +20,11 @@ export class ProductsListView extends LoaderView {
     return products
       .map((item) => {
         return this.renderChild('productsListItem', Component, {
-          data: {
-            product: item,
-            isInCart: productInCartIds.includes(item.id),
+          viewOptions: {
+            data: {
+              product: item,
+              isInCart: productInCartIds.includes(item.id),
+            },
           },
           viewConstructor: ProductsListItemView,
         })

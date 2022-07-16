@@ -94,7 +94,6 @@ export class SearchFilter extends Filter {
   }
 
   public getTag(): FilterTagInfo {
-    const { name, title } = this;
     return {
       ...super.getTag(),
       isSmthToPrint: this.value !== '',

@@ -48,6 +48,14 @@ export class Range extends Component {
     this.right = right >= min && right <= max ? right : max;
   }
 
+  protected render(): string {
+    const { min, max, left, right } = this;
+    return super.render({
+      inputName: this.name,
+      min, max, left, right
+    })
+  }
+
   protected afterRender() {
     super.afterRender();
     

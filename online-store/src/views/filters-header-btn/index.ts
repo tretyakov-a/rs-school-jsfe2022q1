@@ -17,7 +17,9 @@ export class FiltersHeaderBtnView extends View {
         <button class="button button_icon">
           ${this.renderChild('icon', Component, {
             viewConstructor: BtnIconView,
-            data: ICON_TYPE.FILTERS,
+            viewOptions: {
+              data: ICON_TYPE.FILTERS,
+            }
           })}
         </button>
       </div>

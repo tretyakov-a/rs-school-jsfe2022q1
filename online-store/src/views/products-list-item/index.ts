@@ -45,12 +45,21 @@ export class ProductsListItemView extends View {
           </p>
           <div class="product__buy">
             <div class="product__price">${price} ₽</div>
-            ${this.renderChild('addToCart', AddToCartBtn, { data })}
+            ${this.renderChild('addToCart', AddToCartBtn, {
+              data,
+              viewOptions: {
+                data: {
+                  isInCart: data.isInCart
+                }
+              }
+            })}
           </div>
           <div class="product__info">
             ${this.renderChild('productRating', Component, {
               viewConstructor: RatingView,
-              data: { rating }
+              viewOptions: {
+                data: { rating }
+              },
             })}
             <!--
             <label class="product__compare checkbox">

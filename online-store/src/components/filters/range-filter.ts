@@ -77,7 +77,7 @@ export class RangeFilter extends Filter {
         onChange: this.handleChange,
       },
       data: {
-        inputName: this.name,
+        // inputName: this.name,
         min, max, left, right,
       }
     })

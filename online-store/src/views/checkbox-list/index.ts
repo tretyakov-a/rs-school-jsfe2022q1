@@ -29,7 +29,9 @@ export class CheckboxListView extends View {
             <span class="checkbox__title">${key}</span>
             ${this.renderChild('productsNumber', Component, {
               viewConstructor: ProductsNumberView,
-              data: values[key],
+              viewOptions: {
+                data: values[key],
+              }
             })}
           </label>
         </li>`
