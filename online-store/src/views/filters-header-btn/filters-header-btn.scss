@@ -1,0 +1,17 @@
+.filters-btn {
+  display: none;
+  background-color: var(--bg-color);
+}
+
+@media (max-width: 1024px) {
+  .filters-btn {
+    display: block;
+
+    &_show {
+      position: fixed;
+      z-index: 11;
+      left: 1rem;
+      top: 1rem;
+    }
+  }
+}

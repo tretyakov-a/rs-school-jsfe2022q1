@@ -20,6 +20,7 @@ export class MainView extends View {
   public render(): string {
     return super.render(`
       <div class="main">
+        <div class="main__overlay"></div>
         <div class="main__container container">
           <aside class="main__left">
             <div class="controls">

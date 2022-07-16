@@ -23,7 +23,7 @@ export class AnimatedProductsList extends Component {
     return [];
   }
 
-  protected update(data?: unknown): void {
+  public update(data?: unknown): void {
     this.oldItemsInfo = this.getListItemsInfo();
 
     super.update(data);

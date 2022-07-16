@@ -1,4 +1,7 @@
 .products__display-options {
+  max-width: 120px;
+  flex-grow: 1;
+
   .radio-group {
     &__form {
       display: flex;
@@ -10,16 +13,19 @@
     &__item {
       padding: 0;
       border: none;
+      flex-grow: 1;
+      min-width: 40px;
     }
   }
 
   .radio__button {
     border: none;
-    padding: 4px 20px;
+    padding: 4px 0;
     height: 36px;
+    text-align: center;
 
     svg {
-      display: block;
+      display: inline-block;
       fill: var(--text-color-4);
     }
   }
@@ -36,7 +42,6 @@
     cursor: default;
 
     svg {
-      display: block;
       fill: var(--primary-color-3);
     }
   }

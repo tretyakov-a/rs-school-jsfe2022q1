@@ -52,11 +52,13 @@ export class ProductsListItemView extends View {
               viewConstructor: RatingView,
               data: { rating }
             })}
+            <!--
             <label class="product__compare checkbox">
               <input type="checkbox" name="product-compare">
               <span class="checkbox__check"></span>
               <span class="checkbox__title">Compare</span>
             </label>
+            -->
           </div>
         </div>
       </li>

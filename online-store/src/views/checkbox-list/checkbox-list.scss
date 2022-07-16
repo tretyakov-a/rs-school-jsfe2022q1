@@ -35,10 +35,6 @@
       border-radius: 50%;
       width: 20px;
       height: 20px;
-      
-      &:hover {
-        border-color: var(--bg-color);
-      }
     }
     
 
@@ -50,5 +46,11 @@
       box-shadow: 0 0 2px 4px var(--primary-color-2);
       border-color: var(--bg-color);
     }
+  }
+}
+
+@media (hover: hover) {
+  .checkbox-list_color-pick .checkbox__check:hover {
+    border-color: var(--bg-color);
   }
 }

@@ -8,11 +8,14 @@
     display: flex;
     align-items: center;
     height: 215px;
+    overflow: hidden;
     
     img {
       display: block;
       width: 100%;
-      object-fit: cover;
+      height: 100%;
+      object-fit: contain;
+      object-position: top;
     }
   }
 
@@ -84,6 +87,7 @@
     }
 
     &__img {
+      height: auto;
       flex-basis: 20%;
       flex-shrink: 0;
     }
@@ -109,6 +113,18 @@
     
     &__extra {
       display: block;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .product {
+    &__title {
+      font-size: 0.875rem;
+    }
+
+    &__price {
+      font-size: 1.2rem;
     }
   }
 }

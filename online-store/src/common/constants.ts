@@ -16,6 +16,7 @@ export enum EVENT {
   SHOW_ALERT = 'onShowAlert',
   RESET_FILTERS = 'onResetFilters',
   RESET_SETTINGS = 'onResetSettings',
+  TOGGLE_MAIN_LEFT = 'onShowMainLeft',
 }
 
 export enum FILTER_NAME {

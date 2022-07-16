@@ -11,4 +11,11 @@ export class Button extends Component {
   protected onClick = (e: Event): void => {
     this.handlers?.onClick(e);
   }
+
+  protected getIcon() {
+    const icon = this.getComponent('icon');
+    if (icon !== undefined && !Array.isArray(icon)) {
+      return icon;
+    }
+  }
 }

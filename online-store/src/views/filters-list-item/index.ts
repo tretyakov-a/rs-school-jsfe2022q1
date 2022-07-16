@@ -32,7 +32,7 @@ export class FiltersListItemView extends View {
         </div>
         <div class="filter__content">
           ${this.renderChild('filter', component, { 
-            data, 
+            data,
             viewOptions: { root: '.filter__content'} 
           })}
         </div>

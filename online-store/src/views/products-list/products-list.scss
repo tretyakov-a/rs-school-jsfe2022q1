@@ -41,3 +41,27 @@
     }
   }
 }
+
+@media (max-width: 1024px) {
+  .products-list {
+    &__item {
+      flex-basis: calc((100% - 2rem) / 3);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .products-list {
+    &__item {
+      flex-basis: calc((100% - 1rem) / 2);
+    }
+  }
+}
+
+@media (max-width: 520px) {
+  .products-list {
+    &__item {
+      flex-basis: 100%;
+    }
+  }
+}

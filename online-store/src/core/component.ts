@@ -92,7 +92,7 @@ export class Component extends ComponentEmmiter {
     return this.id !== -1;
   }
   
-  protected update(data?: unknown) {
+  public update(data?: unknown) {
     this.parent?.updateChild(this, data);
   }
 
