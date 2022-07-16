@@ -3,10 +3,11 @@ import { ComponentProps } from '@core/component';
 import { Filter } from './filters/filter';
 import { SORT, sortData } from '@common/sorting';
 import { isEqualProductsArrays, Product } from '@common/product';
-import { ShopPageView } from '@views/shop-page';
 import { printComponentsTree, selectFrom } from '@common/utils';
 import { DummyProductsService, IProductsService, ProductsService } from '@common/products-service';
 import { AppState, AppStateProcessor } from './app-state';
+import { AppView } from '@views/app';
+import { ActiveRoute } from '@common/active-route';
 
 export type AppLoadEventData = {
   products: Product[];
@@ -22,7 +23,7 @@ export class App extends AppStateProcessor {
   constructor(props: ComponentProps, rootSelector: string) {
     super({
       ...props,
-      viewConstructor: ShopPageView,
+      viewConstructor: AppView,
       viewOptions: {
         root: selectFrom(document)(rootSelector),
       }
@@ -39,8 +40,7 @@ export class App extends AppStateProcessor {
     this.on(EVENT.RESET_SETTINGS, this.handleResetSettings);
     this.on(EVENT.CHANGE_DISPLAY_OPTION, this.handleChangeDisplayOption);
     this.on(EVENT.CHANGE_FILTER_APPEARANCE, this.handleFilterAppearanceChange);
-
-    window.addEventListener('beforeunload', this.saveState);
+    this.on(EVENT.CHANGE_PAGE, this.handlePageChange);
 
     this.productsService.load()
       .then(this.handleDataLoad)
@@ -144,6 +144,12 @@ export class App extends AppStateProcessor {
   ) => {
     const { filterName, isExpanded } = e.detail;
     this.state.appearance.filters[filterName] = { isExpanded };
+  }
+
+  private handlePageChange = () => {
+    setTimeout(() => {
+      this.handleAppLoad(null);
+    }, 200);
   }
 }
 

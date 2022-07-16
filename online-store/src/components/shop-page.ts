@@ -1,17 +1,17 @@
 import { Component, ComponentProps } from '@core/component';
-import { MainView } from '@views/main';
+import { ShopPageView } from '@views/pages/shop-page';
 import { selectFrom } from '@common/utils';
 import { EVENT } from '@common/constants';
 
-export class Main extends Component {
-  static asideClass = 'main';
+export class ShopPage extends Component {
+  static asideClass = 'shop';
   private leftSideEl: HTMLElement | null;
   private overlayEl: HTMLElement | null;
 
   constructor(props: ComponentProps) {
     super({
       ...props,
-      viewConstructor: MainView,
+      viewConstructor: ShopPageView,
     });
 
     this.leftSideEl = null;
@@ -23,8 +23,8 @@ export class Main extends Component {
   private handleToogleMainLeft = (e: CustomEvent<boolean>) => {
     const showMod = (className: string) => `${className}_show`;
     const hideMod = (className: string) => `${className}_hide`;
-    const left = `${Main.asideClass}__left`;
-    const overlay = `${Main.asideClass}__overlay`;
+    const left = `${ShopPage.asideClass}__left`;
+    const overlay = `${ShopPage.asideClass}__overlay`;
     const show = e.detail;
     if (show) {
       // this.leftSideEl?.classList.remove(hideMod);
@@ -45,7 +45,7 @@ export class Main extends Component {
   protected afterRender(): void {
     super.afterRender();
 
-    this.leftSideEl = selectFrom(this.getRoot())(`.${Main.asideClass}__left`);
-    this.overlayEl = selectFrom(this.getRoot())(`.${Main.asideClass}__overlay`);
+    this.leftSideEl = selectFrom(this.getRoot())(`.${ShopPage.asideClass}__left`);
+    this.overlayEl = selectFrom(this.getRoot())(`.${ShopPage.asideClass}__overlay`);
   }
 }

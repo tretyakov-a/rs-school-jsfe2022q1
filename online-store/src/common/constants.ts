@@ -18,6 +18,7 @@ export enum EVENT {
   RESET_FILTERS = 'onResetFilters',
   RESET_SETTINGS = 'onResetSettings',
   TOGGLE_MAIN_LEFT = 'onShowMainLeft',
+  CHANGE_PAGE = 'onChangePage',
 }
 
 export enum FILTER_NAME {
