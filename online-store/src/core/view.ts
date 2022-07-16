@@ -33,11 +33,18 @@ export class View {
   }
 
   public afterRender(parent: Component | null, id: number = -1): void {
-    this._root = (typeof this.root === 'string')
-      ? id === -1
-        ? selectFrom(parent!.getRoot())(this.root)
-        : selectFrom(parent!.getRoot())(`${this.root}:nth-child(${id + 1})`)
-      : this.root;
+
+    if (typeof this.root === 'string') {
+      if (id === -1) {
+        this._root = selectFrom(parent!.getRoot())(this.root);
+      } else {
+        const el = parent!.getRoot().querySelectorAll(this.root)[id];
+        if (el instanceof HTMLElement)
+          this._root = el;
+      }
+    } else {
+      this._root = this.root;
+    }
   }
 
   protected renderChild(
