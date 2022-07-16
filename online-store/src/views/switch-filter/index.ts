@@ -1,5 +1,7 @@
 import './switch-filter.scss';
 import { View, ViewOptions } from "@core/view";
+import { ProductsNumberView } from '@views/filter-products-number';
+import { Component } from '@core/component';
 
 export type SwitchFilterViewOptions = {
   checked: boolean;
@@ -25,7 +27,11 @@ export class SwitchFilterView extends View {
         <label class="checkbox">
           <input type="checkbox" name="${inputName}" ${checked ? 'checked' : ''}>
           <span class="checkbox__check"></span>
-          <span class="checkbox__title">${title} (${matchedProductsNumber})</span>
+          <span class="checkbox__title">${title}</span>
+          ${this.renderChild('productsNumber', Component, {
+            viewConstructor: ProductsNumberView,
+            data: matchedProductsNumber
+          })}
         </label>
       </div>
     `);

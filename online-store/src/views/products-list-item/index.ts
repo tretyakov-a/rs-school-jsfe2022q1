@@ -25,11 +25,11 @@ export class ProductsListItemView extends View {
   public render(data: ProductViewOptions): string {
     const { product: { title, price, rating, imgs, id } } = data;
     const imgUrl = `${BASE_URL}/${imgs[0]}`;
-    loadImage(imgUrl)
-      .then((src) => {
-        const img = selectFrom(this.getRoot())('.product__img img');
-        if (img instanceof HTMLImageElement) img.src = src;
-      })
+    // loadImage(imgUrl)
+    //   .then((src) => {
+    //     const img = selectFrom(this.getRoot())('.product__img img');
+    //     if (img instanceof HTMLImageElement) img.src = src;
+    //   })
     return super.render(`
       <li class="products-list__item product" data-product-id="${id}">
         <div class="product__img">

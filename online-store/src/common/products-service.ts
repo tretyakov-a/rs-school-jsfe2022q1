@@ -22,7 +22,7 @@ export class DummyProductsService implements IProductsService {
 
 export class ProductsService implements IProductsService {
   public async load(): Promise<Product[]> {
-    const res = await fetch(`${BASE_URL}/data.json`);
+    const res = await fetch(`${BASE_URL}/data-21.json`);
     if (!res.ok) {
       throw new Error('Data load error!')
     }

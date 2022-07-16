@@ -59,7 +59,7 @@ export class CheckboxFilter extends Filter {
     });  
   }
 
-  private handleChange = (): void => {
+  protected handleChange = (): void => {
     if (!this.checkboxes) return;
     const values = [...this.checkboxes].reduce((acc: string[], el) => {
       return el instanceof HTMLInputElement && el.checked
@@ -67,7 +67,7 @@ export class CheckboxFilter extends Filter {
         : acc;   
     }, []);
     this.checkedValues = [ ...values ];
-    this.emit(EVENT.CHANGE_FILTER);
+    super.handleChange();
   }
 
   protected getFilterData = (data: Product[]) => {
@@ -118,5 +118,23 @@ export class CheckboxFilter extends Filter {
       isSmthToPrint: checkedValues.length !== 0,
       info: checkedValues.join(', '),
     };
+  }
+
+  public updateProductNumbers(filtred: Product[]): void {
+    const currentValues: Record<string, number> = JSON.parse(JSON.stringify(this.values));
+    const values = this.getFilterData(filtred);
+    Object.keys(currentValues).forEach((key) => {
+      currentValues[key] = values[key] !== undefined
+        ? values[key]
+        : 0;
+    })
+
+    const numbers = Object.values(currentValues);
+    const numberComponents = this.getComponent('productsNumber');
+    if (!Array.isArray(numberComponents)) {
+      numberComponents.update(numbers[0]);
+    } else {
+      numberComponents.forEach((component, i) => component.update(numbers[i]));
+    }
   }
 }

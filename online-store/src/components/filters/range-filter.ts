@@ -32,13 +32,13 @@ export class RangeFilter extends Filter {
     this.max = max;
   }
 
-  private handleChange = (data?: { left: number, right: number }): void => {
+  protected handleChange = (data?: { left: number, right: number }): void => {
     if (!data) return;
     const { left, right } = data;
     if (left === this.left && right === this.right) return;
     this.left = left;
     this.right = right;
-    this.emit(EVENT.CHANGE_FILTER);
+    super.handleChange();
   };
 
   protected getFilterData = (data: Product[]) => {
@@ -89,7 +89,7 @@ export class RangeFilter extends Filter {
     return {
       ...super.getTag(),
       isSmthToPrint,
-      info: `${left}-${right}`,
+      info: left === right ? `${left}` : `${left}-${right}`,
     };
   }
 }

@@ -2,6 +2,7 @@
   .checkbox {
     border: none;
     border-radius: 0;
+    height: 100%;
   
     &:hover {
       .checkbox__title {
@@ -9,10 +10,12 @@
       }
     }
   
-    &__title {
+    &__title,
+    &__products-number {
       color: var(--text-color-2);
       font-weight: 400;
     }
+
   }
 }
 

@@ -8,7 +8,8 @@
       }
     }
   
-    &__title {
+    &__title,
+    &__products-number {
       color: var(--text-color-2);
       font-weight: 400;
     }

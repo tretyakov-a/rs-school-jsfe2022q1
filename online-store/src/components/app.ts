@@ -29,6 +29,7 @@ export class App extends AppStateProcessor {
     });
 
     this.productsService = new DummyProductsService();
+    // this.productsService = new ProductsService();
     this.products = [];
     this.filtred = [];
 
@@ -86,6 +87,7 @@ export class App extends AppStateProcessor {
     if (!isEqualProductsArrays(this.filtred, filtred)) {
       this.filtred = filtred;
       this.updateProductsList();
+      this.emit(EVENT.UPDATE_FILTERS_PRODUCT_NUMBERS, this.filtred);
     }
   }
 

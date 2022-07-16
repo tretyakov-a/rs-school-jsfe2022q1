@@ -1,6 +1,6 @@
 import { Component, ComponentProps } from "@core/component";
 import { Product, PropPicker } from "@common/product";
-import { FILTER_NAME } from '@common/constants';
+import { EVENT, FILTER_NAME } from '@common/constants';
 import { filtersData } from '@components/filters/filters-data';
 
 export type FilterViewOptions = {
@@ -71,8 +71,14 @@ export class Filter extends Component {
     };
   }
 
+  protected handleChange(): void {
+    this.emit(EVENT.CHANGE_FILTER, this.name);
+  };
+
   protected getFilterData = (data: Product[]): unknown => {
     return {};
   };
 
+  public updateProductNumbers(filtred: Product[]): void {
+  }
 }

@@ -3,6 +3,8 @@ import { View } from '@core/view';
 import { CheckboxListViewOptions } from '@components/filters/checkbox-filter';
 import { ViewOptions } from '@core/view';
 import { COLORS } from '@common/constants';
+import { Component } from '@core/component';
+import { ProductsNumberView } from '@views/filter-products-number';
 
 export class CheckboxListView extends View {
   constructor(options: ViewOptions) {
@@ -24,7 +26,11 @@ export class CheckboxListView extends View {
           <label class="checkbox">
             <input type="checkbox" name="${inputName}" value="${key}" ${checkedValues.includes(key) ? 'checked' : ''}>
             <span class="checkbox__check" ${colorStyle}></span>
-            <span class="checkbox__title">${key} (${values[key]})</span>
+            <span class="checkbox__title">${key}</span>
+            ${this.renderChild('productsNumber', Component, {
+              viewConstructor: ProductsNumberView,
+              data: values[key],
+            })}
           </label>
         </li>`
       })

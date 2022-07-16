@@ -65,13 +65,13 @@ export class SwitchFilter extends Filter {
     this.update();
   }
 
-  private handleChange = (): void => {
+  protected handleChange = (): void => {
     if (!this.checkbox) return;
     if (this.checkbox instanceof HTMLInputElement) {
       this.checked = this.checkbox.checked;
     }
     
-    this.emit(EVENT.CHANGE_FILTER);
+    super.handleChange();
   };
 
   protected getFilterData = (data: Product[]): number => {
@@ -88,5 +88,13 @@ export class SwitchFilter extends Filter {
       isSmthToPrint: this.checked,
       info: '',
     };
+  }
+
+  public updateProductNumbers(filtred: Product[]): void {
+    this.matchedProductsNumber = this.getFilterData(filtred);
+    const numberComponents = this.getComponent('productsNumber');
+    if (!Array.isArray(numberComponents)) {
+      numberComponents.update(this.matchedProductsNumber);
+    }
   }
 }

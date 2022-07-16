@@ -92,11 +92,6 @@ export class SearchFilter extends Filter {
     this.value = '';
     this.update();
   }
-  
-  private handleChange = (): void => {
-    this.emit(EVENT.CHANGE_FILTER);
-  };
-
 
   public getTag(): FilterTagInfo {
     const { name, title } = this;

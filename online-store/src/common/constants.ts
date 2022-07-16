@@ -8,6 +8,7 @@ export enum EVENT {
   CHANGE_FILTERS = 'onFiltersChange',
   CHANGE_FILTER = 'onFilterChange',
   CHANGE_FILTER_APPEARANCE = 'onFilterAppearanceChange',
+  UPDATE_FILTERS_PRODUCT_NUMBERS = 'onUpdateFilters',
   RESET_FILTER = 'onResetFilter',
   TRY_ADD_TO_CART = 'onTryAddToCart',
   ADD_TO_CART = 'onAddToCart',
