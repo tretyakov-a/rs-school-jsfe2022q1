@@ -47,7 +47,8 @@ export class Component extends ComponentEmmiter {
     this.handlers = props.handlers || {};
     this.viewConstructor = props.viewConstructor || View;
 
-    if (this.viewConstructor.name === 'View' && props.viewOptions?.root === undefined) {
+    if (this.viewConstructor.name === View.prototype.constructor.name
+      && props.viewOptions?.root === undefined) {
       throw new Error(`You should specify root for component (${this.constructor.name}) with no view`);
     }
 
@@ -117,9 +118,8 @@ export class Component extends ComponentEmmiter {
   protected updateChild(child: Component, data?: unknown) {
     log.call(this, 'UPDATING', { data: `CHILD: ${child.name}` });
     const el = child.getRoot();
-    
     const html = child.render(data);
-    if (child.view.constructor.name === 'View') {
+    if (child.view.constructor.name === View.prototype.constructor.name) {
       const elClone = el.cloneNode() as HTMLElement;
       elClone.innerHTML = html;
       el.after(elClone);
