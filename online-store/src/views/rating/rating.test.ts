@@ -5,7 +5,10 @@ import { RatingView } from '.';
 const noWhiteSpace = (str: string) => str.replace(/\s+/g, '');
 
 const testComponent = new Component({
-  emmiter: new Emmiter()
+  emmiter: new Emmiter(),
+  viewOptions: {
+    root: '#app'
+  }
 });
 
 const stop = (value: number) => ` style="background: linear-gradient(90deg, #ffa500 ${value}%, #ffffff ${value}%);"`;
