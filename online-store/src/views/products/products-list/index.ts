@@ -23,7 +23,7 @@ export class ProductsListView extends LoaderView {
           viewOptions: {
             data: {
               product: item,
-              isInCart: productInCartIds.includes(item.id),
+              isInCart: Object.keys(productInCartIds).includes(item.id),
             },
           },
           viewConstructor: ProductsListItemView,

@@ -70,7 +70,7 @@ export class ProductsList extends AnimatedProductsList {
     const target = e.target;
     if (target === null || !(target instanceof HTMLElement)) return;
     
-    const cartBtn = target.closest('.product__add-to-curt');
+    const cartBtn = target.closest('.product__add-to-cart');
     if (cartBtn !== null) return;
 
     const el = target.closest('.product');

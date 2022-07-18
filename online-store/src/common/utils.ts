@@ -1,5 +1,6 @@
 import { Component } from "@core/component";
 import { DEFAULT_FILTER_OPTION } from "./constants";
+import { Product } from "./product";
 
 export function isCustomEvent(evt: Event): evt is CustomEvent {
   return 'detail' in evt;
@@ -61,4 +62,11 @@ export function debounce(this: unknown, ms: number, fn: (arg: Event) => void) {
 
 export function capitalize(str: string): string {
   return str[0].toUpperCase() + str.slice(1);
+}
+
+export function totalCartSum(productInCartIds: Record<string, number>, products: Product[]) {
+  return Object.keys(productInCartIds).reduce((sum, id) => {
+    const price = products.find((item) => item.id === id)?.price || 0;
+    return sum + productInCartIds[id] * price;
+  }, 0);
 }

@@ -4,9 +4,9 @@ import { FooterView } from '@views/footer';
 import { HeaderView } from '@views/header';
 import { Alert } from '@components/alert';
 import { Router } from '@components/router';
-import { CartPageView } from '@views/pages/cart-page';
 import { ProductPage } from '@components/product-page';
 import { ShopPage } from '../../components/shop-page';
+import { CartPage } from '../../components/cart-page';
 
 export class AppView extends View {
 
@@ -24,9 +24,7 @@ export class AppView extends View {
           data: {
             routes: {
               '#': ['shopPage', ShopPage],
-              '#cart': ['cartPage', Component, {
-                viewConstructor: CartPageView
-              }],
+              '#cart': ['cartPage', CartPage],
               '#product': ['productPage', ProductPage]
             }
           }

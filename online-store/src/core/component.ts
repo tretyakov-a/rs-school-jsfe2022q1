@@ -88,8 +88,30 @@ export class Component extends ComponentEmmiter {
     return this.id !== -1;
   }
   
+  public remove() {
+    this.parent?.removeChild(this);
+  }
+
   public update(data?: unknown) {
     this.parent?.updateChild(this, data);
+  }
+
+  protected removeChild(child: Component) {
+    child.onDestroy();
+    
+    const comps = this._components[child.name];
+    if (Array.isArray(comps)) {
+      const newComps = comps.filter((item) => item.getId() !== child.getId());
+      newComps.forEach((c, i) => c.setId(i))
+      if (newComps.length === 1) {
+        this._components[child.name] = newComps[0];
+      }
+    } else {
+      delete this._components[child.name];
+    }
+
+    const el = child.getRoot();
+    el.parentNode?.removeChild(el);
   }
 
   protected updateChild(child: Component, data?: unknown) {
@@ -110,6 +132,14 @@ export class Component extends ComponentEmmiter {
 
   protected getChild(name: string): Component | Component[] {
     return this._components[name];
+  }
+
+  public getId() {
+    return this.id;
+  }
+
+  public setId(id: number) {
+    this.id = id;
   }
 
   public getComponent(name: string) {

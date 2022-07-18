@@ -6,7 +6,7 @@ export class AddToCurtBtnView extends View {
   constructor(options: ViewOptions) {
     super({
       ...options,
-      root: '.product__add-to-curt',
+      root: '.product__add-to-cart',
     })
   }
 
@@ -20,7 +20,7 @@ export class AddToCurtBtnView extends View {
       : `Добавить в корзину`;
 
     return super.render(`
-      <div class="product__add-to-curt">
+      <div class="product__add-to-cart">
         <button class="button ${isInCart ? 'button_in-cart' : ''}" title="${title}">
           ${text}
         </button>

@@ -11,6 +11,7 @@ export enum EVENT {
   UPDATE_FILTERS_PRODUCT_NUMBERS = 'onUpdateFilters',
   RESET_FILTER = 'onResetFilter',
   TRY_ADD_TO_CART = 'onTryAddToCart',
+  TRY_DELETE_FROM_CART = 'onTryDeleteFromCart',
   ADD_TO_CART = 'onAddToCart',
   CHANGE_DISPLAY_OPTION = 'onChangeDisplayOption',
   CHANGE_SORT = 'onChangeSort',

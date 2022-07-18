@@ -3,7 +3,7 @@ import { ComponentProps } from '@core/component';
 import { Filter } from './filters/filter';
 import { SORT, sortData } from '@common/sorting';
 import { isEqualProductsArrays, Product } from '@common/product';
-import { printComponentsTree, selectFrom } from '@common/utils';
+import { printComponentsTree, selectFrom, totalCartSum } from '@common/utils';
 import { DummyProductsService, IProductsService, ProductsService } from '@common/products-service';
 import { AppState, AppStateProcessor } from './app-state';
 import { AppView } from '@views/app';
@@ -28,13 +28,14 @@ export class App extends AppStateProcessor {
       }
     });
 
-    this.productsService = new DummyProductsService();
-    // this.productsService = new ProductsService();
+    // this.productsService = new DummyProductsService();
+    this.productsService = new ProductsService();
     this.products = [];
     this.filtred = [];
 
     this.on(EVENT.CHANGE_FILTERS, this.handleFiltersChange);
     this.on(EVENT.TRY_ADD_TO_CART, this.handleTryAddToCart);
+    this.on(EVENT.TRY_DELETE_FROM_CART, this.handleTryDeleteFromCart);
     this.on(EVENT.CHANGE_SORT, this.handleChangeSort);
     this.on(EVENT.RESET_SETTINGS, this.handleResetSettings);
     this.on(EVENT.CHANGE_DISPLAY_OPTION, this.handleChangeDisplayOption);
@@ -94,19 +95,60 @@ export class App extends AppStateProcessor {
     this.state.appearance.displayOption = e.detail;
   }
 
-  private handleTryAddToCart = (e: CustomEvent<{ productId: string, handleAddToCart: () => void}>): void => {
-    const { productInCartIds }= this.state;
-    const { productId, handleAddToCart } = e.detail;
+  private handleTryAddToCart = (e: CustomEvent<{ productId: string, inc: number, handleAddToCart: (amount: number) => void}>): void => {
+    const { productInCartIds } = this.state;
+    const { productId, inc, handleAddToCart } = e.detail;
     const product = this.products.find((item) => item.id === productId);
-    if (product !== undefined && !productInCartIds.includes(product.id)) {
-      if (productInCartIds.length === CART_PRODUCTS_LIMIT) {
-        this.emit(EVENT.SHOW_ALERT, `Извините, все слоты в корзине (${CART_PRODUCTS_LIMIT}) заполнены!`);
+    const cartProductsIds = Object.keys(productInCartIds);
+    let productsAmount = cartProductsIds.reduce((sum, id) => sum + productInCartIds[id], 0);
+
+    if (product !== undefined) {
+      if (productsAmount === CART_PRODUCTS_LIMIT && inc > 0) {
+        return this.emit(EVENT.SHOW_ALERT, `Извините, все слоты в корзине (${CART_PRODUCTS_LIMIT}) заполнены!`);
+      }
+
+      const { id } = product;
+      if (inc < 0 && (productInCartIds[id] === undefined || productInCartIds[id] === 1)) return;
+
+      if (productInCartIds[id] !== undefined) {
+        const newAmount = productInCartIds[id] + inc;
+        if (newAmount === 0) {
+          delete productInCartIds[id];
+        } else {
+          productInCartIds[id] = newAmount;
+        }
       } else {
-        productInCartIds.push(product.id);
-        this.emit(EVENT.ADD_TO_CART, product.id);
-        handleAddToCart();
+        productInCartIds[id] = 1;
+      }
+
+      productsAmount += inc;
+      const totalSum = totalCartSum(productInCartIds, this.products);
+      this.emit(EVENT.ADD_TO_CART, { productsAmount, totalSum });
+      handleAddToCart(productInCartIds[id] || 0);
+      if (productsAmount === 0) {
+        this.handleAppLoad(null);
       }
     }
+  }
+
+  private handleTryDeleteFromCart = (e: CustomEvent<{ productId: string, handleDeleteFromCart: () => void}>): void => {
+    const { productInCartIds } = this.state;
+    const { productId, handleDeleteFromCart } = e.detail;
+    const product = this.products.find((item) => item.id === productId);
+
+    if (product !== undefined) {
+      const { id } = product;
+      if (productInCartIds[id] === undefined) return;
+      delete productInCartIds[id];
+
+      const productsAmount = Object.keys(productInCartIds).reduce((sum, id) => sum + productInCartIds[id], 0);
+      const totalSum = totalCartSum(productInCartIds, this.products);
+      this.emit(EVENT.ADD_TO_CART, { productsAmount, totalSum });
+      handleDeleteFromCart();
+      if (productsAmount === 0) {
+        this.handleAppLoad(null);
+      }
+    } 
   }
 
   private handleChangeSort = (e: CustomEvent<SORT>) => {

@@ -40,6 +40,6 @@ export class AddToCartBtn extends Button {
       return ActiveRoute.change(`cart`);
     }
 
-    this.emit(EVENT.TRY_ADD_TO_CART, { productId, handleAddToCart });
+    this.emit(EVENT.TRY_ADD_TO_CART, { productId, inc: 1, handleAddToCart });
   }
 }

@@ -63,7 +63,7 @@ export class ProductPageView extends LoaderView {
   public renderProduct(data: Omit<AppLoadEventData, 'products'> & { product: Product }): string {
     const { product, state: { productInCartIds }, error } = data;
     const { id, title, description, imgs, price, rating, brand, brandImage, year } = product;
-    const isInCart = productInCartIds.includes(id);
+    const isInCart = Object.keys(productInCartIds).includes(id);
     const { model, type } = product.props.classification?.specs!;
 
     const imgUrl = `${BASE_URL}/${imgs[0]}`;
@@ -74,7 +74,7 @@ export class ProductPageView extends LoaderView {
       })
 
     return `
-      <h2 class="product-details__title">${capitalize(type?.value!)} ${model?.value}</h2>
+      <h2 class="product-details__title page-title">${capitalize(type?.value!)} ${model?.value}</h2>
       <section class="section product-details__card">
         <div class="product-details__left">
           <div class="product-details-slider">

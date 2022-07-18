@@ -8,7 +8,6 @@ export type CartBtnViewOptions = {
 }
 
 export class CartBtn extends Component {
-  private productIds: string[];
 
   constructor(props: ComponentProps) {
     super({
@@ -16,7 +15,6 @@ export class CartBtn extends Component {
       viewConstructor: CartBtnView,
     });
 
-    this.productIds = [];
 
     this.on(EVENT.ADD_TO_CART, this.handleAddToCart);
     this.on(EVENT.LOAD_APP, this.handleDataLoad);
@@ -24,14 +22,15 @@ export class CartBtn extends Component {
     this.onLoadingStart();
   }
 
-  private handleAddToCart = (e: CustomEvent<string>): void => {
-    this.productIds.push(e.detail);
-    this.update({ productsAmount: this.productIds.length });
+  private handleAddToCart = (e: CustomEvent<{ productsAmount: number, totalSum: number }>): void => {
+    const { productsAmount } = e.detail;
+    this.update({ productsAmount });
   };
 
   public handleDataLoad = (e: CustomEvent<AppLoadEventData>): void => {
-    this.productIds = [ ...e.detail.state.productInCartIds ];
-    this.onLoadingEnd({ productsAmount: this.productIds.length });
+    const { productInCartIds } = e.detail.state;
+    const productsAmount = Object.keys(productInCartIds).reduce((sum, id) => sum + productInCartIds[id], 0);
+    this.onLoadingEnd({ productsAmount });
   }
 
   protected render(data: CartBtnViewOptions): string {

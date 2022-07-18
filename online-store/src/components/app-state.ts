@@ -5,7 +5,7 @@ import { IStorageService, LocalStorageService } from '@common/storage-service';
 
 
 export type AppState = {
-  productInCartIds: string[];
+  productInCartIds: Record<string, number>;
   sort: SORT;
   filterStates: Record<string, unknown>;
   appearance: {
@@ -21,7 +21,7 @@ export class AppStateProcessor extends Component {
   private storageService: IStorageService<AppState>;
 
   static defaultState: AppState = {
-    productInCartIds: [],
+    productInCartIds: {},
     sort: SORT.TITLE_ASC,
     filterStates: {},
     appearance: {
