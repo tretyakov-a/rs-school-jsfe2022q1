@@ -108,14 +108,14 @@ export const propPickers: Record<string, PropPicker> = {
   [PROP.YEAR]: (item): number => item.year,
   [PROP.BRAND]: (item) => item.brand,
   [PROP.COLOR]: (item) => item.props.classification?.specs.color?.value,
-  [PROP.WEIGHT]: (item): number => Number.parseInt(item.props.dimensions?.specs.weight?.value || ''),
+  [PROP.WEIGHT]: (item): number => Number.parseFloat(item.props.dimensions?.specs.weight?.value || ''),
   [PROP.MOBILE_CONTROL]: (item) => item.props.mobileSupport?.specs.mobileControl?.value,
   [PROP.CAMERA_INCLUDED]: (item) => item.props.camera?.specs.cameraIncluded?.value,
   [PROP.TITLE]: (item): string => item.title,
   [PROP.SIZE]: (item) => item.props.classification?.specs.size?.value,
 }
 
-export function isEqualProductsArrays(a: Product[], b: Product[]) {
+export function isEqualProductsArrays(a: Product[], b: Product[]): boolean {
   return a.length === b.length && a.every((aItem, i) => {
     return b[i].id === aItem.id
   });

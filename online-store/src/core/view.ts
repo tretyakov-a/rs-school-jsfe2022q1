@@ -14,14 +14,12 @@ export class View {
   protected component: Component;
   protected root: Root;
   protected _root: HTMLElement | null;
-  public isLoading: boolean;
   
   constructor(options: ViewOptions) {
-    const { root } = options;
-    this.component = options.component;
+    const { root, component } = options;
+    this.component = component;
     this.root = root || null;
     this._root = null;
-    this.isLoading = false;
   }
 
   public getRoot(): HTMLElement {

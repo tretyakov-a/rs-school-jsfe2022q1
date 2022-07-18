@@ -26,8 +26,9 @@ export function extractItemsInfo(
   })
 }
 
-function isSameInfo(a: ItemInfo, b: ItemInfo) {
-  return a.x === b.x
+export function isSameInfo(a: ItemInfo, b: ItemInfo) {
+  return a.id === b.id
+    && a.x === b.x
     && a.y === b.y
     && a.width === b.width
     && a.height === b.height;

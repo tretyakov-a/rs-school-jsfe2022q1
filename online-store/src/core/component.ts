@@ -1,13 +1,12 @@
-import { withNullCheck } from "@common/utils";
 import { View, ViewOptions } from "@core/view";
 import { Emmiter } from "./emmiter";
 import { ComponentEmmiter } from './componentEmmiter';
+import { LoaderView } from "./loader-view";
 
 const isLog = false;
 
 export type ComponentHandler = (() => void) | ((data?: unknown) => void);
 export type ComponentHandlers = Record<string, ComponentHandler>;
-
 
 export type ComponentProps = {
   name?: string,
@@ -82,7 +81,6 @@ export class Component extends ComponentEmmiter {
     } else {
       this._components[name] = newComponent;
     }
-    // return newComponent.render(childProps.data);
     return newComponent.render(childProps.viewOptions?.data);
   }
 
@@ -127,11 +125,15 @@ export class Component extends ComponentEmmiter {
   }
 
   protected onLoadingStart(): void {
-    this.view.isLoading = true;
+    if (this.view instanceof LoaderView) {
+      this.view.isLoading = true;
+    }
   }
 
   protected onLoadingEnd(data?: unknown): void {
-    this.view.isLoading = false;
+    if (this.view instanceof LoaderView) {
+      this.view.isLoading = false;
+    }
     this.update(data);
   }
 
