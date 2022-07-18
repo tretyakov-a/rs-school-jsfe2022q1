@@ -15,7 +15,9 @@ export class CartBtnView extends LoaderView {
     return `
       <div class="cart">
         <div class="cart__total">${productsAmount}</div>
-        <a class="button button_special cart__link" href="#cart">Корзина</a>
+        <a class="button button_icon cart__link" href="#cart">
+          <i class="fa-solid fa-cart-plus"></i>
+        </a>
       </div>`;
   }
 

@@ -11,12 +11,20 @@ export class AddToCurtBtnView extends View {
   }
 
   public render(data: ProductViewOptions): string {
-    const html = data.isInCart
-      ? `<span class="product__in-cart">В корзине</span>`
-      : `<button class="button button_icon">
-          <i class="fa-solid fa-cart-plus"></i>
-        </button>`;
+    const { isInCart } = data;
+    const text = isInCart
+      ? `В корзине`
+      : `Купить`;
+    const title = isInCart
+      ? `Перейти в корзину`
+      : `Добавить в корзину`;
 
-    return super.render(`<div class="product__add-to-curt">${html}</div>`);
+    return super.render(`
+      <div class="product__add-to-curt">
+        <button class="button ${isInCart ? 'button_in-cart' : ''}" title="${title}">
+          ${text}
+        </button>
+      </div>
+    `);
   }  
 }

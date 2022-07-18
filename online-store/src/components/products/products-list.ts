@@ -3,6 +3,7 @@ import { ProductsListView } from '@views/products/products-list';
 import { EVENT, DISPLAY_OPTION_DEFAULT, DISPLAY_OPTION } from '@common/constants';
 import { AppLoadEventData } from '../app';
 import { AnimatedProductsList } from './animated-products-list';
+import { ActiveRoute } from '@common/active-route';
 
 export type ProductsListViewOptions = AppLoadEventData & {
   displayOption: DISPLAY_OPTION
@@ -78,8 +79,6 @@ export class ProductsList extends AnimatedProductsList {
     const productId = el.getAttribute('data-product-id');
 
     if (productId === null) return;
-
-    const { origin, pathname } = location;
-    location.replace(`${origin}${pathname}#product?id=${productId}`);
+    ActiveRoute.change(`product?id=${productId}`);
   }
 }

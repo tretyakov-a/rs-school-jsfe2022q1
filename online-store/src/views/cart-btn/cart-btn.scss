@@ -20,7 +20,12 @@
     text-align: center;
   }
 
-  &__link {
+  $btn-size: 48px;
 
+  &__link.button {
+    width: $btn-size;
+    height: $btn-size;
+    line-height: $btn-size;
+    font-size: 20px;
   }
 }

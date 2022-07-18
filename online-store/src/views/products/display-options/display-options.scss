@@ -23,8 +23,9 @@
     padding: 4px 0;
     height: 36px;
     text-align: center;
-
+    
     svg {
+      transition: 0.25s;
       display: inline-block;
       fill: var(--text-color-4);
     }
@@ -40,6 +41,14 @@
     background-color: var(--bg-color);
     border-radius: 4px;
     cursor: default;
+
+    svg {
+      fill: var(--primary-color-3);
+    }
+  }
+
+  input:not(:checked) ~ .radio__button:hover {
+    
 
     svg {
       fill: var(--primary-color-3);

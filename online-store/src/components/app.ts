@@ -94,9 +94,9 @@ export class App extends AppStateProcessor {
     this.state.appearance.displayOption = e.detail;
   }
 
-  private handleTryAddToCart = (e: CustomEvent<string>): void => {
+  private handleTryAddToCart = (e: CustomEvent<{ productId: string, handleAddToCart: () => void}>): void => {
     const { productInCartIds }= this.state;
-    const productId = e.detail;
+    const { productId, handleAddToCart } = e.detail;
     const product = this.products.find((item) => item.id === productId);
     if (product !== undefined && !productInCartIds.includes(product.id)) {
       if (productInCartIds.length === CART_PRODUCTS_LIMIT) {
@@ -104,6 +104,7 @@ export class App extends AppStateProcessor {
       } else {
         productInCartIds.push(product.id);
         this.emit(EVENT.ADD_TO_CART, product.id);
+        handleAddToCart();
       }
     }
   }

@@ -1,3 +1,4 @@
+import { ActiveRoute } from "@common/active-route";
 import { EVENT } from "@common/constants";
 import { ComponentProps } from "@core/component";
 import { AddToCurtBtnView } from "@views/products/add-to-cart-btn";
@@ -10,6 +11,7 @@ export type ProductProps = ComponentProps & {
 
 export class AddToCartBtn extends Button {
   private productId: string;
+  private isInCart: boolean;
 
   constructor(props: ProductProps) {
     if (!props.data) throw TypeError();
@@ -18,18 +20,26 @@ export class AddToCartBtn extends Button {
       viewConstructor: AddToCurtBtnView,
     });
 
+    const { data } = props;
+    if (data === undefined) throw new TypeError();
+
     this.productId = props.data.product.id;
-    this.on(EVENT.ADD_TO_CART, this.handleAddToCart);
+    this.isInCart = data.isInCart;
   }
 
-  private handleAddToCart = (e: CustomEvent<string>) => {
-    const productId = e.detail;
-    if (this.productId === productId) {
-      this.update({ isInCart: true });
+  private handleAddToCart = () => {
+    this.isInCart = true;
+    this.update({ isInCart: this.isInCart });
+  }
+
+
+  protected onClick = () => {
+    const { productId, handleAddToCart } = this;
+
+    if (this.isInCart) {
+      return ActiveRoute.change(`cart`);
     }
-  }
 
-  protected onClick = async () => {
-    this.emit(EVENT.TRY_ADD_TO_CART, this.productId);
+    this.emit(EVENT.TRY_ADD_TO_CART, { productId, handleAddToCart });
   }
 }

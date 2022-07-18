@@ -24,4 +24,9 @@ export class ActiveRoute {
     
     return queryParams;
   }
+
+  static change(hash: string): void {
+    const { origin, pathname } = window.location;
+    location.replace(`${origin}${pathname}#${hash}`);
+  }
 }

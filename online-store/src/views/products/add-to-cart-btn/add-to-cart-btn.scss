@@ -1,0 +1,10 @@
+.product__add-to-curt {
+  
+  .button.button_in-cart {
+    color: var(--secondary-color-1);
+
+    &:hover {
+      color: var(--primary-color-1);
+    }
+  }
+}

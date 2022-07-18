@@ -115,6 +115,7 @@ ul {
   &__check {
     position: relative;
     display: inline-block;
+    flex-shrink: 0;
     width: 18px;
     height: 18px;
     border: 1px solid var(--text-color-4);
