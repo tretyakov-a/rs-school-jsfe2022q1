@@ -1,4 +1,4 @@
-import { ProductsService } from '@common/products-service';
+import { ProductsService } from './products-service';
 
 const products = [
   {

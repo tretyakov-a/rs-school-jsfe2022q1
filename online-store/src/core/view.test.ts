@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { View } from './view';
+import { View } from '@core/view';
 
 
 describe('Test View class', () => {

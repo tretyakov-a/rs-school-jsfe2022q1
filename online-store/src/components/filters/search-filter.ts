@@ -64,7 +64,8 @@ export class SearchFilter extends Filter {
 
   private handleClear = (): void => {
     this.value = '';
-    this.searchInput!.value = '';
+    if (this.searchInput !== null)
+      this.searchInput.value = '';
     this.handleChange();
   }
 

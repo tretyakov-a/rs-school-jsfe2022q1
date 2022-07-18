@@ -118,7 +118,7 @@ export class Component extends ComponentEmmiter {
     log.call(this, 'UPDATING', { data: `CHILD: ${child.name}` });
     const el = child.getRoot();
     
-    let html = child.render(data);
+    const html = child.render(data);
     if (child.view.constructor.name === 'View') {
       const elClone = el.cloneNode() as HTMLElement;
       elClone.innerHTML = html;

@@ -5,8 +5,8 @@ import { HeaderView } from '@views/header';
 import { Alert } from '@components/alert';
 import { Router } from '@components/router';
 import { ProductPage } from '@components/product-page';
-import { ShopPage } from '../../components/shop-page';
-import { CartPage } from '../../components/cart-page';
+import { ShopPage } from '@components/shop-page';
+import { CartPage } from '@components/cart-page';
 
 export class AppView extends View {
 

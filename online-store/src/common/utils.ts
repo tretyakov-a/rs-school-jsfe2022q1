@@ -1,5 +1,4 @@
 import { Component } from "@core/component";
-import { DEFAULT_FILTER_OPTION } from "./constants";
 import { Product } from "./product";
 
 export function isCustomEvent(evt: Event): evt is CustomEvent {
@@ -34,7 +33,7 @@ export const loadImage = (src?: string | null): Promise<string> => new Promise((
   img.addEventListener('load', () => resolve(src));
 })
 
-export function printComponentsTree(this: Component, layerCount: number = 0) {
+export function printComponentsTree(this: Component, layerCount = 0) {
   console.log(`${'..'.repeat(layerCount)}${this.name}`);
   const comps = this.getComponents();
   if (Object.keys(comps).length === 0) return;
@@ -50,7 +49,7 @@ export function printComponentsTree(this: Component, layerCount: number = 0) {
 }
 
 export function debounce(this: unknown, ms: number, fn: (arg: Event) => void) {
-  let timer: number = -1;
+  let timer = -1;
   const wrapper = (e: Event) => {
     clearTimeout(timer);
     timer = window.setTimeout(() => {

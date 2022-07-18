@@ -30,13 +30,13 @@ export class View {
       : this._root;
   }
 
-  public afterRender(parent: Component | null, id: number = -1): void {
+  public afterRender(parent: Component | null, id = -1): void {
 
     if (typeof this.root === 'string') {
-      if (id === -1) {
-        this._root = selectFrom(parent!.getRoot())(this.root);
-      } else {
-        const el = parent!.getRoot().querySelectorAll(this.root)[id];
+      if (id === -1 && parent !== null) {
+        this._root = selectFrom(parent.getRoot())(this.root);
+      } else if (parent !== null) {
+        const el = parent.getRoot().querySelectorAll(this.root)[id];
         if (el instanceof HTMLElement)
           this._root = el;
       }

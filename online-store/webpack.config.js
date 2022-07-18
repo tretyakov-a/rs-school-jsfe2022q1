@@ -14,13 +14,13 @@ const baseConfig = (isProd) => ({
         use: 'ts-loader',
         exclude: /node_modules/,
       },
-      {
-        test: /\.css$/i,
-        use: [
-          isProd ? MiniCssExtractPlugin.loader : 'style-loader',
-          'css-loader',
-        ],
-      },
+      // {
+      //   test: /\.css$/i,
+      //   use: [
+      //     isProd ? MiniCssExtractPlugin.loader : 'style-loader',
+      //     'css-loader',
+      //   ],
+      // },
       {
         test: /\.(jpg|png|svg|gif|ico|mp4)$/,
         type: 'asset/resource',
@@ -28,7 +28,7 @@ const baseConfig = (isProd) => ({
       {
         test: /\.(s[ca]ss)$/,
         use: [
-          isProd ? MiniCssExtractPlugin.loader : 'style-loader',
+          'style-loader',
           'css-loader',
           'sass-loader',
         ]

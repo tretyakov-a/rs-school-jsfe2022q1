@@ -1,4 +1,4 @@
-import { Component, ComponentProps } from '@core/component';
+import { Component } from '@core/component';
 import { CartProductView } from '@views/pages/cart-page/cart-product';
 import { selectFrom } from '@common/utils';
 import { EVENT } from '@common/constants';

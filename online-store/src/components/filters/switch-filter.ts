@@ -81,7 +81,6 @@ export class SwitchFilter extends Filter {
   };
 
   public getTag(): FilterTagInfo {
-    const { name, title } = this;
     return {
       ...super.getTag(),
       isSmthToPrint: this.checked,

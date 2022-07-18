@@ -1,5 +1,5 @@
 import './product-page.scss';
-import { View, ViewOptions } from '@core/view';
+import { ViewOptions } from '@core/view';
 import { Product, ProductPropSpec } from '@common/product';
 import { LoaderView } from '@core/loader-view';
 import { capitalize, loadImage, selectFrom } from '@common/utils';
@@ -18,21 +18,9 @@ export class ProductPageView extends LoaderView {
     })
   }
   
-  private renderImages(imgSources: string[]): string {
-    return imgSources
-      .map((src) => {
-        const imgUrl = `${BASE_URL}/${src}`;
-        return `
-          <li class="product-details-slider__item">
-            <img src="${imgPlaceholder}">
-          </li>`;
-      })
-      .join('')
-  }
-
   private renderPropSpecs(specs: ProductPropSpec): string {
     const items = Object.keys(specs).map((key) => {
-      const { title, value } = specs[key]!;
+      const { title, value } = specs[key] || {};
       return `
         <li class="specs__item">
           <span class="specs__title">${title}</span>
@@ -47,7 +35,7 @@ export class ProductPageView extends LoaderView {
 
   private renderProps({ props }: Product): string {
     const items = Object.keys(props).map((key) => {
-      const { title, specs} = props[key]!;
+      const { title, specs = {}} = props[key] || {};
       return `
         <li class="props__item">
           <h4 class="props__title">${title}</h4>
@@ -61,10 +49,10 @@ export class ProductPageView extends LoaderView {
   }
 
   public renderProduct(data: Omit<AppLoadEventData, 'products'> & { product: Product }): string {
-    const { product, state: { productInCartIds }, error } = data;
-    const { id, title, description, imgs, price, rating, brand, brandImage, year } = product;
+    const { product, state: { productInCartIds } } = data;
+    const { id, title, description, imgs, price, rating, brand, brandImage } = product;
     const isInCart = Object.keys(productInCartIds).includes(id);
-    const { model, type } = product.props.classification?.specs!;
+    const { model, type } = product.props.classification?.specs || {};
 
     const imgUrl = `${BASE_URL}/${imgs[0]}`;
     loadImage(imgUrl)
@@ -74,7 +62,7 @@ export class ProductPageView extends LoaderView {
       })
 
     return `
-      <h2 class="product-details__title page-title">${capitalize(type?.value!)} ${model?.value}</h2>
+      <h2 class="product-details__title page-title">${capitalize(type?.value || '')} ${model?.value}</h2>
       <section class="section product-details__card">
         <div class="product-details__left">
           <div class="product-details-slider">

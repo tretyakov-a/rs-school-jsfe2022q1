@@ -24,7 +24,7 @@ export class DisplayOptionsView extends View {
     })
   }
   
-  private renderButtons({ inputName, values, checked }: DisplayOptionsViewData) {
+  private renderButtons({ inputName, values }: DisplayOptionsViewData) {
     return values
       .map((value) => (
         `<label class="radio-group__item radio">

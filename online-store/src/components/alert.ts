@@ -3,7 +3,7 @@ import { Component, ComponentProps } from "@core/component";
 import { AlertView } from "@views/alert";
 
 export class Alert extends Component {
-  static hideDelay: number = 3000;
+  static hideDelay = 3000;
 
   constructor(props: ComponentProps) {
     super({

@@ -8,7 +8,7 @@ export interface IProductsService {
 
 export class DummyProductsService implements IProductsService {
   public async load(): Promise<Product[]> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         // const random = Math.random();
         // if (random < 0.1) {

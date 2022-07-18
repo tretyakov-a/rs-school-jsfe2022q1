@@ -80,5 +80,6 @@ export class Filter extends Component {
   };
 
   public updateProductNumbers(filtred: Product[]): void {
+    return;
   }
 }
