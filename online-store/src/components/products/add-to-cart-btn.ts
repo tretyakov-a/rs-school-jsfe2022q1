@@ -1,7 +1,7 @@
 import { EVENT } from "@common/constants";
 import { ComponentProps } from "@core/component";
-import { AddToCurtBtnView } from "@views/add-to-cart-btn";
-import { ProductViewOptions } from "@views/products-list-item";
+import { AddToCurtBtnView } from "@views/products/add-to-cart-btn";
+import { ProductViewOptions } from "@views/products/products-list-item";
 import { Button } from "../button";
 
 export type ProductProps = ComponentProps & {

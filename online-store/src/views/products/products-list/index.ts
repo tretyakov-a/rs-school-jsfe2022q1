@@ -2,7 +2,7 @@ import './products-list.scss';
 import { ViewOptions } from '@core/view';
 import { Component } from '@core/component';
 import { ProductsListViewOptions } from '@components/products/products-list';
-import { ProductsListItemView } from '@views/products-list-item';
+import { ProductsListItemView } from '../products-list-item';
 import { LoaderView } from '@core/loader-view';
 
 export class ProductsListView extends LoaderView {

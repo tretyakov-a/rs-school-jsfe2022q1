@@ -1,6 +1,6 @@
 import './range.scss';
 import { View, ViewOptions } from '@core/view';
-import { RangeViewOptions } from '@components/range';
+import { RangeViewOptions } from '@components/filters/range';
 
 export class RangeView extends View {
   constructor(options: ViewOptions) {

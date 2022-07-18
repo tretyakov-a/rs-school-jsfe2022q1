@@ -27,7 +27,6 @@ export class ShopPage extends Component {
     const overlay = `${ShopPage.asideClass}__overlay`;
     const show = e.detail;
     if (show) {
-      // this.leftSideEl?.classList.remove(hideMod);
       this.leftSideEl?.classList.add(showMod(left));
       this.overlayEl?.classList.add(showMod(overlay));
     } else {

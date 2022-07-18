@@ -1,7 +1,7 @@
 import './filters-list.scss';
 import { ViewOptions } from '@core/view';
 import { FilterConfig, filtersData } from '@components/filters/filters-data';
-import { FiltersListItemView } from '@views/filters-list-item';
+import { FiltersListItemView } from '../filters-list-item';
 import { AppLoadEventData } from '@components/app';
 import { LoaderView } from '@core/loader-view';
 import { FiltersListItem } from '@components/filters/filters-list-item';

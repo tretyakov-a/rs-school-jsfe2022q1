@@ -1,7 +1,6 @@
 import { Filter, FilterProps, FilterTagInfo, FilterViewOptions } from "./filter";
-import { Range } from "../range";
+import { Range } from "./range";
 import { Product } from "@common/product";
-import { EVENT } from "@common/constants";
 
 type RangeFilterState = {
   left: number;
@@ -77,7 +76,6 @@ export class RangeFilter extends Filter {
         onChange: this.handleChange,
       },
       data: {
-        // inputName: this.name,
         min, max, left, right,
       }
     })

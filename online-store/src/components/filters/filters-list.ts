@@ -1,5 +1,5 @@
 import { Component, ComponentProps } from "@core/component";
-import { FiltersListView } from "@views/filters-list";
+import { FiltersListView } from "@views/filters/filters-list";
 import { AppLoadEventData } from "@components/app";
 import { isFilters } from "./filter";
 import { EVENT } from "@common/constants";

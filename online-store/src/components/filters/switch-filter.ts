@@ -1,7 +1,6 @@
 import { Filter, FilterProps, FilterTagInfo, FilterViewOptions } from "./filter";
 import { Product } from "@common/product";
-import { EVENT } from '@common/constants';
-import { SwitchFilterView } from "@views/switch-filter";
+import { SwitchFilterView } from "@views/filters/switch-filter";
 import { selectFrom } from "@common/utils";
 
 enum SwitchValue {

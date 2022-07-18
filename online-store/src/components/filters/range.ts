@@ -1,5 +1,5 @@
 import { Component, ComponentProps } from "@core/component";
-import { RangeView } from "@views/range";
+import { RangeView } from "@views/filters/range";
 import { selectFrom } from '@common/utils';
 import { withNullCheck } from '@common/utils';
 

@@ -7,7 +7,6 @@ import { printComponentsTree, selectFrom } from '@common/utils';
 import { DummyProductsService, IProductsService, ProductsService } from '@common/products-service';
 import { AppState, AppStateProcessor } from './app-state';
 import { AppView } from '@views/app';
-import { ActiveRoute } from '@common/active-route';
 
 export type AppLoadEventData = {
   products: Product[];

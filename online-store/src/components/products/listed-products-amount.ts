@@ -1,7 +1,7 @@
 import { EVENT } from "@common/constants";
 import { AppLoadEventData } from "@components/app";
 import { Component, ComponentProps } from "@core/component";
-import { ListedProductsAmountView } from "@views/listed-products-amount";
+import { ListedProductsAmountView } from "@views/products/listed-products-amount";
 
 export class ListedProductsAmount extends Component {
 

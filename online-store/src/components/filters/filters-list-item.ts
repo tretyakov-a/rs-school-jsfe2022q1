@@ -1,5 +1,5 @@
 import { Component, ComponentProps } from "@core/component";
-import { FiltersListItemView } from "@views/filters-list-item";
+import { FiltersListItemView } from "@views/filters/filters-list-item";
 import { selectFrom } from "@common/utils";
 import { FilterViewOptions } from "./filter";
 import { EVENT } from '@common/constants';

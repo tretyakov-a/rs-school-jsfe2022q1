@@ -1,6 +1,6 @@
 import './switch-filter.scss';
 import { View, ViewOptions } from "@core/view";
-import { ProductsNumberView } from '@views/filter-products-number';
+import { ProductsNumberView } from '../filter-products-number';
 import { Component } from '@core/component';
 
 export type SwitchFilterViewOptions = {

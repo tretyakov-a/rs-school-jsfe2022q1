@@ -4,7 +4,7 @@ import { CheckboxListViewOptions } from '@components/filters/checkbox-filter';
 import { ViewOptions } from '@core/view';
 import { COLORS } from '@common/constants';
 import { Component } from '@core/component';
-import { ProductsNumberView } from '@views/filter-products-number';
+import { ProductsNumberView } from '../filter-products-number';
 
 export class CheckboxListView extends View {
   constructor(options: ViewOptions) {

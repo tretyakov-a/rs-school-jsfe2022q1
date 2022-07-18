@@ -1,7 +1,6 @@
 import './products-sort.scss';
 import { View, ViewOptions } from '@core/view';
-import { SORT } from '@common/sorting';
-import { sortData } from '../../common/sorting';
+import { SORT, sortData } from '@common/sorting';
 
 export class ProductsSortView extends View {
   constructor(options: ViewOptions) {

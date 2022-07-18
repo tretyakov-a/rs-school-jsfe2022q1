@@ -10,7 +10,7 @@ export class DummyProductsService implements IProductsService {
   public async load(): Promise<Product[]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const random = Math.random();
+        // const random = Math.random();
         // if (random < 0.1) {
         //   return reject(new Error('Data load error!'));
         // }

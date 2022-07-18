@@ -1,5 +1,5 @@
 import { Component, ComponentProps } from "@core/component";
-import { ProductsSortView } from "@views/products-sort";
+import { ProductsSortView } from "@views/products/products-sort";
 import { selectFrom } from '@common/utils';
 import { EVENT } from '@common/constants';
 import { sortData } from "@common/sorting";

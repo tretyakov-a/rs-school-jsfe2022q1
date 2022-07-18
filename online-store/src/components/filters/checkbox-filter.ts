@@ -1,7 +1,6 @@
 import { Filter, FilterProps, FilterTagInfo } from "./filter";
 import { Product } from "@common/product";
-import { EVENT } from '@common/constants';
-import { CheckboxListView } from "@views/checkbox-list";
+import { CheckboxListView } from "@views/filters/checkbox-list";
 import { FilterViewOptions } from '@components/filters/filter';
 
 export type CheckboxListViewOptions = {

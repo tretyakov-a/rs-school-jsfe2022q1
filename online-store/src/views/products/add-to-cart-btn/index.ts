@@ -1,6 +1,6 @@
 import './add-to-cart-btn.scss';
 import { View, ViewOptions } from '@core/view';
-import { ProductViewOptions } from '@views/products-list-item';
+import { ProductViewOptions } from '../products-list-item';
 
 export class AddToCurtBtnView extends View {
   constructor(options: ViewOptions) {

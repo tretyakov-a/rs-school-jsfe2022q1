@@ -1,8 +1,7 @@
 import { Component, ComponentProps } from "@core/component";
 import { EVENT } from "@common/constants";
-import { SelectedFiltersView } from "@views/selected-filters";
+import { SelectedFiltersView } from "@views/filters/selected-filters";
 import { Filter } from "./filter";
-import { selectFrom } from '@common/utils';
 
 export class SelectedFilters extends Component {
 

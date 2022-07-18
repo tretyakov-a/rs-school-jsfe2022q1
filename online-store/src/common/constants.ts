@@ -39,7 +39,7 @@ export enum DISPLAY_OPTION {
 };
 
 export const DISPLAY_OPTION_DEFAULT = DISPLAY_OPTION.GRID;
-export const CART_PRODUCTS_LIMIT = 3;
+export const CART_PRODUCTS_LIMIT = 20;
 
 export const COLORS = {
   '#00ba71': 'зеленый',

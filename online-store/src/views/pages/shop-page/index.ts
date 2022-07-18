@@ -1,7 +1,7 @@
 import './shop-page.scss';
 import { View, ViewOptions } from '@core/view';
 import { Component } from '@core/component';
-import { ProductsHeaderView } from '@views/products-header';
+import { ProductsHeaderView } from '@views/products/products-header';
 import { ProductsList } from '@components/products/products-list';
 import { FiltersList } from '@components/filters/filters-list';
 import { ResetSettingsBtn } from '@components/reset-settings-btn';

@@ -1,5 +1,5 @@
 import { Component, ComponentProps } from "@core/component";
-import { DisplayOptionsView } from "@views/display-options";
+import { DisplayOptionsView } from "@views/products/display-options";
 import { selectFrom } from '@common/utils';
 import { DISPLAY_OPTION_DEFAULT, EVENT } from '@common/constants';
 import { DISPLAY_OPTION } from '@common/constants';

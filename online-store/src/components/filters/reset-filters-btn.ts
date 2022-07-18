@@ -1,6 +1,6 @@
 import { EVENT } from "@common/constants";
 import { ComponentProps } from "@core/component";
-import { ResetFiltersBtnView } from "@views/reset-filters-btn";
+import { ResetFiltersBtnView } from "@views/filters/reset-filters-btn";
 import { Button } from "../button";
 
 export class ResetFilterBtn extends Button {

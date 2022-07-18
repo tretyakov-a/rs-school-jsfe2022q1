@@ -1,5 +1,5 @@
 import { ComponentProps } from "@core/component";
-import { FiltersHeaderBtnView } from "@views/filters-header-btn";
+import { FiltersHeaderBtnView } from "@views/filters/filters-header-btn";
 import { Button } from "../button";
 import { EVENT } from '@common/constants';
 import { ICON_TYPE } from '@views/btn-icon';

@@ -1,8 +1,7 @@
 import { Filter, FilterProps, FilterTagInfo, FilterViewOptions } from "./filter";
 import { Product } from "@common/product";
-import { EVENT } from '@common/constants';
 import { debounce, selectFrom } from "@common/utils";
-import { SearchFilterView } from "@views/search-filter";
+import { SearchFilterView } from "@views/filters/search-filter";
 
 type SearchFilterState = {
   value: string

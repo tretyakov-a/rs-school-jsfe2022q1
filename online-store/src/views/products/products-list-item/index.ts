@@ -5,7 +5,7 @@ import imgPlaceholder from '@assets/img-placeholder-quadrocopter.png';
 import { Product } from '@common/product';
 import { AddToCartBtn } from '@components/products/add-to-cart-btn';
 import { Component } from '@core/component';
-import { RatingView } from '@views/rating';
+import { RatingView } from '../rating';
 import { BASE_URL } from '@common/constants';
 import { loadImage, selectFrom } from '@common/utils';
 
