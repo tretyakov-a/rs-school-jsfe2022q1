@@ -1,0 +1,14 @@
+.page-not-found {
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  &__img {
+    width: 200px;
+  }
+}
