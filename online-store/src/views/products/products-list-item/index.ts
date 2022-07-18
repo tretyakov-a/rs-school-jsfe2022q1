@@ -1,6 +1,5 @@
 import './products-list-item.scss';
 import { View, ViewOptions } from '@core/view';
-import sampleProductImg from '@assets/sample-product.jpg';
 import imgPlaceholder from '@assets/img-placeholder-quadrocopter.png';
 import { Product } from '@common/product';
 import { AddToCartBtn } from '@components/products/add-to-cart-btn';

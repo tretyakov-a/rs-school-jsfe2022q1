@@ -64,7 +64,7 @@ export const PROPS = [
 
 type PropKey = typeof PROPS[number];
 type SpecKey = typeof SPECS[number];
-type ProductPropSpec = Partial<Record<SpecKey, {
+export type ProductPropSpec = Partial<Record<SpecKey, {
   title: string;
   value: string;
 }>>;

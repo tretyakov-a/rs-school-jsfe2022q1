@@ -1,8 +1,9 @@
 import { ActiveRoute } from '@common/active-route';
 import { EVENT } from '@common/constants';
-import { ChildComponentData, Component, ComponentProps } from '@core/component';
+import { renderChildOptions, Component, ComponentProps } from '@core/component';
+import { PageNotFoundView } from '@views/pages/page-not-found';
 
-type Routes = Record<string, ChildComponentData>;
+type Routes = Record<string, renderChildOptions>;
 
 type RouterProps = ComponentProps & {
   data: {
@@ -21,12 +22,14 @@ export class Router extends Component {
     window.addEventListener('hashchange', this.handlePageChange);
   }
 
-  private getRouteData(): ChildComponentData | string {
+  private getRouteData(): renderChildOptions | string {
     let path = ActiveRoute.getPath();
     if (path === '') path += '#';
 
-    if (this.routes[path] === undefined) {
-      return 'Error 404. Page not found.';
+    if (path === '#not-found' || this.routes[path] === undefined) {
+      return ['notFoundPage', Component, {
+        viewConstructor: PageNotFoundView
+      }];
     }
 
     return this.routes[path];
@@ -38,7 +41,7 @@ export class Router extends Component {
     this.emit(EVENT.CHANGE_PAGE);
   }
 
-  protected render(data?: string | ChildComponentData): string {
+  protected render(data?: string | renderChildOptions): string {
     super.render();
 
     let pageData = data;

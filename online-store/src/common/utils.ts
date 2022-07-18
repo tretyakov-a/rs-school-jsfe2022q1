@@ -58,3 +58,7 @@ export function debounce(this: unknown, ms: number, fn: (arg: Event) => void) {
   }
   return wrapper;
 }
+
+export function capitalize(str: string): string {
+  return str[0].toUpperCase() + str.slice(1);
+}

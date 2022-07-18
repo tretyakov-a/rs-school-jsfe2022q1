@@ -147,9 +147,7 @@ export class App extends AppStateProcessor {
   }
 
   private handlePageChange = () => {
-    setTimeout(() => {
-      this.handleAppLoad(null);
-    }, 200);
+    this.handleAppLoad(null);
   }
 }
 
