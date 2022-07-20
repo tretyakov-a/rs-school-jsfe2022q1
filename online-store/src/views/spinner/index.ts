@@ -1,4 +1,3 @@
-import './spinner.scss';
 import { View, ViewOptions } from '@core/view';
 
 export class SpinnerView extends View {
