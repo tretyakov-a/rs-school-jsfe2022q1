@@ -160,6 +160,7 @@ export class App extends AppStateProcessor {
 
   private handleAppLoad = async (error: Error | null = null) => {
     const products = error ? [] : this.filtred;
+    
     this.emit(EVENT.LOAD_APP, { products, state: this.state, error });
   }
 
@@ -189,7 +190,14 @@ export class App extends AppStateProcessor {
   }
 
   private handlePageChange = () => {
-    this.handleAppLoad(null);
+    this.filtred = [...this.products];
+    this.sort.call(null, this.filtred);
+
+    const header = this.getComponent('header');
+    if (!Array.isArray(header))
+      header.update();
+    this.emit(EVENT.LOAD_APP, { products: this.filtred, state: this.state, error: null });
   }
+
 }
 

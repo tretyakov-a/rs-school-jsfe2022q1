@@ -79,8 +79,7 @@ export class ProductsList extends AnimatedProductsList {
     const productId = el.getAttribute('data-product-id');
 
     if (productId === null) return;
-
-    window.scrollTo({ top: 0 });
+    
     ActiveRoute.change(`product?id=${productId}`);
   }
 }

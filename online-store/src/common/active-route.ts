@@ -27,6 +27,8 @@ export class ActiveRoute {
 
   static change(hash: string): void {
     const { origin, pathname } = window.location;
-    location.replace(`${origin}${pathname}#${hash}`);
+    const url = new URL(`${origin}${pathname}#${hash}`);
+    window.history.pushState({}, '', url);
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
   }
 }

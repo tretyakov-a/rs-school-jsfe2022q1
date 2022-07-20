@@ -37,6 +37,7 @@ export class Router extends Component {
 
   private handlePageChange = () => {
     const pageData = this.getRouteData();
+    window.scrollTo({ top: 0 });
     this.update(pageData);
     this.emit(EVENT.CHANGE_PAGE);
   }
