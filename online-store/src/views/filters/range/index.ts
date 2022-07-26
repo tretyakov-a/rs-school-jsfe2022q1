@@ -11,14 +11,15 @@ export class RangeView extends View {
   }
 
   private renderInput(data: RangeViewOptions, value: number, classes: string): string {
-    const { min, max, inputName } = data;
+    const { min, max, inputName, step } = data;
     return `
       <input class="${classes}"
         name="${inputName}"
         type="range"
         min="${min}"
         max="${max}"
-        value="${value}">`;
+        value="${value}"
+        step="${step}">`;
   }
 
   public render(data: RangeViewOptions): string {

@@ -9,6 +9,7 @@ export type RangeViewOptions = {
   max: number;
   left: number;
   right: number;
+  step: number;
 }
 
 export type RangeProps = ComponentProps & {
@@ -50,9 +51,10 @@ export class Range extends Component {
 
   protected render(): string {
     const { min, max, left, right } = this;
+    const step = Number.isInteger(left) && Number.isInteger(right) ? 1 : 0.1;
     return super.render({
       inputName: this.name,
-      min, max, left, right
+      min, max, left, right, step,
     })
   }
 
