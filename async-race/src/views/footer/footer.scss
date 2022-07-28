@@ -1,0 +1,30 @@
+.footer {
+  height: var(--footer-height);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin-top: var(--footer-margin-top);
+
+  &__container {
+    height: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 2rem;
+  }
+
+  &__github-link {
+    color: var( --text-color-3);
+    text-decoration: none;
+    transition: 0.25s;
+  }
+  
+  &__github-link:hover {
+    color: var( --text-color-4);
+  }
+  
+  &__year {
+    color: var( --text-color-3);
+  }
+}
