@@ -17,6 +17,7 @@ export class GaragePage extends Component {
   }
   
   private handleAppLoad = (e: CustomEvent<AppLoadEventData>) => {
+    console.log(e.detail)
     this.onLoadingEnd(e.detail);
   }
 
