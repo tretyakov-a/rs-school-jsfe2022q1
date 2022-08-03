@@ -1,9 +1,8 @@
 import { Component, ComponentProps } from '@core/component';
 import { IStorageService, LocalStorageService } from '@common/storage-service';
 
-
 export type AppState = {
-  cars: Record<string, number>,
+  pageNumber: number;
 }
 
 export class AppStateProcessor extends Component {
@@ -11,7 +10,7 @@ export class AppStateProcessor extends Component {
   private storageService: IStorageService<AppState>;
 
   static defaultState: AppState = {
-    cars: {}
+    pageNumber: 1,
   }
 
   constructor(props: ComponentProps) {

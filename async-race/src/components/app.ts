@@ -1,14 +1,21 @@
 import { ComponentProps } from '@core/component';
 import { AppState, AppStateProcessor } from './app-state';
 import { AppView } from '@views/app';
-import { EVENT } from '@common/constants';
+import { EVENT, CARS_PER_PAGE } from '@common/constants';
+import { Car, CarData } from '@common/car';
+import { CarsData, CarService, ICarService } from '../common/car-service';
 
 export type AppLoadEventData = {
+  cars: Car[];
+  carsAmount: number;
   state: AppState;
   error: Error | null;
 };
 
 export class App extends AppStateProcessor {
+  private cars: Car[];
+  private carsAmount: number;
+  private carService: ICarService;
 
   constructor(props: ComponentProps) {
     const root = document.createElement('div');
@@ -22,52 +29,68 @@ export class App extends AppStateProcessor {
         root,
       }
     });
+    
+    this.cars = [];
+    this.carsAmount = 0;
+    this.carService = new CarService();
 
     this.on(EVENT.CHANGE_PAGE, this.handlePageChange);
+    this.on(EVENT.CREATE_CAR, this.handleCreateCar);
 
-    // this.productsService.load()
-    //   .then(this.handleDataLoad)
-    //   .then(this.handleStateLoad)
-    //   .catch((err: Error) => {
-    //     this.emit(EVENT.SHOW_ALERT, `Ошибка при загрузке данных: ${err.message}`);
-    //     this.handleAppLoad(err);
-    //   })
-
-    setTimeout(() => {
-      this.handleStateLoad(null);
-    }, 500);
+    this.loadState()
+      .then(this.handleStateLoad)
+      .then(this.handleDataLoad)
+      .catch((err: Error) => {
+        this.emit(EVENT.SHOW_ALERT, `Error loading data: ${err.message}`);
+        this.handleAppLoad(err);
+      })
 
     this.getRoot().insertAdjacentHTML('beforeend', this.render());
     this.afterRender();
   }
 
-
-  private handleDataLoad = async (data: unknown) => {
-
-    return this.loadState();
+  private handleDataLoad = ({ cars, carsAmount }: CarsData) => {
+    this.cars = cars;
+    this.carsAmount = carsAmount;
+    this.handleAppLoad(null);
   }
 
+  private loadData = async () => {
+    return this.carService.getCars({ _page: this.state.pageNumber, _limit: CARS_PER_PAGE });
+  }
   
   private handleAppLoad = async (error: Error | null = null) => {
-    
-    this.emit(EVENT.LOAD_APP, { state: this.state, error });
+    const { cars, carsAmount, state } = this;
+    this.emit(EVENT.LOAD_APP, { cars, carsAmount, state, error });
   }
 
-  private handleStateLoad = async (state: AppState | null): Promise<void> => {
+  private handleStateLoad = async (state: AppState | null): Promise<CarsData> => {
     if (state === null) {
       this.saveState();
     } else {
       this.state = state;
     }
 
-    this.handleAppLoad(null);
+    return this.loadData();
   }
 
   private handlePageChange = () => {
+    const { cars, carsAmount, state } = this;
     const header = this.getComponent('header');
     if (!Array.isArray(header))
       header.update();
-    this.emit(EVENT.LOAD_APP, { state: this.state, error: null });
+    this.emit(EVENT.LOAD_APP, { cars, carsAmount, state, error: null });
   }
 
+  private handleCreateCar = async (e: CustomEvent<CarData>) => {
+    const carData = e.detail;
+    try {
+      await this.carService.createCar(carData);
+      this.handleDataLoad(await this.loadData());
+    } catch (error) {
+      if (error instanceof Error) {
+        this.emit(EVENT.SHOW_ALERT, error.message);
+      }
+    }
+  }
 }

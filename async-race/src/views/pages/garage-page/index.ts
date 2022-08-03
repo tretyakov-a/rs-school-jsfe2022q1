@@ -1,9 +1,12 @@
 import './garage-page.scss';
 import { ViewOptions } from '@core/view';
 import { LoaderView } from '@core/loader-view';
-import { AppLoadEventData, Car } from '@components/app';
+import { AppLoadEventData } from '@components/app';
 import { Component } from '@core/component';
 import { CarImgView } from '../../car-img/index';
+import { CreateCar } from '../../../components/garage-page/create-car';
+import { Car } from '@common/car';
+import { EVENT } from '@common/constants';
 
 export class GaragePageView extends LoaderView {
   constructor(options: ViewOptions) {
@@ -41,19 +44,17 @@ export class GaragePageView extends LoaderView {
   }
   
   private renderPage(data: AppLoadEventData) {
-    const { state: { pageNumber, carsAmount }, cars } = data;
+    const { state: { pageNumber }, cars, carsAmount } = data;
     return `
       <div class="garage__control-panel control-panel">
-        <div class="control-panel__add-car add-car">
-          <input type="text" class="add-car__input">
-          <input type="color" class="add-car__color-pick">
-          <button class="button">Create</button>
-        </div>
-        <div class="control-panel__update-car update-car">
-          <input type="text" class="update-car__input">
-          <input type="color" class="update-car__color-pick">
-          <button class="button">Update</button>
-        </div>
+        ${this.renderChild('createCar', CreateCar, { data: {
+          buttonContent: 'Create',
+          buttonClickEvent: EVENT.CREATE_CAR,
+        }})}
+        ${this.renderChild('createCar', CreateCar, { data: {
+          buttonContent: 'Update',
+          buttonClickEvent: EVENT.UPDATE_CAR,
+        }})}
         <div class="control-panel__buttons-group">
           <button class="button">Race</button>
           <button class="button">Reset</button>

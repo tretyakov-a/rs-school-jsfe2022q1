@@ -1,11 +1,18 @@
-import { Component } from "@core/component";
+import { Component, ComponentProps } from "@core/component";
+import { ButtonView } from "@views/button";
 
 export class Button extends Component {
+  constructor(props: ComponentProps) {
+    super({
+      ...props,
+      viewConstructor: ButtonView
+    })
+  }
   
   afterRender() {
     super.afterRender();
     
-    this.getRoot().querySelector('button')?.addEventListener('click', this.onClick);
+    this.getRoot().addEventListener('click', this.onClick);
   }
 
   protected onClick = (e: Event): void => {

@@ -4,7 +4,7 @@ import { FooterView } from '@views/footer';
 import { HeaderView } from '@views/header';
 import { Alert } from '@components/alert';
 import { Router } from '@components/router';
-import { GaragePage } from '@components/garage';
+import { GaragePage } from '@components/garage-page/garage';
 import { WinnersPage } from '@components/winners';
 
 export class AppView extends View {
