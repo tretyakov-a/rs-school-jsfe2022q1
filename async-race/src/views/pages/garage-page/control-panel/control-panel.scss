@@ -1,0 +1,10 @@
+.control-panel {
+  &__create-car,
+  &__update-car,
+  &__buttons-group {
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+}

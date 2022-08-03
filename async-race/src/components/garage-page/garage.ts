@@ -1,6 +1,4 @@
 import { Component, ComponentProps } from '@core/component';
-import { EVENT } from '@common/constants';
-import { AppLoadEventData } from '@components/app';
 import { GaragePageView } from '@views/pages/garage-page';
 
 export class GaragePage extends Component {
@@ -11,13 +9,5 @@ export class GaragePage extends Component {
       viewConstructor: GaragePageView,
     });
 
-    
-    this.onLoadingStart();
-    this.on(EVENT.LOAD_APP, this.handleAppLoad);
   }
-  
-  private handleAppLoad = (e: CustomEvent<AppLoadEventData>) => {
-    this.onLoadingEnd(e.detail);
-  }
-
 }

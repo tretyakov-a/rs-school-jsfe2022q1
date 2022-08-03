@@ -61,7 +61,6 @@ export class CreateCar extends Component {
   protected afterRender(): void {
     super.afterRender();
 
-    console.log(this.getRoot())
     const inputEl = selectFrom(this.getRoot())('.create-car__input');
     if (inputEl instanceof HTMLInputElement) {
       this.inputEl = inputEl;

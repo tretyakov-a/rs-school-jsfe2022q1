@@ -4,7 +4,7 @@ export class ButtonView extends View {
   constructor(options: ViewOptions) {
     super({
       ...options,
-      root: '.button',
+      root: options.root || '.button',
     });
   }
 
