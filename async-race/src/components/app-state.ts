@@ -3,6 +3,7 @@ import { IStorageService, LocalStorageService } from '@common/storage-service';
 
 export type AppState = {
   pageNumber: number;
+  selectedCarId: string | null;
 }
 
 export class AppStateProcessor extends Component {
@@ -11,6 +12,7 @@ export class AppStateProcessor extends Component {
 
   static defaultState: AppState = {
     pageNumber: 1,
+    selectedCarId: null,
   }
 
   constructor(props: ComponentProps) {

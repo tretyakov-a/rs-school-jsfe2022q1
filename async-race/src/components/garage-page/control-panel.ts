@@ -11,8 +11,7 @@ export class ControlPanel extends Component {
   }
   
   protected render(): string {
-    const { raceHandler, resetHandler, generateCarsHandler } = this;
-    return super.render({ raceHandler, resetHandler, generateCarsHandler })
+    return super.render(this);
   }
 
   private raceHandler = (e: Event): void => {

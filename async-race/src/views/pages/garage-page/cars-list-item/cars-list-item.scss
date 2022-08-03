@@ -1,11 +1,13 @@
 .cars-list {
   
   &__item {
-
+    
   }
 }
 
 .car {
+  position: relative;
+
   &__header {
     display: flex;
     align-items: center;

@@ -39,17 +39,25 @@ export class ControlPanelView extends View {
       .join('');
   }
 
+  private renderForms(data: Record<string, EVENT>) {
+    return Object.keys(data)
+      .map((name) => this.renderChild(name, CreateCar, {
+        viewOptions: { root: `.control-panel__${name}-car` },
+        data: {
+          buttonContent: capitalize(name),
+          buttonClickEvent: data[name],
+        }}
+      ))
+      .join('');
+  }
+
   public render(data: ControlPanelViewData): string {
     return super.render(`
       <div class="garage__control-panel control-panel">
-        ${this.renderChild('createCar', CreateCar, { data: {
-          buttonContent: 'Create',
-          buttonClickEvent: EVENT.CREATE_CAR,
-        }})}
-        ${this.renderChild('createCar', CreateCar, { data: {
-          buttonContent: 'Update',
-          buttonClickEvent: EVENT.UPDATE_CAR,
-        }})}
+        ${this.renderForms({
+          'create': EVENT.TRY_CREATE_CAR,
+          'update': EVENT.TRY_UPDATE_CAR,
+        })}
         <div class="control-panel__buttons-group">
           ${this.renderButtons(data)}
         </div>

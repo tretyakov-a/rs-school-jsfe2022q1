@@ -1,0 +1,16 @@
+.loading-overlay {
+  position: absolute;
+  z-index: 100;
+  display: none;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.6);
+
+  &_show {
+    display: flex;
+  }
+}

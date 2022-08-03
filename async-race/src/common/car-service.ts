@@ -68,7 +68,7 @@ export class CarService implements ICarService {
   };
 
   public async updateCar(id: string, data: CarData): Promise<void> {
-    handleHttpErrors(await fetch(GARAGE_URL, {
+    handleHttpErrors(await fetch(`${GARAGE_URL}/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

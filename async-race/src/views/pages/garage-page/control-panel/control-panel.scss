@@ -1,4 +1,8 @@
 .control-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
   &__create-car,
   &__update-car,
   &__buttons-group {
