@@ -1,58 +1,54 @@
-import { Car, CarData } from '@common/car';
+import { CarEntity, CarData, ENGINE_STATUS } from '@common/car';
 import { BASE_URL } from './constants';
+import { handleHttpErrors } from './http';
+import { queryOptionsToString } from './utils';
 
 export type QueryOptions = {
-  _page?: number,
-  _limit?: number,
+  _page?: number;
+  _limit?: number;
+  id?: string;
+  status?: string;
 }
 
 export type CarsData = {
-  cars: Car[];
+  cars: CarEntity[];
   carsAmount: number;
 }
 
+export type DriveResult = {
+  success: boolean;
+}
+
+export type RaceResults = DriveResult & { id?: string, time?: number };
+
 export interface ICarService {
   getCars(queryOptions: QueryOptions): Promise<CarsData>;
-  getCar(id: string): Promise<Car | null>;
+  getCar(id: string): Promise<CarEntity | null>;
   createCar(data: CarData): Promise<void>;
   deleteCar(id: string): Promise<void>;
   updateCar(id: string, data: CarData): Promise<void>;
 }
 
-const GARAGE_URL = `${BASE_URL}/garage`;
-const ENGINE_URL = `${BASE_URL}/engine`;
-const WINNERS_URL = `${BASE_URL}/winners`;
-
-function handleHttpErrors(res: Response): Response {
-  if (!res.ok) {
-    throw new Error(`Http error: ${res.statusText}`);
-  }
-  return res;
-}
-
-function queryOptionsToString(queryOptions: QueryOptions): string {
-  return Object.entries(queryOptions)
-    .map((opt) => opt.join('='))
-    .join('&');
-}
+// const WINNERS_URL = `${BASE_URL}/winners`;
 
 export class CarService implements ICarService {
+  private static URL = `${BASE_URL}/garage`;
 
   public async getCars(queryOptions: QueryOptions): Promise<CarsData> {
-    const url = `${GARAGE_URL}?${queryOptionsToString(queryOptions)}`;
+    const url = `${CarService.URL}?${queryOptionsToString(queryOptions)}`;
     const res = handleHttpErrors(await fetch(url));
     const cars = await res.json();
     const carsAmount = Number(res.headers.get('X-Total-Count'));
     return { cars, carsAmount };
   };
 
-  public async getCar(id: string): Promise<Car | null> {
-    const res = handleHttpErrors(await fetch(`${GARAGE_URL}/${id}`));
+  public async getCar(id: string): Promise<CarEntity| null> {
+    const res = handleHttpErrors(await fetch(`${CarService.URL}/${id}`));
     return res.json();
   };
 
   public async createCar(data: CarData): Promise<void> {
-    handleHttpErrors(await fetch(GARAGE_URL, {
+    handleHttpErrors(await fetch(CarService.URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -62,18 +58,19 @@ export class CarService implements ICarService {
   };
 
   public async deleteCar(id: string): Promise<void> {
-    handleHttpErrors(await fetch(`${GARAGE_URL}/${id}`, {
+    handleHttpErrors(await fetch(`${CarService.URL}/${id}`, {
       method: 'DELETE',
     }));
   };
 
   public async updateCar(id: string, data: CarData): Promise<void> {
-    handleHttpErrors(await fetch(`${GARAGE_URL}/${id}`, {
+    handleHttpErrors(await fetch(`${CarService.URL}/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     }));
-  }; 
+  };
+
 }

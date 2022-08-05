@@ -2,7 +2,7 @@ import './garage-race.scss';
 import { ViewOptions } from '@core/view';
 import { LoaderView } from '@core/loader-view';
 import { AppLoadEventData } from '@components/app';
-import { Car } from '@common/car';
+import { CarEntity } from '@common/car';
 import { CarsListItem } from '@components/garage-page/cars-list-item';
 
 export class GarageRaceView extends LoaderView {
@@ -13,7 +13,7 @@ export class GarageRaceView extends LoaderView {
     })
   }
 
-  private renderCars(cars: Car[]) {
+  private renderCars(cars: CarEntity[]) {
     const carsData = cars.map((car) => this.renderChild('cars', CarsListItem, { data: { car } }));
     return `<ul class="garage__cars-list cars-list">${carsData.join('')}</ul>`;
   }

@@ -1,14 +1,14 @@
 import './cars-list-item.scss';
 import { Component, ComponentHandler } from "@core/component";
 import { View, ViewOptions } from "@core/view";
-import { CarImgView } from "@views/car-img";
-import { Car } from '@common/car';
+import { CarEntity } from '@common/car';
 import { Button } from '@components/button';
 import { capitalize } from '@common/utils';
 import { LoadingOverlayView } from '@views/loading-overlay';
+import { CarImg } from '@components/garage-page/car-img';
 
 type CarsListItemViewData = {
-  car: Car;
+  car: CarEntity;
   selectHandler: ComponentHandler;
   removeHandler: ComponentHandler;
   accelerateHandler: ComponentHandler;
@@ -59,16 +59,15 @@ export class CarsListItemView extends View {
           })}
           <div class="car__title">${name}</div>
         </div>
-        <div class="car__track">
+        <div class="car__body">
           <div class="car__controls">
             ${this.renderButtons({
               'accelerate': [accelerateHandler, 'A'],
               'break': [breakHandler, 'B'],
             })}
           </div>
-          <div class="car__img">
-            ${this.renderChild('carImg', Component, {
-              viewConstructor: CarImgView,
+          <div class="car__track">
+            ${this.renderChild('carImg', CarImg, {
               viewOptions: {
                 data: color
               }

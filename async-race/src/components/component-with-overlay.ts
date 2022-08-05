@@ -19,13 +19,17 @@ export class ComponentWithOverlay extends Component {
   }
 
   protected showOverlay = () => {
-    if (this.overlay !== null)
+    if (this.overlay !== null) {
       this.overlay.getRoot().classList.add('loading-overlay_show');
+      this.getRoot().style.pointerEvents = 'none';
+    }
   }
 
   protected hideOverlay = () => {
-    if (this.overlay !== null)
+    if (this.overlay !== null) {
       this.overlay.getRoot().classList.remove('loading-overlay_show');
+      this.getRoot().style.pointerEvents = 'all';
+    }
   }
 
 }

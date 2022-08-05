@@ -111,7 +111,7 @@ export class CarImgView extends View {
 
   public render(color: string): string {
     return super.render(`
-      <div class="car-img">${svg(color)}</div>
+      <div class="car__img car-img">${svg(color)}</div>
     `);
   }
 } 

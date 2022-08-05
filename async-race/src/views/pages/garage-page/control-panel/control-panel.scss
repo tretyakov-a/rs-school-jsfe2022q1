@@ -1,7 +1,9 @@
 .control-panel {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: fit-content;
 
   &__create-car,
   &__update-car,

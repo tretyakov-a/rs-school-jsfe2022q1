@@ -2,8 +2,9 @@ import { Component, ComponentProps } from "@core/component";
 import { selectFrom } from '@common/utils';
 import { CreateCarView } from '@views/pages/garage-page/create-car';
 import { EVENT, MIN_CAR_NAME_LENGTH } from '@common/constants';
-import { Car } from '@common/car';
+import { CarEntity} from '@common/car';
 import { ComponentWithOverlay } from "@components/component-with-overlay";
+import { Button } from "@components/button";
 
 export type CreateCarProps = ComponentProps & {
   data: {
@@ -17,6 +18,7 @@ export type CreateCarProps = ComponentProps & {
 export class CreateCar extends ComponentWithOverlay {
   private inputEl: HTMLInputElement | null;
   private colorPickEl: HTMLInputElement | null;
+  private button: Button | null;
   private carName: string;
   private color: string;
   private buttonContent: string;
@@ -36,14 +38,19 @@ export class CreateCar extends ComponentWithOverlay {
     this.color = data.color || '#000000';
     this.buttonContent = data.buttonContent;
     this.buttonClickEvent = data.buttonClickEvent;
+    this.button = null;
     
-    if (this.buttonClickEvent === EVENT.TRY_UPDATE_CAR) {
+    if (this.isUpdateForm()) {
       this.on(EVENT.SELECT_CAR, this.handleSelect);
     }
   }
 
   protected render(): string {
     return super.render(this);
+  }
+
+  private isUpdateForm(): boolean {
+    return this.buttonClickEvent === EVENT.TRY_UPDATE_CAR;
   }
 
   private setDefault() {
@@ -64,6 +71,7 @@ export class CreateCar extends ComponentWithOverlay {
       onComplete: () => {
         this.setDefault();
         this.hideOverlay();
+        if (this.isUpdateForm()) this.button?.disable();
       }
     });
   }
@@ -77,11 +85,12 @@ export class CreateCar extends ComponentWithOverlay {
     }
   }
 
-  private handleSelect = (e: CustomEvent<{ car: Car }>) => {
+  private handleSelect = (e: CustomEvent<{ car: CarEntity}>) => {
     const { name, color } = e.detail.car;
     this.carName = name;
     this.color = color;
     this.update(this);
+    if (this.isUpdateForm()) this.button?.enable();
   }
 
   protected afterRender(): void {
@@ -96,6 +105,11 @@ export class CreateCar extends ComponentWithOverlay {
     if (colorPickEl instanceof HTMLInputElement) {
       this.colorPickEl = colorPickEl;
       this.colorPickEl.addEventListener('input', this.handleInput);
+    }
+    const button = this.getComponent('button');
+    if (!Array.isArray(button) && button instanceof Button) {
+      this.button = button;
+      if (this.isUpdateForm()) this.button.disable();
     }
   }
 }

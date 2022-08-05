@@ -15,7 +15,7 @@
     margin-bottom: 0.5rem;
   }
 
-  &__track {
+  &__body {
     display: flex;
     margin-bottom: 1rem;
     border-bottom: 2px dashed var(--primary-color-1);
@@ -26,6 +26,12 @@
     align-items: flex-start;
     column-gap: 0.5rem;
     width: 100px;
+  }
+
+  &__track {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
   }
 
   &__img {

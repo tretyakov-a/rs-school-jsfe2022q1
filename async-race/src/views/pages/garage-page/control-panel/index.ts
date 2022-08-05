@@ -2,9 +2,10 @@ import './control-panel.scss';
 import { View, ViewOptions } from '@core/view';
 import { EVENT } from '@common/constants';
 import { CreateCar } from '@components/garage-page/create-car';
-import { ComponentHandler } from '@core/component';
+import { Component, ComponentHandler } from '@core/component';
 import { Button } from '@components/button';
 import { capitalize } from '@common/utils';
+import { LoadingOverlayView } from '@views/loading-overlay';
 
 type ControlPanelViewData = {
   raceHandler: ComponentHandler;
@@ -54,6 +55,9 @@ export class ControlPanelView extends View {
   public render(data: ControlPanelViewData): string {
     return super.render(`
       <div class="garage__control-panel control-panel">
+        ${this.renderChild('overlay', Component, {
+          viewConstructor: LoadingOverlayView
+        })}
         ${this.renderForms({
           'create': EVENT.TRY_CREATE_CAR,
           'update': EVENT.TRY_UPDATE_CAR,

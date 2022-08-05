@@ -61,3 +61,19 @@ export function debounce(this: unknown, ms: number, fn: (arg: Event) => void) {
 export function capitalize(str: string): string {
   return str[0].toUpperCase() + str.slice(1);
 }
+
+export function queryOptionsToString(queryOptions: Record<string, string | number>): string {
+  return Object.entries(queryOptions)
+    .map((opt) => opt.join('='))
+    .join('&');
+}
+
+export async function performServiceOperation<T>(opResult: Promise<T>): Promise<T | Error | undefined> {
+  try {
+    return await opResult;
+  } catch (error) {
+    if (error instanceof Error) {
+      return error;
+    }
+  }
+}

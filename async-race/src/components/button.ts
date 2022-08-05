@@ -19,6 +19,14 @@ export class Button extends Component {
     this.handlers?.onClick(e);
   }
 
+  public enable() {
+    this.getRoot().classList.remove('button_disabled');
+  }
+
+  public disable() {
+    this.getRoot().classList.add('button_disabled');
+  }
+
   protected getIcon() {
     const icon = this.getComponent('icon');
     if (icon !== undefined && !Array.isArray(icon)) {
