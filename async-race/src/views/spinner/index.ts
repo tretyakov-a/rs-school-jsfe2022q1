@@ -4,18 +4,13 @@ export class SpinnerView extends View {
   constructor(options: ViewOptions) {
     super({
       ...options,
-      root: '.lds-ellipsis',
+      root: '.lds-dual-ring',
     })
   }
 
   render(): string {
     return super.render(`
-      <div class="lds-ellipsis">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
+      <div class="lds-dual-ring"></div>
     `);
   }
 }
