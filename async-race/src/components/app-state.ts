@@ -2,7 +2,8 @@ import { Component, ComponentProps } from '@core/component';
 import { IStorageService, LocalStorageService } from '@common/storage-service';
 
 export type AppState = {
-  pageNumber: number;
+  garagePageNumber: number;
+  winnersPageNumber: number;
   selectedCarId: string | null;
 }
 
@@ -11,7 +12,8 @@ export class AppStateProcessor extends Component {
   private storageService: IStorageService<AppState>;
 
   static defaultState: AppState = {
-    pageNumber: 1,
+    garagePageNumber: 1,
+    winnersPageNumber: 1,
     selectedCarId: null,
   }
 

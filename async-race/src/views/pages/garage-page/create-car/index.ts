@@ -21,7 +21,7 @@ export class CreateCarView extends View {
         ${this.renderChild('overlay', Component, {
           viewConstructor: LoadingOverlayView
         })}
-        <input type="text" class="create-car__input" placeholder="Car model" value="${carName}">
+        <input type="text" class="create-car__input text" placeholder="Car model" value="${carName}">
         <input type="color" class="create-car__color-pick" value="${color}">
         ${this.renderChild('button', Button, {
           handlers: { onClick: handleClick },

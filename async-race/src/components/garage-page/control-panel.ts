@@ -39,5 +39,9 @@ export class ControlPanel extends ComponentWithOverlay {
 
   private handleGenerateCarsClick = (): void => {
     console.log('GENERATE CARS');
+    this.showOverlay();
+    this.emit(EVENT.GENERATE_CARS, { onComplete: (err: Error | null) => {
+      this.hideOverlay();
+    }});
   }
 }

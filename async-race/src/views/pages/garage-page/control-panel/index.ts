@@ -46,9 +46,9 @@ export class ControlPanelView extends View {
         })}
         <div class="control-panel__buttons-group">
           ${renderButtons.call(this, 'control-panel', {
-            'race': [raceHandler],
-            'reset': [resetHandler],
-            'generate': [generateCarsHandler],
+            'race': { handler: raceHandler },
+            'reset': { handler: resetHandler },
+            'generate': { handler: generateCarsHandler },
           })}
         </div>
       </div>

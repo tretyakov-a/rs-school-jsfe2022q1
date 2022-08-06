@@ -1,11 +1,11 @@
 import { ComponentProps } from '@core/component';
 import { AppState, AppStateProcessor } from './app-state';
 import { AppView } from '@views/app';
-import { EVENT, CARS_PER_PAGE } from '@common/constants';
+import { EVENT, CARS_PER_PAGE, carModels, GENERATED_CARS_NUMBER } from '@common/constants';
 import { CarEntity, CarData, Car } from '@common/car';
 import { CarsData, CarService, ICarService, RaceResults } from '@common/car-service';
 import { CarsListItem } from '@components/garage-page/cars-list-item';
-import { performServiceOperation } from '@common/utils';
+import { generateColor, performServiceOperation } from '@common/utils';
 import { CarEngineService } from '@common/car-engine-service';
 
 export type AppLoadEventData = {
@@ -46,7 +46,7 @@ export class App extends AppStateProcessor {
     this.carsAmount = 0;
     this.carsService = new CarService();
 
-    this.on(EVENT.CHANGE_PAGE, this.handlePageChange);
+    this.on(EVENT.ROUTER_CHANGE_PAGE, this.handlePageChange);
     this.on(EVENT.CARS_AFTER_RENDER, this.handleCarsAfterRender);
     this.on(EVENT.TRY_CREATE_CAR, this.handleTryCreateCar);
     this.on(EVENT.TRY_UPDATE_CAR, this.handleTryUpdateCar);
@@ -59,6 +59,9 @@ export class App extends AppStateProcessor {
 
     this.on(EVENT.START_RACE, this.handleStartRace);
     this.on(EVENT.RESET_CARS, this.handleResetCars);
+
+    this.on(EVENT.GARAGE_CHANGE_PAGE, this.handleGarageChangePage);
+    this.on(EVENT.GENERATE_CARS, this.handleGenerateCars);
 
     this.loadState()
       .then(this.handleStateLoad)
@@ -80,7 +83,7 @@ export class App extends AppStateProcessor {
   }
 
   private loadData = async () => {
-    return this.carsService.getCars({ _page: this.state.pageNumber, _limit: CARS_PER_PAGE })
+    return this.carsService.getCars({ _page: this.state.garagePageNumber, _limit: CARS_PER_PAGE })
   }
   
   private handleAppLoad = async (error: Error | null = null) => {
@@ -183,7 +186,7 @@ export class App extends AppStateProcessor {
   }
 
   private handleFinishRace = async (e: CustomEvent<RaceResults>) => {
-    console.log('Race results:', e.detail);
+    // console.log('Race results:', e.detail);
     this.emit(EVENT.SHOW_ALERT, `${JSON.stringify(e.detail)}`);
   }
   
@@ -212,5 +215,32 @@ export class App extends AppStateProcessor {
     car.rejectDrivePromise?.('Manual break');
     car.rejectDrivePromise = null;
     car.reset();
+  }
+
+  private handleGarageChangePage = async (e: CustomEvent<{ pageNumber: number }>) => {
+    const { pageNumber } = e.detail;
+    this.state.garagePageNumber = pageNumber;
+    this.handleDataLoad(await this.loadData());
+  }
+
+  private handleGenerateCars = async (e: CustomEvent<{ onComplete: ServiceOperationCallback }>) => {
+    const { onComplete } = e.detail;
+    const carsPromises = Array.from({ length: GENERATED_CARS_NUMBER }, (_, i) => {
+      const modelIndex = Math.floor(Math.random() * carModels.length);
+      return performServiceOperation(
+        this.carsService.createCar({
+          name: carModels[modelIndex],
+          color: generateColor(),
+        })
+      )
+    });
+    try {
+      await Promise.allSettled(carsPromises);
+      this.handleDataLoad(await this.loadData());
+      onComplete(null);
+    } catch (error) {
+      if (error instanceof Error)
+        onComplete(error);
+    }
   }
 }

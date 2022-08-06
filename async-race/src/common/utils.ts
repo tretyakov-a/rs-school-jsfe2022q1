@@ -77,3 +77,7 @@ export async function performServiceOperation<T>(opResult: Promise<T>): Promise<
     }
   }
 }
+
+export function generateColor() {
+  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+};

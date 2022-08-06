@@ -39,7 +39,7 @@ export class Router extends Component {
     const pageData = this.getRouteData();
     window.scrollTo({ top: 0 });
     this.update(pageData);
-    this.emit(EVENT.CHANGE_PAGE);
+    this.emit(EVENT.ROUTER_CHANGE_PAGE);
   }
 
   protected render(data?: string | RenderChildOptions): string {

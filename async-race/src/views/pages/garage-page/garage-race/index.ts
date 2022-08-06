@@ -4,6 +4,9 @@ import { LoaderView } from '@core/loader-view';
 import { AppLoadEventData } from '@components/app';
 import { CarEntity } from '@common/car';
 import { CarsListItem } from '@components/garage-page/cars-list-item';
+import { PaginatorView } from '../../../paginator/index';
+import { Component } from '@core/component';
+import { Paginator } from '@components/paginator';
 
 export class GarageRaceView extends LoaderView {
   constructor(options: ViewOptions) {
@@ -19,17 +22,21 @@ export class GarageRaceView extends LoaderView {
   }
   
   private renderPage(data: AppLoadEventData) {
-    const { state: { pageNumber }, cars, carsAmount } = data;
+    const { state: { garagePageNumber }, cars, carsAmount } = data;
     return `
       <h2 class="garage-race__title page-title">
         Garage<span class="garage-race__cars-amount">(${carsAmount})</span>
       </h2>
-      <div class="garage-race__page-number">Page #${pageNumber}</div>
+      ${this.renderChild('paginator', Paginator, {
+        data: { pageNumber: garagePageNumber, carsAmount, pageName: 'garage' }
+      })}
       <div class="garage-race__tracks">
         <div class="garage-race__tracks-flag"></div>
         ${this.renderCars(cars)}
       </div>
-      <div class="paginator">Назад Вперед</div>
+      ${this.renderChild('paginator', Paginator, {
+        data: { pageNumber: garagePageNumber, carsAmount, pageName: 'garage' }
+      })}
     `;
   }
 

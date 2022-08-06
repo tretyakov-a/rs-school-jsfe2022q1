@@ -16,7 +16,8 @@ export class Button extends Component {
   }
 
   protected onClick = (e: Event): void => {
-    this.handlers?.onClick(e);
+    if (this.handlers.onClick)
+      this.handlers.onClick(e);
   }
 
   public enable() {
