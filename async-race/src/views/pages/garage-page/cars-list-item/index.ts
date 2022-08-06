@@ -2,10 +2,9 @@ import './cars-list-item.scss';
 import { Component, ComponentHandler } from "@core/component";
 import { View, ViewOptions } from "@core/view";
 import { CarEntity } from '@common/car';
-import { Button } from '@components/button';
-import { capitalize } from '@common/utils';
 import { LoadingOverlayView } from '@views/loading-overlay';
 import { CarImg } from '@components/garage-page/car-img';
+import { renderButtons } from '@views/shared';
 
 type CarsListItemViewData = {
   car: CarEntity;
@@ -23,21 +22,6 @@ export class CarsListItemView extends View {
     });
   }
 
-  private renderButtons(buttons: Record<string, [ComponentHandler, string?]>) {
-    return Object.keys(buttons)
-      .map((name) => {
-        const [ handler, content] = buttons[name];
-        return this.renderChild(name, Button, {
-          handlers: { onClick: handler },
-          viewOptions: {
-            root: `.car__${name}`,
-            data: { content: content || capitalize(name), classes: `car__${name} button` }
-          }
-        })
-      })
-      .join('');
-  }
-
   public render(data: CarsListItemViewData): string {
     const {
       car: { name, color },
@@ -53,7 +37,7 @@ export class CarsListItemView extends View {
           viewConstructor: LoadingOverlayView
         })}
         <div class="car__header">
-          ${this.renderButtons({
+          ${renderButtons.call(this, 'car', {
             'select': [selectHandler],
             'remove': [removeHandler],
           })}
@@ -61,7 +45,7 @@ export class CarsListItemView extends View {
         </div>
         <div class="car__body">
           <div class="car__controls">
-            ${this.renderButtons({
+            ${renderButtons.call(this, 'car', {
               'accelerate': [accelerateHandler, 'A'],
               'break': [breakHandler, 'B'],
             })}
@@ -76,5 +60,8 @@ export class CarsListItemView extends View {
         </div>
       </li>
     `)
+  }
+  renderButtons(arg0: string, arg1: { select: ComponentHandler[]; remove: ComponentHandler[]; }) {
+    throw new Error('Method not implemented.');
   }
 }

@@ -3,9 +3,9 @@ import { View, ViewOptions } from '@core/view';
 import { EVENT } from '@common/constants';
 import { CreateCar } from '@components/garage-page/create-car';
 import { Component, ComponentHandler } from '@core/component';
-import { Button } from '@components/button';
 import { capitalize } from '@common/utils';
 import { LoadingOverlayView } from '@views/loading-overlay';
+import { renderButtons } from '@views/shared';
 
 type ControlPanelViewData = {
   raceHandler: ComponentHandler;
@@ -21,25 +21,6 @@ export class ControlPanelView extends View {
     })
   }
 
-  private renderButtons(data: ControlPanelViewData) {
-    const { raceHandler, resetHandler, generateCarsHandler } = data;
-    const buttons: Record<string, ComponentHandler> = {
-      'race': raceHandler,
-      'reset': resetHandler,
-      'generate': generateCarsHandler,
-    }
-
-    return Object.keys(buttons)
-      .map((name) => this.renderChild(name, Button, {
-        handlers: { onClick: buttons[name] },
-        viewOptions: {
-          root: `.control-panel__${name}`,
-          data: { content: capitalize(name), classes: `control-panel__${name} button` }
-        }
-      }))
-      .join('');
-  }
-
   private renderForms(data: Record<string, EVENT>) {
     return Object.keys(data)
       .map((name) => this.renderChild(name, CreateCar, {
@@ -53,6 +34,7 @@ export class ControlPanelView extends View {
   }
 
   public render(data: ControlPanelViewData): string {
+    const { raceHandler, resetHandler, generateCarsHandler } = data;
     return super.render(`
       <div class="garage__control-panel control-panel">
         ${this.renderChild('overlay', Component, {
@@ -63,7 +45,11 @@ export class ControlPanelView extends View {
           'update': EVENT.TRY_UPDATE_CAR,
         })}
         <div class="control-panel__buttons-group">
-          ${this.renderButtons(data)}
+          ${renderButtons.call(this, 'control-panel', {
+            'race': [raceHandler],
+            'reset': [resetHandler],
+            'generate': [generateCarsHandler],
+          })}
         </div>
       </div>
     `);
