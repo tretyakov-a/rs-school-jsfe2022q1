@@ -1,3 +1,11 @@
 .create-car {
   position: relative;
+  
+  &__input {
+    width: 200px;
+  }
+
+  .select {
+    padding-left: 8px;
+  }
 }

@@ -25,24 +25,48 @@ export class Car {
   private velocity: number;
   private distance: number;
   private currDistance: number;
-  public carListItem: CarsListItem;
+  public _carListItem: CarsListItem;
   public rejectDrivePromise: ((reason: unknown) => void) | null;
+  public isOnRace: boolean;
+  public isWinner: boolean;
 
-  constructor(carImg: CarsListItem, carEngineService: ICarEngineService) {
+  constructor(carListItem: CarsListItem, carEngineService: ICarEngineService) {
     this.carEngineService = carEngineService;
-    this.carListItem = carImg;
+    this._carListItem = carListItem;
     this.status = ENGINE_STATUS.STOPPED;
     this.prevTime = 0;
     this.velocity = 0;
     this.distance = 0;
     this.currDistance = 0;
     this.rejectDrivePromise = null;
+    this.isOnRace = false;
+    this.isWinner = false;
   }
 
   get time(): number {
     return this.distance / this.velocity;
   }
 
+  get carListItem() {
+    return this._carListItem;
+  }
+
+  set carListItem(newItem) {
+    this._carListItem = newItem;
+    this.updateCarListItem();
+  }
+
+  public updateCarListItem() {
+    if (this.isOnRace) {
+      this.carListItem.buttons['break'].enable();
+      this.carListItem.buttons['accelerate'].disable();
+    }
+    if (this.isWinner) {
+      this.carListItem.handleWin();
+    }
+    this.updateTransform();
+  }
+  
   public updateTransform() {
     const brokenTransform = this.status === ENGINE_STATUS.BROKEN
       ? `skewX(10deg)`
@@ -82,6 +106,7 @@ export class Car {
   }
 
   public startDrive = (): void => {
+    this.isOnRace = true;
     this.status = ENGINE_STATUS.DRIVE;
     this.prevTime = Date.now();
     this.animate();
@@ -96,18 +121,14 @@ export class Car {
   }
 
   public reset() {
-    const { buttons } = this.carListItem;
-    buttons['accelerate'].enable();
-    buttons['break'].disable();
-
-    const carEl = this.carListItem.carImg?.getRoot();
+    this.carListItem.reset();
     this.velocity = 0;
     this.distance = 0;
     this.currDistance = 0;
     this.status = ENGINE_STATUS.STOPPED;
-    if (carEl) {
-      this.updateTransform();
-    }
+    this.isOnRace = false;
+    this.isWinner = false;
+    this.updateTransform();
   }
 
   private startCarEngine = async (id: string, onStart: (error: Error | null, engineData?: EngineData) => void) => {
@@ -159,5 +180,10 @@ export class Car {
         resolve({...driveResult, id, time });
       });
     });
+  }
+
+  public handleWin() {
+    this.isWinner = true;
+    this.carListItem.handleWin();
   }
 }

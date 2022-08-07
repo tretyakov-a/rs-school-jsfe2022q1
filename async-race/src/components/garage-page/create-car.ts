@@ -16,7 +16,7 @@ export type CreateCarProps = ComponentProps & {
 }
 
 export class CreateCar extends ComponentWithOverlay {
-  private inputEl: HTMLInputElement | null;
+  private inputEl: HTMLInputElement | HTMLSelectElement | null;
   private colorPickEl: HTMLInputElement | null;
   private button: Button | null;
   private carName: string;
@@ -97,14 +97,14 @@ export class CreateCar extends ComponentWithOverlay {
     super.afterRender();
 
     const inputEl = selectFrom(this.getRoot())('.create-car__input');
-    if (inputEl instanceof HTMLInputElement) {
+    if (inputEl instanceof HTMLInputElement || inputEl instanceof HTMLSelectElement) {
       this.inputEl = inputEl;
       this.inputEl.addEventListener('input', this.handleInput);
     }
     const colorPickEl = selectFrom(this.getRoot())('.create-car__color-pick');
     if (colorPickEl instanceof HTMLInputElement) {
       this.colorPickEl = colorPickEl;
-      this.colorPickEl.addEventListener('input', this.handleInput);
+      this.colorPickEl.addEventListener('change', this.handleInput);
     }
     const button = this.getComponent('button');
     if (!Array.isArray(button) && button instanceof Button) {

@@ -28,6 +28,9 @@ export class Paginator extends Component {
     this.maxPage = Math.ceil(data.carsAmount / CARS_PER_PAGE);
     this.eventName = `${data.pageName.toUpperCase()}_CHANGE_PAGE` as keyof typeof EVENT;
     this.buttons = {};
+
+    this.on(EVENT.START_RACE, this.handleStartRace);
+    this.on(EVENT.RACE_END, this.handleEndRace);
   }
 
   protected render(): string {
@@ -64,7 +67,6 @@ export class Paginator extends Component {
     if (this.pageNumber > this.maxPage) {
       this.pageNumber = this.maxPage;
     }
-    console.log('NEXT', this.pageNumber)
     this.emit(EVENT[this.eventName], { pageNumber: this.pageNumber });
     this.updateButtons();
   }
@@ -75,6 +77,20 @@ export class Paginator extends Component {
       this.pageNumber = 1;
     }
     this.emit(EVENT[this.eventName], { pageNumber: this.pageNumber });
+    this.updateButtons();
+  }
+
+  private setButtons = (state: 'enable' | 'disable') => {
+    this.buttons['next'][state]();
+    this.buttons['prev'][state]();
+  }
+
+  private handleStartRace = () => {
+    this.setButtons('disable')
+  }
+
+  private handleEndRace = () => {
+    this.setButtons('enable');
     this.updateButtons();
   }
 }

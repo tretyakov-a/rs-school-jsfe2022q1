@@ -39,15 +39,20 @@ export class CarsListItemView extends View {
         <div class="car__header">
           ${renderButtons.call(this, 'car', {
             'select': { handler: selectHandler },
-            'remove': { handler: removeHandler },
+            'remove': {
+              handler: removeHandler,
+              content: `<i class="fa-solid fa-trash-can"></i>`,
+              classes: 'button_negative',
+            },
           })}
           <div class="car__title">${name}</div>
         </div>
         <div class="car__body">
+          <div class="car__winner"><i class="fa-solid fa-trophy"></i>  Winner!</div>
           <div class="car__controls">
             ${renderButtons.call(this, 'car', {
               'accelerate': { handler: accelerateHandler, content: 'A' },
-              'break': { handler: breakHandler, content: 'B' },
+              'break': { handler: breakHandler, content: 'B', classes: 'button_negative' },
             })}
           </div>
           <div class="car__track">

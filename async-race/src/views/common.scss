@@ -91,7 +91,8 @@ ul {
   -webkit-tap-highlight-color: transparent;
 }
 
-.text {
+.text,
+.select {
   font-weight: 400;
   color: var(--text-color-3);
   border: 1px solid var(--primary-color-2);
@@ -132,10 +133,18 @@ ul {
     font-weight: 400;
   }
 
+  &_negative {
+    color: var(--secondary-color-2);
+  }
+  
+  &_disabled.button_negative {
+    color: var(--text-color-5);
+  }
 }
 
 .page-title {
   font-size: 26px;
+  color: var(--text-color-2);
 }
 
 @media (hover: hover) {

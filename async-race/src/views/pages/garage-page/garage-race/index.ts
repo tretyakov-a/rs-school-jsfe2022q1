@@ -22,7 +22,7 @@ export class GarageRaceView extends LoaderView {
   }
   
   private renderPage(data: AppLoadEventData) {
-    const { state: { garagePageNumber }, cars, carsAmount } = data;
+    const { garagePageNumber, cars, carsAmount } = data;
     return `
       <h2 class="garage-race__title page-title">
         Garage<span class="garage-race__cars-amount">(${carsAmount})</span>

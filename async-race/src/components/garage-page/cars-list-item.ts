@@ -28,6 +28,9 @@ export class CarsListItem extends ComponentWithOverlay {
     this.car = data.car;
     this.carImg = null;
     this.buttons = {};
+
+    this.on(EVENT.START_RACE, this.handleStartRace);
+    this.on(EVENT.RACE_END, this.handleEndRace);
   }
   
   protected afterRender(): void {
@@ -97,5 +100,28 @@ export class CarsListItem extends ComponentWithOverlay {
   private handleBreak = (): void => {
     const { id } = this.car;
     this.emit(EVENT.BREAK_CAR, { id });
+  }
+
+  public handleWin() {
+    this.getRoot().classList.add('car_winner');
+  }
+
+  public reset() {
+    this.getRoot().classList.remove('car_winner');
+    this.buttons['accelerate'].enable();
+    this.buttons['break'].disable();
+  }
+
+  private setButtons = (state: 'enable' | 'disable') => {
+    this.buttons['select'][state]();
+    this.buttons['remove'][state]();
+  }
+
+  private handleStartRace = () => {
+    this.setButtons('disable')
+  }
+
+  private handleEndRace = () => {
+    this.setButtons('enable');
   }
 }
