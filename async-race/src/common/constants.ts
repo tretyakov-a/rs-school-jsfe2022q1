@@ -1,5 +1,6 @@
 
 export const BASE_URL = 'http://localhost:3000';
+export const MAX_ONE_TIME_REQUESTS = 6;
 
 export enum EVENT {
   LOAD_APP = 'onAppLoad',
@@ -16,7 +17,6 @@ export enum EVENT {
   BREAK_CAR = 'onBreakCar',
   START_RACE = 'onStartRace',
   RESET_CARS = 'onResetCars',
-  WINNER_FINISH = 'onWinnerFinish',
   RACE_END = 'onRaceEnd',
   GARAGE_CHANGE_PAGE = 'onGarageChangePage',
   WINNERS_CHANGE_PAGE = 'onWinnersChangePage',

@@ -1,7 +1,7 @@
 import { Component, ComponentProps } from '@core/component';
 import { AppView } from '@views/app';
-import { EVENT, ITEMS_PER_PAGE, carModels, GENERATED_CARS_NUMBER } from '@common/constants';
-import { CarEntity, CarData, Car } from '@common/car';
+import { EVENT, ITEMS_PER_PAGE, carModels, GENERATED_CARS_NUMBER, MAX_ONE_TIME_REQUESTS } from '@common/constants';
+import { CarEntity, CarData, Car, ENGINE_STATUS } from '@common/car';
 import { CarsData, CarService, ICarService, RaceResults, SortOrder, WinnersSortType } from '@common/car-service';
 import { CarsListItem } from '@components/garage-page/cars-list-item';
 import { generateColor, performServiceOperation } from '@common/utils';
@@ -36,6 +36,7 @@ export class App extends Component {
   private sort: SortState | null;
   private selectedCarId: string | null;
   private isRaceInProgress: boolean;
+  private isWinnerFinished: boolean;
 
   constructor(props: ComponentProps) {
     const root = document.createElement('div');
@@ -60,6 +61,7 @@ export class App extends Component {
     this.sort = null;
     this.selectedCarId = null;
     this.isRaceInProgress = false;
+    this.isWinnerFinished = false;
 
     this.on(EVENT.ROUTER_CHANGE_PAGE, this.handlePageChange);
     this.on(EVENT.CARS_AFTER_RENDER, this.handleCarsAfterRender);
@@ -69,7 +71,6 @@ export class App extends Component {
     this.on(EVENT.TRY_REMOVE_CAR, this.handleTryRemoveCar);
     this.on(EVENT.ACCELERATE_CAR, this.handleCarAccelerate);
     this.on(EVENT.BREAK_CAR, this.handleCarBreak);
-    this.on(EVENT.WINNER_FINISH, this.handleFinishRace);
     this.on(EVENT.GET_WINNERS, this.handleLoadWinners);
     this.on(EVENT.WINNERS_CHANGE_PAGE, this.handleWinnersChangePage);
 
@@ -178,36 +179,48 @@ export class App extends Component {
       });
     } else {
       const carEngineService = new CarEngineService();
-      this.cars = carItems.map((carItem) => new Car(carItem, carEngineService));
+      this.cars = carItems.map((carItem) => new Car(carItem, carEngineService, this.handleFinishRace));
     }
   }
 
   private handleStartRace = async () => {
+    this.isWinnerFinished = false;
+    this.isRaceInProgress = true;
     let raceResults: RaceResults = {
       success: true,
     };
-
+    let carPromises: Promise<RaceResults>[] = [];
+    let startTime = 0;
+    let delayTime = 0;
     try {
       await Promise.all(this.cars.map((car) => car.tryStartEngine()));
-      const carPromises = this.cars.map((car) => car.tryStartDrive());
+      carPromises = this.cars.map((car, index) => car.tryStartDrive(index));
+      
+      startTime = Date.now();
       Promise.allSettled(carPromises)
         .then((data) => {
-          this.emit(EVENT.RACE_END, data);
-        })
-      raceResults = await Promise.any(carPromises);
+          setTimeout(() => {
+            this.emit(EVENT.RACE_END, data);
+            this.isRaceInProgress = false;
+          }, delayTime);
+        });
+       
+      if (carPromises.length > MAX_ONE_TIME_REQUESTS) {
+        raceResults = await Promise.race(carPromises);
+      }
     } catch (error) {
       raceResults.success = false;
     } finally {
-      this.emit(EVENT.WINNER_FINISH, raceResults);
-      const car = this.cars.find((car) => car.carListItem.car.id === raceResults.id);
-      if (car) { 
-        car.handleWin();
-      }
+      delayTime = carPromises.length > MAX_ONE_TIME_REQUESTS ? Date.now() - startTime : 0;
+      this.cars.forEach((car) => car.startDrive(delayTime));
     }
   }
 
-  private handleFinishRace = async (e: CustomEvent<RaceResults>) => {
-    const { id, time } = e.detail;
+  private handleFinishRace = async (id: string, time: number, onWin: (isWinner: boolean) => void) => {
+    // const { id, time, onWin } = e.detail;
+    if (this.isWinnerFinished || !this.isRaceInProgress) return onWin(false);
+    this.isWinnerFinished = true;
+    onWin(true);
     if (id === undefined || time === undefined) return;
     let res = await performServiceOperation(this.winnersService.getWinner(id))
     if (res instanceof Error) {
@@ -231,9 +244,11 @@ export class App extends Component {
     if (!car) return;
     try {
       await car.tryStartEngine();
+      car.startDrive();
       await car.tryStartDrive();
     } catch (error) {
-      this.emit(EVENT.SHOW_ALERT, `${error}`);
+      // this.emit(EVENT.SHOW_ALERT, `${error}`);
+      car.handleEngineBroke();
     }
   }
 
@@ -243,7 +258,10 @@ export class App extends Component {
     if (!car) return;
     car.rejectDrivePromise?.('Manual break');
     car.rejectDrivePromise = null;
-    car.reset();
+    if (car.status === ENGINE_STATUS.STOPPED
+        || car.status === ENGINE_STATUS.BROKEN)
+      car.reset();
+    car.isHandBreak = true;
   }
 
   private handleGarageChangePage = async (e: CustomEvent<{ pageNumber: number }>) => {
