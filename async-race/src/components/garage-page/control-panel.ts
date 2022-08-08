@@ -27,18 +27,18 @@ export class ControlPanel extends ComponentWithOverlay {
   }
 
   private handleRaceClick = (): void => {
-    console.log('START RACE');
     this.emit(EVENT.START_RACE);
     this.showOverlay();
   }
 
   private handleResetClick = (): void => {
-    console.log('RESET CARS');
-    this.emit(EVENT.RESET_CARS);
+    this.showOverlay();
+    this.emit(EVENT.RESET_CARS, { onComplete: (err: Error | null) => {
+      this.hideOverlay();
+    }});
   }
 
   private handleGenerateCarsClick = (): void => {
-    console.log('GENERATE CARS');
     this.showOverlay();
     this.emit(EVENT.GENERATE_CARS, { onComplete: (err: Error | null) => {
       this.hideOverlay();

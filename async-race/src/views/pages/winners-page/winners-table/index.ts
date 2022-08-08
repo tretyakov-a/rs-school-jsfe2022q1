@@ -7,7 +7,6 @@ import { Component } from '@core/component';
 import { LoadingOverlayView } from '@views/loading-overlay';
 import { CarImg } from '@components/garage-page/car-img';
 import { ITEMS_PER_PAGE } from '@common/constants';
-import { Button } from '@components/button';
 import { WinnersSortType } from '@common/car-service';
 
 export class WinnersTableView extends LoaderView {
@@ -41,7 +40,6 @@ export class WinnersTableView extends LoaderView {
   }
   
   private renderTable(data: WinnersLoadEventData): string {
-    console.log(data)
     const { winners, carsData, winnersPageNumber } = data;
     const startPageNumber = (winnersPageNumber - 1) * ITEMS_PER_PAGE.WINNERS;
     const rowsHtml = winners.map((winner, index) => {

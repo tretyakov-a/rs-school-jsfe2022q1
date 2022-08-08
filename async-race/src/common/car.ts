@@ -184,6 +184,7 @@ export class Car {
     this.isOnRace = false;
     this.isWinner = false;
     this.isHandBreak = false;
+    this.time = 0;
     this.updateTransform();
   }
 
@@ -222,7 +223,6 @@ export class Car {
   }
 
   public tryStartDrive = async (index: number = -1): Promise<RaceResults> => {
-    // this.startDrive();
     return new Promise((resolve, reject) => {
       this.rejectDrivePromise = reject;
       const { id } = this.carListItem.car;

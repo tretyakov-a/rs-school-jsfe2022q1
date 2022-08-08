@@ -73,7 +73,6 @@ export class CarsListItem extends ComponentWithOverlay {
     Object.keys(this.buttons).forEach((key) => this.buttons[key].enable());
   }
 
-
   private handleSelect = (): void => {
     this.emit(EVENT.SELECT_CAR, { car: this.car });
   }
@@ -100,7 +99,10 @@ export class CarsListItem extends ComponentWithOverlay {
 
   private handleBreak = (): void => {
     const { id } = this.car;
-    this.emit(EVENT.BREAK_CAR, { id });
+    this.showOverlay();
+    this.emit(EVENT.BREAK_CAR, { id, onComplete: (err: Error | null) => {
+      this.hideOverlay();
+    }});
   }
 
   public handleFinish(time: number) {

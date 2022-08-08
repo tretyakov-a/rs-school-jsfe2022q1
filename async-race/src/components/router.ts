@@ -24,7 +24,6 @@ export class Router extends Component {
 
   private getRouteData(): RenderChildOptions {
     let path = ActiveRoute.getPath();
-    // if (path === '') path += '#';
 
     if (path === '#not-found' || this.routes[path] === undefined) {
       return ['notFoundPage', Component, {

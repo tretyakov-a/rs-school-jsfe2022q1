@@ -1,9 +1,8 @@
-import { Component, ComponentProps } from '@core/component';
+import { ComponentProps } from '@core/component';
 import { EVENT } from '@common/constants';
 import { AppLoadEventData } from '@components/app';
 import { GarageRaceView } from '@views/pages/garage-page/garage-race';
 import { CarsListItem } from './cars-list-item';
-import { DriveResult } from '@common/car-service';
 import { ComponentWithOverlay } from '@components/component-with-overlay';
 
 export class GarageRace extends ComponentWithOverlay {

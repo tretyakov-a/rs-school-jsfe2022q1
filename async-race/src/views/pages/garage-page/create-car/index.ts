@@ -3,7 +3,6 @@ import { Component, ComponentHandler } from "@core/component";
 import { View } from "@core/view";
 import { Button } from '@components/button';
 import { LoadingOverlayView } from "@views/loading-overlay";
-import { carModels } from '@common/constants';
 
 type CreateCarViewData = {
   handleClick: ComponentHandler;
@@ -13,21 +12,6 @@ type CreateCarViewData = {
 }
 
 export class CreateCarView extends View {
-
-  private renderOptions() {
-    return carModels.map((model) => `<option value="${model}">${model}</option>`).join('');
-  }
-
-  private renderInput(data: CreateCarViewData) {
-    const { buttonContent, carName } = data;
-    const input = buttonContent === 'Create'
-      ? `<select class="create-car__input select">
-          ${this.renderOptions()}
-        </select>`
-      : `<input type="text" class="create-car__input text" placeholder="Car model" value="${carName}">`;
-    return input;
-  }
-
   public render(data?: CreateCarViewData): string {
     if (data === undefined) return '';
     const { handleClick, buttonContent, carName, color } = data;
@@ -37,7 +21,7 @@ export class CreateCarView extends View {
           viewConstructor: LoadingOverlayView
         })}
         
-        ${this.renderInput(data)}
+        <input type="text" class="create-car__input text" placeholder="Car model" value="${carName}">
         <input type="color" class="create-car__color-pick" value="${color}">
         ${this.renderChild('button', Button, {
           handlers: { onClick: handleClick },

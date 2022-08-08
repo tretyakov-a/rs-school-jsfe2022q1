@@ -1,10 +1,11 @@
-import { Component, ComponentProps } from "@core/component";
+import { ComponentProps } from "@core/component";
 import { selectFrom } from '@common/utils';
 import { CreateCarView } from '@views/pages/garage-page/create-car';
-import { EVENT, MIN_CAR_NAME_LENGTH } from '@common/constants';
+import { EVENT, MIN_CAR_NAME_LENGTH, DEFAULT_FORM_DATA } from '@common/constants';
 import { CarEntity} from '@common/car';
 import { ComponentWithOverlay } from "@components/component-with-overlay";
 import { Button } from "@components/button";
+import { AppLoadEventData } from "@components/app";
 
 export type CreateCarProps = ComponentProps & {
   data: {
@@ -34,8 +35,8 @@ export class CreateCar extends ComponentWithOverlay {
     if (data === undefined) throw new TypeError();
     this.inputEl = null;
     this.colorPickEl = null;
-    this.carName = data.carName || '';
-    this.color = data.color || '#000000';
+    this.carName = data.carName || DEFAULT_FORM_DATA.name;
+    this.color = data.color || DEFAULT_FORM_DATA.color;
     this.buttonContent = data.buttonContent;
     this.buttonClickEvent = data.buttonClickEvent;
     this.button = null;
@@ -43,19 +44,38 @@ export class CreateCar extends ComponentWithOverlay {
     if (this.isUpdateForm()) {
       this.on(EVENT.SELECT_CAR, this.handleSelect);
     }
+
+    this.on(EVENT.LOAD_APP, this.handleAppLoad);
   }
 
   protected render(): string {
     return super.render(this);
   }
 
+  private handleAppLoad = (e: CustomEvent<AppLoadEventData>) => {
+    const { selectedCarId, createCarData, updateCarData } = e.detail;
+    const data = this.buttonContent === 'Create'
+    ? createCarData
+    : updateCarData;
+    
+    if (this.inputEl !== null) {
+      this.inputEl.value = data.name;
+    }
+    if (this.colorPickEl !== null) {
+      this.colorPickEl.value = data.color;
+    }
+    if (selectedCarId !== null && this.isUpdateForm())
+      this.button?.enable();
+    this.handleInput();
+  }
+  
   private isUpdateForm(): boolean {
     return this.buttonClickEvent === EVENT.TRY_UPDATE_CAR;
   }
 
   private setDefault() {
-    this.carName = '';
-    this.color = '#000000';
+    this.carName = DEFAULT_FORM_DATA.name;
+    this.color = DEFAULT_FORM_DATA.color;
     if (this.inputEl) this.inputEl.value = this.carName;
     if (this.colorPickEl) this.colorPickEl.value = this.color;
   }
@@ -72,6 +92,7 @@ export class CreateCar extends ComponentWithOverlay {
         this.setDefault();
         this.hideOverlay();
         if (this.isUpdateForm()) this.button?.disable();
+        this.updateAppData();
       }
     });
   }
@@ -83,12 +104,25 @@ export class CreateCar extends ComponentWithOverlay {
     if (this.colorPickEl !== null) {
       this.color = this.colorPickEl.value;
     }
+    this.updateAppData();
+  }
+
+  private updateAppData() {
+    this.emit(EVENT.UPDATE_CAR_FORM_DATA, {
+      form: this.buttonContent,
+      data: { name: this.carName, color: this.color },
+    })
   }
 
   private handleSelect = (e: CustomEvent<{ car: CarEntity}>) => {
     const { name, color } = e.detail.car;
-    this.carName = name;
-    this.color = color;
+    if (this.inputEl !== null) {
+      this.inputEl.value = name;
+    }
+    if (this.colorPickEl !== null) {
+      this.colorPickEl.value = color;
+    }
+    this.handleInput();
     this.update(this);
     if (this.isUpdateForm()) this.button?.enable();
   }

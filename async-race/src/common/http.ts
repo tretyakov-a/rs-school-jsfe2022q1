@@ -1,3 +1,7 @@
+export enum HTTP_CODES {
+  SERVER_ERROR = 500,
+}
+
 export class HttpError extends Error {
   public status: number;
 

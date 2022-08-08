@@ -1,7 +1,7 @@
 import { ENGINE_STATUS } from "./car";
 import { DriveResult } from "./car-service";
 import { BASE_URL } from "./constants";
-import { handleHttpErrors, HttpError } from "./http";
+import { handleHttpErrors, HttpError, HTTP_CODES } from "./http";
 import { queryOptionsToString } from "./utils";
 
 export type EngineData = {
@@ -37,7 +37,7 @@ export class CarEngineService implements ICarEngineService {
       }));
       return res.json();
     } catch (error) { 
-      if (error instanceof HttpError && error.status === 500 ) {
+      if (error instanceof HttpError && error.status === HTTP_CODES.SERVER_ERROR ) {
         return { 'success': false }
       }
       throw error;

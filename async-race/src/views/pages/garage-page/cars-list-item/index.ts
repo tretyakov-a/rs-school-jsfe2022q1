@@ -72,7 +72,5 @@ export class CarsListItemView extends View {
       </li>
     `)
   }
-  renderButtons(arg0: string, arg1: { select: ComponentHandler[]; remove: ComponentHandler[]; }) {
-    throw new Error('Method not implemented.');
-  }
+
 }
