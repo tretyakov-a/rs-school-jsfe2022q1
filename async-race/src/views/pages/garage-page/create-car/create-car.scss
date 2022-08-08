@@ -1,11 +1,33 @@
 .create-car {
   position: relative;
-  
+  height: 30px;
+
   &__input {
     width: 200px;
   }
 
   .select {
     padding-left: 8px;
+  }
+
+  &__color-pick {
+    border: 1px solid var(--primary-color-2);
+    border-radius: 4px;
+    height: 100%;
+    width: 30px;
+    cursor: pointer;
+    transition: 0.25s;
+    
+    &:hover {
+      border-color: var(--primary-color-1);
+    }
+
+    &::-webkit-color-swatch-wrapper {
+      padding: 2px;
+    }
+
+    &::-webkit-color-swatch {
+      border-radius: 4px;
+    }
   }
 }

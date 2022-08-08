@@ -25,6 +25,10 @@
   td {
     color: var(--text-color-2);
     text-align: center;
+
+    .car-img {
+      margin: 0 auto;
+    }
   }
 
   &__sort-mark {

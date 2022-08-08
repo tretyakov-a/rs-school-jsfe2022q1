@@ -8,17 +8,19 @@
   }
 
   .st1 {
-    fill: var(--text-color-2);
+    fill: var(--text-color-3);
   }
     
   .st7 {
-    fill: var(--primary-color-2);
+    fill: var(--bg-color);
+    stroke-width: 6px;
+    stroke: var(--primary-color-1);
   }
   
   .logo-path {
-    fill: var(--primary-color-2);
+    fill: var(--bg-color);
     stroke: var(--primary-color-1);
-    stroke-width: 4px;
+    stroke-width: 6px;
     transition: 0.1s ease-in;
   }
 }

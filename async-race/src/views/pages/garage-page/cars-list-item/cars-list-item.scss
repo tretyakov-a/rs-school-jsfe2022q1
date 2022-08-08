@@ -7,6 +7,7 @@
 
 .car {
   position: relative;
+  overflow: hidden;
 
   &__header {
     display: flex;
@@ -15,9 +16,12 @@
     margin-bottom: 0.5rem;
   }
 
+  &__title {
+    color: var(--text-color-3);
+  }
+
   &__body {
     position: relative;
-    overflow: hidden;
     display: flex;
     margin-bottom: 1rem;
     border-bottom: 2px dashed var(--primary-color-1);
@@ -28,11 +32,22 @@
     position: absolute;
     height: 100%;
     right: 0;
+    transform: translateX(100%);
+    font-style: italic;
+  }
+
+  &__winner-title {
     font-size: 24px;
     text-transform: uppercase;
-    font-style: italic;
-    color: gold;
-    transform: translateX(100%);
+    color: var(--secondary-color-1);
+    display: none;
+  }
+
+  &__finish-time {
+    text-transform: none;
+    color: var(--text-color-3);
+    font-size: 16px;
+    font-weight: 400;
   }
 
   &__controls {
@@ -63,17 +78,24 @@
   @keyframes winnerFadeOut {
     0% {
       opacity: 0;
-      transform: translateX(100%);
+      transform: translateX(100%) translateY(38px);
     }
     100% {
       opacity: 1;
-      transform: translateX(-85px);
+      transform: translateX(-85px) translateY(38px);
     }
   }
 
-  &_winner {
+  &_winner,
+  &_finisher {
     .car__winner {
       animation: ease-out 0.25s winnerFadeOut forwards;
+    }
+  }
+  
+  &_winner {
+    .car__winner-title {
+      display: inline-block;
     }
   }
 }

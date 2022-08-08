@@ -36,6 +36,13 @@ export class CarsListItemView extends View {
         ${this.renderChild('overlay', Component, {
           viewConstructor: LoadingOverlayView
         })}
+        <div class="car__winner">
+          <span class="car__winner-title">
+            <i class="fa-solid fa-trophy"></i>
+            Winner!
+          </span>
+          <span class="car__finish-time"></span>
+        </div>
         <div class="car__header">
           ${renderButtons.call(this, 'car', {
             'select': { handler: selectHandler },
@@ -48,11 +55,6 @@ export class CarsListItemView extends View {
           <div class="car__title">${name}</div>
         </div>
         <div class="car__body">
-          <div class="car__winner">
-            <i class="fa-solid fa-trophy"></i>
-            Winner!
-            <span class="car__winner-time"></span>
-          </div>
           <div class="car__controls">
             ${renderButtons.call(this, 'car', {
               'accelerate': { handler: accelerateHandler, content: 'A' },

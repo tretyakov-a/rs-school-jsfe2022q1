@@ -1,4 +1,4 @@
-
+import './car-img.scss';
 import { View, ViewOptions } from '@core/view';
 
 const svg = (color: string) => `
@@ -7,12 +7,12 @@ const svg = (color: string) => `
  "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
  viewBox="0 0 1280.000000 640.000000"
- preserveAspectRatio="xMidYMid meet" fill="${color || '#ffffff'}">
+ preserveAspectRatio="xMidYMid meet" fill="#333333">
 <metadata>
 Created by potrace 1.15, written by Peter Selinger 2001-2017
 </metadata>
 <g transform="translate(0.000000,640.000000) scale(0.100000,-0.100000)">
-<path d="M3525 5341 c-72 -18 -79 -28 -90 -121 -4 -30 -11 -62 -16 -71 -4 -9
+<path fill="${color || '#ffffff'}" stroke="#333333" stroke-width="200" d="M3525 5341 c-72 -18 -79 -28 -90 -121 -4 -30 -11 -62 -16 -71 -4 -9
 -97 -51 -206 -94 -774 -304 -1348 -540 -1603 -661 -163 -77 -222 -91 -421
 -104 -85 -5 -170 -14 -189 -20 -101 -32 -362 -58 -620 -63 l-115 -2 -47 -80
 c-47 -78 -47 -80 -29 -100 34 -36 35 -77 5 -177 -30 -99 -34 -178 -19 -370 5
@@ -111,7 +111,17 @@ export class CarImgView extends View {
 
   public render(color: string): string {
     return super.render(`
-      <div class="car__img car-img">${svg(color)}</div>
+      <div class="car__img car-img">
+        <div class="car-img__smoke-container">
+          <div class="car-img__smoke"></div>
+          <div class="car-img__smoke"></div>
+          <div class="car-img__smoke"></div>
+          <div class="car-img__smoke"></div>
+          <div class="car-img__smoke"></div>
+          <div class="car-img__smoke"></div>
+        </div>
+        ${svg(color)}
+      </div>
     `);
   }
 } 

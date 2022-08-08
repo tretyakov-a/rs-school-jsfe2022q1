@@ -103,15 +103,23 @@ export class CarsListItem extends ComponentWithOverlay {
     this.emit(EVENT.BREAK_CAR, { id });
   }
 
+  public handleFinish(time: number) {
+    this.getRoot().classList.add('car_finisher');
+    selectFrom(this.getRoot())('.car__finish-time').textContent = `${time} s.`;
+  }
+
   public handleWin(time: number) {
     this.getRoot().classList.add('car_winner');
-    selectFrom(this.getRoot())('.car__winner-time').textContent = `${time} s.`;
+    selectFrom(this.getRoot())('.car__finish-time').textContent = `${time} s.`;
   }
 
   public reset() {
     this.getRoot().classList.remove('car_winner');
+    this.getRoot().classList.remove('car_finisher');
     this.buttons['accelerate'].enable();
     this.buttons['break'].disable();
+    if (this.carImg !== null)
+      this.carImg.getRoot().classList.remove('car-img_broken');
   }
 
   private setButtons = (state: 'enable' | 'disable') => {
