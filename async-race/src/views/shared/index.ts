@@ -1,5 +1,6 @@
 import { capitalize } from "@common/utils";
 import { Button } from "@components/button";
+import { Paginator } from "@components/paginator";
 import { ComponentHandler } from "@core/component";
 import { View } from "@core/view";
 
@@ -22,4 +23,10 @@ export function renderButtons(this: View, className: string, buttons: Record<str
       })
     })
     .join('');
+}
+
+export function renderPaginator(this: View, pageNumber: number, amount: number, pageName: string): string {
+  return this.renderChild('paginator', Paginator, {
+    data: { pageNumber, amount, pageName }
+  });
 }

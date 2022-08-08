@@ -4,8 +4,9 @@ import { AppLoadEventData } from '@components/app';
 import { GarageRaceView } from '@views/pages/garage-page/garage-race';
 import { CarsListItem } from './cars-list-item';
 import { DriveResult } from '@common/car-service';
+import { ComponentWithOverlay } from '@components/component-with-overlay';
 
-export class GarageRace extends Component {
+export class GarageRace extends ComponentWithOverlay {
   private cars: CarsListItem[];
 
   constructor(props: ComponentProps) {
@@ -18,6 +19,7 @@ export class GarageRace extends Component {
 
     this.onLoadingStart();
     this.on(EVENT.LOAD_APP, this.handleAppLoad);
+    this.on(EVENT.GARAGE_CHANGE_PAGE, this.handleChangePage)
   }
   
   protected afterRender(): void {
@@ -33,5 +35,9 @@ export class GarageRace extends Component {
 
   private handleAppLoad = (e: CustomEvent<AppLoadEventData>) => {
     this.onLoadingEnd(e.detail);
+  }
+
+  private handleChangePage = () => {
+    this.showOverlay();
   }
 }

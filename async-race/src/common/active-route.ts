@@ -4,7 +4,8 @@ type QueryParams = Record<string, string>;
 export class ActiveRoute {
 
   static getPath(): string {
-    return window.location.hash.split('?')[0];
+    const path = window.location.hash.split('?')[0];
+    return path === '' ? '#' : path;
   }
 
   static getQueryParams(): QueryParams {

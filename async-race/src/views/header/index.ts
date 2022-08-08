@@ -11,8 +11,21 @@ export class HeaderView extends View {
     })
   }
 
+  private renderMenu(items: Record<string, { content: string }>): string {
+    const currenPath = ActiveRoute.getPath();
+    const activeItemClass = 'header-menu__item_active';
+    const menuItems = Object.keys(items).map((path) => `
+      <li class="header-menu__item ${path === currenPath ? activeItemClass : ''}">
+        <a href="${path}">${items[path].content}</a>
+      </li>
+    `).join('');
+    return `
+      <ul class="header-menu">
+        ${menuItems}
+      </ul>`
+  }
+
   public render(): string {
-    const path = ActiveRoute.getPath();
     return super.render(`
       <div class="header">
         <div class="header__container container">
@@ -20,14 +33,10 @@ export class HeaderView extends View {
             <h1>🏁 Async Race</h1>
           </a>
           <nav class="header__menu">
-            <ul class="header-menu">
-              <li class="header-menu__item header-menu__item_active">
-                <a href="#">Garage</a>
-              </li>
-              <li class="header-menu__item">
-                <a href="#winners">Winners</a>
-              </li>
-            </ul>
+            ${this.renderMenu({
+              '#': { content: 'Garage' },
+              '#winners': { content: 'Winners'},
+            })}
           </nav>
         </div>
       </div>

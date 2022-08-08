@@ -21,10 +21,16 @@ export enum EVENT {
   GARAGE_CHANGE_PAGE = 'onGarageChangePage',
   WINNERS_CHANGE_PAGE = 'onWinnersChangePage',
   GENERATE_CARS = 'onGenerateCars',
+  LOAD_WINNERS = 'onLoadWinners',
+  GET_WINNERS = 'onGetWinners',
 }
 
 export const MIN_CAR_NAME_LENGTH = 3;
-export const CARS_PER_PAGE = 7;
+
+export enum ITEMS_PER_PAGE {
+  GARAGE = 7,
+  WINNERS = 7,
+}
 
 export const GENERATED_CARS_NUMBER = 100;
 export const carModels = [

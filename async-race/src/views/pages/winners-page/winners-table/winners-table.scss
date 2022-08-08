@@ -1,0 +1,45 @@
+.winners-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--primary-color-2);
+  overflow: hidden;
+
+  td, th {
+    padding: 4px;
+    border: 1px solid var(--primary-color-2);
+  }
+
+  th {
+    color: var(--primary-color-1);
+    text-transform: uppercase;
+    font-family: var(--button-font-family);
+    font-size: 12px;
+    font-weight: 700;
+    width: 24%;
+    
+    &:nth-child(1) {
+      width: 6%;
+    }
+  }
+
+  td {
+    color: var(--text-color-2);
+    text-align: center;
+  }
+
+  &__sort-mark {
+    color: var(--secondary-color-1);
+    font-weight: 400;
+    font-size: 14px;
+    margin-left: 4px;
+  }
+}
+
+.button.button_sort {
+  display: inline-block;
+  box-shadow: none;
+
+  &:active {
+    border: none;
+  }
+}

@@ -44,7 +44,7 @@ export class Car {
   }
 
   get time(): number {
-    return this.distance / this.velocity;
+    return Number.parseFloat(((this.distance / this.velocity) / 1000).toFixed(3));
   }
 
   get carListItem() {
@@ -62,7 +62,7 @@ export class Car {
       this.carListItem.buttons['accelerate'].disable();
     }
     if (this.isWinner) {
-      this.carListItem.handleWin();
+      this.carListItem.handleWin(this.time);
     }
     this.updateTransform();
   }
@@ -184,6 +184,6 @@ export class Car {
 
   public handleWin() {
     this.isWinner = true;
-    this.carListItem.handleWin();
+    this.carListItem.handleWin(this.time);
   }
 }

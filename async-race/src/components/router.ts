@@ -22,9 +22,9 @@ export class Router extends Component {
     window.addEventListener('hashchange', this.handlePageChange);
   }
 
-  private getRouteData(): RenderChildOptions | string {
+  private getRouteData(): RenderChildOptions {
     let path = ActiveRoute.getPath();
-    if (path === '') path += '#';
+    // if (path === '') path += '#';
 
     if (path === '#not-found' || this.routes[path] === undefined) {
       return ['notFoundPage', Component, {
@@ -39,7 +39,7 @@ export class Router extends Component {
     const pageData = this.getRouteData();
     window.scrollTo({ top: 0 });
     this.update(pageData);
-    this.emit(EVENT.ROUTER_CHANGE_PAGE);
+    this.emit(EVENT.ROUTER_CHANGE_PAGE, { activePage: pageData[0] });
   }
 
   protected render(data?: string | RenderChildOptions): string {

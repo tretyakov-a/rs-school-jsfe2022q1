@@ -5,6 +5,7 @@ import { EVENT } from '@common/constants';
 import { ComponentWithOverlay } from '@components/component-with-overlay';
 import { CarImg } from './car-img';
 import { Button } from '@components/button';
+import { selectFrom } from '@common/utils';
 
 export type CarsListItemProps = ComponentProps & {
   data: {
@@ -102,8 +103,9 @@ export class CarsListItem extends ComponentWithOverlay {
     this.emit(EVENT.BREAK_CAR, { id });
   }
 
-  public handleWin() {
+  public handleWin(time: number) {
     this.getRoot().classList.add('car_winner');
+    selectFrom(this.getRoot())('.car__winner-time').textContent = `${time} s.`;
   }
 
   public reset() {

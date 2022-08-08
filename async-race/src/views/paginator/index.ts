@@ -8,6 +8,8 @@ type PaginatorViewData = {
   nextHandler: ComponentHandler;
   pageNumber: number;
   maxPage: number;
+  prevClasses: string;
+  nextClasses: string;
 }
 
 export class PaginatorView extends View {
@@ -19,13 +21,13 @@ export class PaginatorView extends View {
   }
   
   public render(data: PaginatorViewData): string {
-    const { prevHandler, nextHandler, pageNumber, maxPage } = data;
+    const { prevHandler, nextHandler, pageNumber, maxPage, nextClasses, prevClasses } = data;
     return super.render(`
       <div class="paginator">
         ${renderButtons.call(this, 'paginator', {
-          'prev': { handler: prevHandler },
+          'prev': { handler: prevHandler, classes: prevClasses },
           'page': { handler: () => {}, content: `Page ${pageNumber}/${maxPage}`, classes: 'button_inactive' },
-          'next': { handler: nextHandler },
+          'next': { handler: nextHandler, classes: nextClasses },
         })}
       </div>
     `);

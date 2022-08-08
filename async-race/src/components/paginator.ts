@@ -1,4 +1,4 @@
-import { CARS_PER_PAGE, EVENT } from "@common/constants";
+import { EVENT, ITEMS_PER_PAGE } from "@common/constants";
 import { Component, ComponentProps } from "@core/component";
 import { PaginatorView } from "@views/paginator";
 import { Button } from "./button";
@@ -7,7 +7,7 @@ type PaginatorProps = ComponentProps & {
   data: {
     pageNumber: number;
     pageName: string;
-    carsAmount: number;
+    amount: number;
   }
 };
 
@@ -24,9 +24,10 @@ export class Paginator extends Component {
     });
     
     const { data } = props;
+    const pageName = data.pageName.toUpperCase() as keyof typeof ITEMS_PER_PAGE;
     this.pageNumber = data.pageNumber;
-    this.maxPage = Math.ceil(data.carsAmount / CARS_PER_PAGE);
-    this.eventName = `${data.pageName.toUpperCase()}_CHANGE_PAGE` as keyof typeof EVENT;
+    this.maxPage = Math.ceil(data.amount / ITEMS_PER_PAGE[pageName]);
+    this.eventName = `${pageName}_CHANGE_PAGE` as keyof typeof EVENT;
     this.buttons = {};
 
     this.on(EVENT.START_RACE, this.handleStartRace);
@@ -40,6 +41,8 @@ export class Paginator extends Component {
       nextHandler: handleNextClick,
       pageNumber,
       maxPage,
+      prevClasses: this.pageNumber === 1 ? 'button_disabled' : '',
+      nextClasses: this.pageNumber === this.maxPage ? 'button_disabled' : '',
     })  
   }
 
@@ -51,8 +54,6 @@ export class Paginator extends Component {
       if (!Array.isArray(btn) && btn instanceof Button)
         this.buttons[name] = btn;
     });
-
-    this.updateButtons();
   }
 
   private updateButtons() {
@@ -68,7 +69,6 @@ export class Paginator extends Component {
       this.pageNumber = this.maxPage;
     }
     this.emit(EVENT[this.eventName], { pageNumber: this.pageNumber });
-    this.updateButtons();
   }
 
   private handlePrevClick = () => {
@@ -77,7 +77,6 @@ export class Paginator extends Component {
       this.pageNumber = 1;
     }
     this.emit(EVENT[this.eventName], { pageNumber: this.pageNumber });
-    this.updateButtons();
   }
 
   private setButtons = (state: 'enable' | 'disable') => {

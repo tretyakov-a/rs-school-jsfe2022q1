@@ -3,9 +3,13 @@ import { BASE_URL } from './constants';
 import { handleHttpErrors } from './http';
 import { queryOptionsToString } from './utils';
 
+export type WinnersSortType = 'id' | 'wins' | 'time';
+export type SortOrder = 'ASC' | 'DESC';
 export type QueryOptions = {
   _page?: number;
   _limit?: number;
+  _sort?: WinnersSortType;
+  _order?: SortOrder;
   id?: string;
   status?: string;
 }
@@ -23,13 +27,11 @@ export type RaceResults = DriveResult & { id?: string, time?: number };
 
 export interface ICarService {
   getCars(queryOptions: QueryOptions): Promise<CarsData>;
-  getCar(id: string): Promise<CarEntity | null>;
+  getCar(id: string): Promise<CarEntity>;
   createCar(data: CarData): Promise<void>;
   deleteCar(id: string): Promise<void>;
   updateCar(id: string, data: CarData): Promise<void>;
 }
-
-// const WINNERS_URL = `${BASE_URL}/winners`;
 
 export class CarService implements ICarService {
   private static URL = `${BASE_URL}/garage`;
@@ -42,7 +44,7 @@ export class CarService implements ICarService {
     return { cars, carsAmount };
   };
 
-  public async getCar(id: string): Promise<CarEntity| null> {
+  public async getCar(id: string): Promise<CarEntity> {
     const res = handleHttpErrors(await fetch(`${CarService.URL}/${id}`));
     return res.json();
   };

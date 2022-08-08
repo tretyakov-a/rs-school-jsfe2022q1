@@ -1,9 +1,8 @@
 import './winners-page.scss';
-import { ViewOptions } from '@core/view';
-import { AppLoadEventData } from '@components/app';
-import { LoaderView } from '@core/loader-view';
+import { View, ViewOptions } from '@core/view';
+import { WinnersTable } from '@components/winners-page/winners-table';
 
-export class WinnersPageView extends LoaderView {
+export class WinnersPageView extends View {
   constructor(options: ViewOptions) {
     super({
       ...options,
@@ -11,20 +10,12 @@ export class WinnersPageView extends LoaderView {
     })
   }
 
-  public render(data: AppLoadEventData): string {
-    let html = '';
-    if (data !== undefined) {
-      const { error } = data;
-      
-      html = !error
-        ? `<p>Winners page</p>`
-        : `Ошибка загрузки товаров`;
-    }
-
-    return super.render((loader: string) => `
+  public render(): string {
+    return super.render(`
       <div class="winners">
         <div class="winners__container container">
-          ${loader !== '' ? loader : html}
+          <h2 class="winners__title page-title">Winners</h2>
+          ${this.renderChild('winnersTable', WinnersTable)}
         </div>
       </div>
     `);

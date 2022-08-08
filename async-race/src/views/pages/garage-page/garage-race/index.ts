@@ -4,9 +4,9 @@ import { LoaderView } from '@core/loader-view';
 import { AppLoadEventData } from '@components/app';
 import { CarEntity } from '@common/car';
 import { CarsListItem } from '@components/garage-page/cars-list-item';
-import { PaginatorView } from '../../../paginator/index';
+import { renderPaginator } from '@views/shared';
 import { Component } from '@core/component';
-import { Paginator } from '@components/paginator';
+import { LoadingOverlayView } from '@views/loading-overlay';
 
 export class GarageRaceView extends LoaderView {
   constructor(options: ViewOptions) {
@@ -20,23 +20,23 @@ export class GarageRaceView extends LoaderView {
     const carsData = cars.map((car) => this.renderChild('cars', CarsListItem, { data: { car } }));
     return `<ul class="garage__cars-list cars-list">${carsData.join('')}</ul>`;
   }
-  
+
   private renderPage(data: AppLoadEventData) {
     const { garagePageNumber, cars, carsAmount } = data;
+    const renderCarsParginator = renderPaginator.bind(this, garagePageNumber, carsAmount, 'garage');
     return `
       <h2 class="garage-race__title page-title">
         Garage<span class="garage-race__cars-amount">(${carsAmount})</span>
       </h2>
-      ${this.renderChild('paginator', Paginator, {
-        data: { pageNumber: garagePageNumber, carsAmount, pageName: 'garage' }
-      })}
+      ${renderCarsParginator()}
       <div class="garage-race__tracks">
+        ${this.renderChild('overlay', Component, {
+          viewConstructor: LoadingOverlayView
+        })}
         <div class="garage-race__tracks-flag"></div>
         ${this.renderCars(cars)}
       </div>
-      ${this.renderChild('paginator', Paginator, {
-        data: { pageNumber: garagePageNumber, carsAmount, pageName: 'garage' }
-      })}
+      ${renderCarsParginator()}
     `;
   }
 

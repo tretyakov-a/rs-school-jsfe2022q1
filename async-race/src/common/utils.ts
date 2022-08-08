@@ -68,13 +68,11 @@ export function queryOptionsToString(queryOptions: Record<string, string | numbe
     .join('&');
 }
 
-export async function performServiceOperation<T>(opResult: Promise<T>): Promise<T | Error | undefined> {
+export async function performServiceOperation<T>(opResult: Promise<T>): Promise<T | Error> {
   try {
     return await opResult;
   } catch (error) {
-    if (error instanceof Error) {
-      return error;
-    }
+    return error as Error;
   }
 }
 

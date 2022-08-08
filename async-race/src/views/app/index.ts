@@ -5,7 +5,7 @@ import { HeaderView } from '@views/header';
 import { Alert } from '@components/alert';
 import { Router } from '@components/router';
 import { GaragePage } from '@components/garage-page/garage';
-import { WinnersPage } from '@components/winners';
+import { WinnersPage } from '@components/winners-page/winners';
 
 export class AppView extends View {
 
@@ -22,8 +22,8 @@ export class AppView extends View {
           },
           data: {
             routes: {
-              '#': ['shopPage', GaragePage],
-              '#winners': ['cartPage', WinnersPage],
+              '#': ['garagePage', GaragePage],
+              '#winners': ['winnersPage', WinnersPage],
             }
           }
         })}
