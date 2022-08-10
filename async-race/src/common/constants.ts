@@ -25,6 +25,7 @@ export enum EVENT {
   LOAD_WINNERS = 'onLoadWinners',
   GET_WINNERS = 'onGetWinners',
   UPDATE_CAR_FORM_DATA = 'onUpdateCarFrom',
+  GET_APP_STATE = 'onGetAppState',
 }
 
 export const MIN_CAR_NAME_LENGTH = 3;

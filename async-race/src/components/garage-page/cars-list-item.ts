@@ -1,11 +1,12 @@
 import { Component, ComponentProps } from '@core/component';
 import { CarsListItemView } from '@views/pages/garage-page/cars-list-item';
-import { CarEntity } from '@common/car';
+import { CarEntity, ENGINE_STATUS } from '@common/car';
 import { EVENT } from '@common/constants';
 import { ComponentWithOverlay } from '@components/component-with-overlay';
 import { CarImg } from './car-img';
 import { Button } from '@components/button';
 import { selectFrom } from '@common/utils';
+import { AppState } from '@components/app';
 
 export type CarsListItemProps = ComponentProps & {
   data: {
@@ -46,6 +47,13 @@ export class CarsListItem extends ComponentWithOverlay {
         this.buttons[name] = btn;
     });
     this.buttons['break'].disable();
+  
+    this.emit(EVENT.GET_APP_STATE, { onComplete: (state: AppState) => {
+      const { isRaceInProgress } = state;
+      if (isRaceInProgress) {
+        this.handleStartRace();
+      }
+    }})
   }
 
   protected render(): string {
@@ -124,16 +132,47 @@ export class CarsListItem extends ComponentWithOverlay {
       this.carImg.getRoot().classList.remove('car-img_broken');
   }
 
-  private setButtons = (state: 'enable' | 'disable') => {
+  private setCarButtons = (state: 'enable' | 'disable') => {
     this.buttons['select'][state]();
     this.buttons['remove'][state]();
   }
 
-  private handleStartRace = () => {
-    this.setButtons('disable')
+  public handleStartRace = () => {
+    this.setCarButtons('disable');
   }
 
-  private handleEndRace = () => {
-    this.setButtons('enable');
+  public handleEndRace = () => {
+    this.setCarButtons('enable');
+  }
+
+  private setEngineButtons = (states: ('enable' | 'disable')[]) => {
+    if (states.length === 1) {
+      return ['accelerate', 'break'].forEach((name) => {
+        this.buttons[name][states[0]]();
+      });
+    }
+    const [accelerateState, breakState] = states;
+    this.buttons['accelerate'][accelerateState]();
+    this.buttons['break'][breakState]();
+  }
+
+  public updateButtons(engineStatus: ENGINE_STATUS) {
+    const { STOPPED, BROKEN, DRIVE, STARTED, INITIAL } = ENGINE_STATUS;
+    switch(engineStatus) {
+      case STOPPED:
+      case BROKEN:
+      case DRIVE: {
+        this.setEngineButtons(['disable', 'enable']);
+        break;
+      }
+      case STARTED: {
+        this.setEngineButtons(['disable']);
+        break;
+      }
+      case INITIAL: {
+        this.setEngineButtons(['enable', 'disable']);
+        break;
+      }
+    }
   }
 }

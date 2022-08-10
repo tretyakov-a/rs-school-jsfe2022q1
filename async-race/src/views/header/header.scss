@@ -42,18 +42,3 @@
   }
 }
 
-@media (max-width: 520px) {
-  .header {
-    height: auto;
-    margin-bottom: 1rem;
-
-    &__container {
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    &__left {
-      height: var(--header-height);
-    }
-  }
-}

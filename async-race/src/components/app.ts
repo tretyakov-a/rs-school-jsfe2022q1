@@ -1,24 +1,33 @@
 import { Component, ComponentProps } from '@core/component';
 import { AppView } from '@views/app';
-import { EVENT, ITEMS_PER_PAGE, carModels, GENERATED_CARS_NUMBER, MAX_ONE_TIME_REQUESTS, carBrands, DEFAULT_FORM_DATA } from '@common/constants';
+import { 
+  EVENT, ITEMS_PER_PAGE,
+  carModels,
+  GENERATED_CARS_NUMBER,
+  MAX_ONE_TIME_REQUESTS,
+  carBrands,
+  DEFAULT_FORM_DATA } from '@common/constants';
 import { CarEntity, CarData, Car, ENGINE_STATUS } from '@common/car';
-import { CarsData, CarService, ICarService, RaceResults, SortOrder, WinnersSortType } from '@common/car-service';
+import { CarService, ICarService, RaceResults } from '@common/car-service';
 import { CarsListItem } from '@components/garage-page/cars-list-item';
 import { generateColor, performServiceOperation } from '@common/utils';
 import { CarEngineService, ICarEngineService } from '@common/car-engine-service';
 import { ICarWinnersService } from '@common/car-winners-service';
 import { CarWinnersService } from '../common/car-winners-service';
-import { SortState, WinnersLoadEventData } from './winners-page/winners-table';
+import { SortState } from './winners-page/winners-table';
 
-export type AppLoadEventData = {
+export type AppState = {
   cars: CarEntity[];
   carsAmount: number;
-  error: Error | null;
   garagePageNumber: number;
   isRaceInProgress: boolean;
   createCarData: CarData;
   updateCarData: CarData;
   selectedCarId: string | null;
+}
+
+export type AppLoadEventData = AppState & {
+  error: Error | null;
 };
 
 export type ServiceOperationCallback = (
@@ -83,6 +92,7 @@ export class App extends Component {
     this.on(EVENT.GET_WINNERS, this.handleLoadWinners);
     this.on(EVENT.WINNERS_CHANGE_PAGE, this.handleWinnersChangePage);
     this.on(EVENT.UPDATE_CAR_FORM_DATA, this.handleUpdateCarFormData);
+    this.on(EVENT.GET_APP_STATE, this.handleGetAppState);
 
     this.on(EVENT.START_RACE, this.handleStartRace);
     this.on(EVENT.RESET_CARS, this.handleResetCars);
@@ -91,27 +101,27 @@ export class App extends Component {
     this.on(EVENT.GENERATE_CARS, this.handleGenerateCars);
 
     this.loadData()
-      .then(this.handleDataLoad)
-      .catch((err: Error) => {
-        this.emit(EVENT.SHOW_ALERT, `Error loading data: ${err.message}`);
-        this.handleAppLoad(err);
-      })
 
     this.getRoot().insertAdjacentHTML('beforeend', this.render());
     this.afterRender();
   }
 
-  private handleDataLoad = ({ cars, carsAmount }: CarsData) => {
-    this.carsData = cars;
-    this.carsAmount = carsAmount;
-    this.handleAppLoad(null);
-  }
-
   private loadData = async () => {
-    return this.carsService.getCars({ _page: this.garagePageNumber, _limit: ITEMS_PER_PAGE.GARAGE })
+    try {
+      const { cars, carsAmount } =  await this.carsService.getCars({
+        _page: this.garagePageNumber,
+        _limit: ITEMS_PER_PAGE.GARAGE
+      });
+      this.carsData = cars;
+      this.carsAmount = carsAmount;
+      this.handleAppLoad(null);
+    } catch (error) {
+      if (error instanceof Error)
+        this.handleAppLoad(error);
+    }
   }
   
-  private handleAppLoad = async (error: Error | null = null) => {
+  private getState(): AppState {
     const {
       carsData,
       carsAmount,
@@ -119,22 +129,36 @@ export class App extends Component {
       isRaceInProgress,
       createCarData, updateCarData, selectedCarId
     } = this;
-    this.emit(EVENT.LOAD_APP, {
+    return {
       isRaceInProgress,
       garagePageNumber,
       cars: carsData,
-      carsAmount, error,
+      carsAmount,
       createCarData, updateCarData, selectedCarId
-    });
+    }
   }
 
-  private handlePageChange = (e: CustomEvent<{ activePage: string }>) => {
+  private handleGetAppState = (e: CustomEvent<{ onComplete: (state: AppState) => void} >) => {
+    const { onComplete } = e.detail;
+    onComplete(this.getState());
+  }
+
+  private handleAppLoad = async (error: Error | null = null) => {
+    this.emit(EVENT.LOAD_APP, { ...this.getState(), error });
+  }
+
+  private handlePageChange = async (e: CustomEvent<{ activePage: string }>) => {
     const { activePage } = e.detail;
     const header = this.getComponent('header');
     if (!Array.isArray(header))
       header.update(activePage);
 
-    this.handleAppLoad(null);
+    if (this.cars.length === 0) {
+
+      await this.loadData();
+    } else {
+      this.handleAppLoad(null);
+    }
   }
 
   private handleUpdateCarFormData = (e: CustomEvent<{ form: 'Create' | 'Update', data: CarData }>) => {
@@ -151,7 +175,7 @@ export class App extends Component {
     const result = await performServiceOperation(
       this.carsService.createCar(carData)
     );
-    this.handleDataLoad(await this.loadData());
+    await this.loadData();
     onComplete(result instanceof Error ? result : null);
   }
 
@@ -163,7 +187,7 @@ export class App extends Component {
     const result = await performServiceOperation(
       this.carsService.updateCar(this.selectedCarId, carData)
     );
-    this.handleDataLoad(await this.loadData());
+    await this.loadData();
     onComplete(result instanceof Error ? result : null);
     this.selectedCarId = null;
   }
@@ -184,7 +208,7 @@ export class App extends Component {
     await performServiceOperation(
       this.winnersService.deleteWinner(id)
     )
-    this.handleDataLoad(await this.loadData());
+    await this.loadData();
     onRemove(result instanceof Error ? result : null);
   }
 
@@ -270,6 +294,7 @@ export class App extends Component {
   }
 
   public handleCarAccelerate = async (e: CustomEvent<{id: string}>): Promise<void> => {
+    if (this.isRaceInProgress) return;
     const { id } = e.detail;
     const car = this.cars.find((car) => car.carListItem.car.id === id);
     if (!car) return;
@@ -307,7 +332,7 @@ export class App extends Component {
   private handleGarageChangePage = async (e: CustomEvent<{ pageNumber: number }>) => {
     const { pageNumber } = e.detail;
     this.garagePageNumber = pageNumber;
-    this.handleDataLoad(await this.loadData());
+    await this.loadData();
   }
 
   private handleWinnersChangePage = async (e: CustomEvent<{ pageNumber: number }>) => {
@@ -318,7 +343,7 @@ export class App extends Component {
 
   private handleGenerateCars = async (e: CustomEvent<{ onComplete: ServiceOperationCallback }>) => {
     const { onComplete } = e.detail;
-    const carsPromises = Array.from({ length: GENERATED_CARS_NUMBER }, (_, i) => {
+    const createCarPromise = () => {
       const brandIndex = Math.floor(Math.random() * carBrands.length);
       const modelIndex = Math.floor(Math.random() * carModels.length);
       return performServiceOperation(
@@ -327,11 +352,18 @@ export class App extends Component {
           color: generateColor(),
         })
       )
-    });
+    }
+
     try {
-      await Promise.allSettled(carsPromises);
-      this.handleDataLoad(await this.loadData());
-      onComplete(null);
+      const res = await createCarPromise();
+      if (!(res instanceof Error)) {
+        const carsPromises = Array.from({ length: GENERATED_CARS_NUMBER - 1 }, createCarPromise);
+        await Promise.all(carsPromises);
+        await this.loadData();
+        onComplete(null);
+      } else {
+        throw res;
+      }
     } catch (error) {
       if (error instanceof Error)
         onComplete(error);
@@ -340,6 +372,7 @@ export class App extends Component {
 
   private handleLoadWinners = async (e?: CustomEvent<SortState>) => {
     if (e?.detail) this.sort = e.detail;
+    let loadWinnersData = {};
     const sortParams = this.sort !== null
       ? {
         _sort: this.sort.type,
@@ -358,9 +391,11 @@ export class App extends Component {
         const { id, name, color } = car;
         return { ...acc, [id]: { name, color }};
       }, {});
-      this.emit(EVENT.LOAD_WINNERS, { ...result, sort: this.sort, carsData, isRaceInProgress, winnersPageNumber });
+      loadWinnersData = { ...result, sort: this.sort, carsData, isRaceInProgress, winnersPageNumber };
     } catch (error) {
-      this.emit(EVENT.LOAD_WINNERS, { error });
+      loadWinnersData = { error };
+    } finally {
+      this.emit(EVENT.LOAD_WINNERS, loadWinnersData);
     }
   }
 }

@@ -11,6 +11,7 @@ export type CarEntity = {
 }
 
 export enum ENGINE_STATUS {
+  INITIAL = 'initial',
   STARTED = 'started',
   STOPPED = 'stopped',
   DRIVE = 'drive',
@@ -23,12 +24,15 @@ export type FinishHandler = (id: string, time: number, onWin: (isWinner: boolean
 
 export class Car {
   private carEngineService: ICarEngineService;
-  public status: ENGINE_STATUS;
+  public _status: ENGINE_STATUS;
   public prevTime: number;
   private velocity: number;
   private distance: number;
   private currDistance: number;
   public _carListItem: CarsListItem;
+  private carEl: HTMLElement | null;
+  private trackWidth: number;
+  private carWidth: number;
   public rejectDrivePromise: ((reason: unknown) => void) | null;
   public isOnRace: boolean;
   public isWinner: boolean;
@@ -43,10 +47,13 @@ export class Car {
     carListItem: CarsListItem, 
     carEngineService: ICarEngineService, 
     onFinish: FinishHandler) {
-
+    
     this.carEngineService = carEngineService;
     this._carListItem = carListItem;
-    this.status = ENGINE_STATUS.STOPPED;
+    this.carEl = this.carListItem.carImg?.getRoot() || null;
+    this.carWidth = this.carEl?.getBoundingClientRect().width || 0;
+    this.trackWidth = this.carEl?.parentElement?.getBoundingClientRect().width || 0;
+    this._status = ENGINE_STATUS.INITIAL;
     this.prevTime = 0;
     this.velocity = 0;
     this.distance = 0;
@@ -68,14 +75,26 @@ export class Car {
 
   set carListItem(newItem) {
     this._carListItem = newItem;
+    this.carEl = this._carListItem.carImg?.getRoot() || null;
+    this.updateTrackWidth();
     this.updateCarListItem();
   }
 
+  set status(newStatus: ENGINE_STATUS) {
+    this._status = newStatus;
+    this.carListItem.updateButtons(this._status);
+  }
+
+  get status() {
+    return this._status;
+  }
+
+  private updateTrackWidth() {
+    this.trackWidth = this.carEl?.parentElement?.getBoundingClientRect().width || this.trackWidth;
+  }
+
   public updateCarListItem() {
-    if (this.isOnRace) {
-      this.carListItem.buttons['break'].enable();
-      this.carListItem.buttons['accelerate'].disable();
-    }
+    this.carListItem.updateButtons(this.status);
     if (this.driveTime >= this.serverDriveTime
       && this.status === ENGINE_STATUS.STOPPED
       && this.time !== 0) {
@@ -89,12 +108,11 @@ export class Car {
   }
   
   public updateTransform() {
-    const carEl = this.carListItem.carImg?.getRoot();
-    if (carEl !== undefined) {
+    if (this.carEl) {
       if (this.status === ENGINE_STATUS.BROKEN) {
-        carEl.classList.add('car-img_broken');
+        this.carEl.classList.add('car-img_broken');
       }
-      carEl.style.transform = `translateX(${this.currDistance}px)`;
+      this.carEl.style.transform = `translateX(${this.currDistance}px)`;
     }
   }
 
@@ -138,28 +156,19 @@ export class Car {
   }
 
   public startEngine = (engineData: EngineData): void => {
-    const { buttons } = this.carListItem;
-    buttons['accelerate'].disable();
-
-    const carEl = this.carListItem.carImg?.getRoot();
     this.status = ENGINE_STATUS.STARTED;
-    const trackEl = carEl?.parentElement;
-    if (!trackEl) return;
+    this.updateTrackWidth();
     const { velocity, distance } = engineData;
     this.time = Number.parseFloat(((distance / velocity) / 1000).toFixed(3));
-    const carRect = carEl.getBoundingClientRect();
-    const { width } = trackEl.getBoundingClientRect();
-    this.distance = width - carRect.width;
+    this.distance = this.trackWidth - this.carWidth;
     const t = Math.round(distance / velocity);
     this.velocity = this.distance / t;
   }
 
   public startDrive = (delay: number = 0): void => {
-    const { buttons } = this.carListItem;
-    buttons['break'].enable();
+    this.status = ENGINE_STATUS.DRIVE;
     this.delay = delay;
     this.isOnRace = true;
-    this.status = ENGINE_STATUS.DRIVE;
     this.prevTime = Date.now();
     this.animate();
   }
@@ -173,14 +182,14 @@ export class Car {
   }
 
   public reset() {
+    this.carListItem.reset();
+    this.status = ENGINE_STATUS.INITIAL;
     this.driveTime = 0;
     this.serverDriveTime = 0;
     this.delay = 0;
-    this.carListItem.reset();
     this.velocity = 0;
     this.distance = 0;
     this.currDistance = 0;
-    this.status = ENGINE_STATUS.STOPPED;
     this.isOnRace = false;
     this.isWinner = false;
     this.isHandBreak = false;

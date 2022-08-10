@@ -16,17 +16,18 @@ export class GarageRaceView extends LoaderView {
     })
   }
 
-  private renderCars(cars: CarEntity[]) {
-    const carsData = cars.map((car) => this.renderChild('cars', CarsListItem, { data: { car } }));
+  private renderCars(data: AppLoadEventData) {
+    const { cars, isRaceInProgress } = data;
+    const carsData = cars.map((car) => this.renderChild('cars', CarsListItem, { data: { car, isRaceInProgress } }));
     return `<ul class="garage__cars-list cars-list">${carsData.join('')}</ul>`;
   }
 
   private renderPage(data: AppLoadEventData) {
-    const { garagePageNumber, cars, carsAmount } = data;
+    const { garagePageNumber, carsAmount } = data;
     const renderCarsParginator = renderPaginator.bind(this, garagePageNumber, carsAmount, 'garage');
     return `
       <h2 class="garage-race__title page-title">
-        Garage<span class="garage-race__cars-amount">(${carsAmount})</span>
+        Garage <span class="page-title__total-amount">(${carsAmount})</span>
       </h2>
       ${renderCarsParginator()}
       <div class="garage-race__tracks">
@@ -34,7 +35,7 @@ export class GarageRaceView extends LoaderView {
           viewConstructor: LoadingOverlayView
         })}
         <div class="garage-race__tracks-flag"></div>
-        ${this.renderCars(cars)}
+        ${this.renderCars(data)}
       </div>
       ${renderCarsParginator()}
     `;
@@ -43,11 +44,11 @@ export class GarageRaceView extends LoaderView {
   public render(data: AppLoadEventData): string {
     let html = '';
     if (data !== undefined) {
-      const { error } = data;
+      const { error, carsAmount } = data;
 
       html = !error
-        ? this.renderPage(data)
-        : `Load error`;
+        ? carsAmount === 0 ? 'There is no cars' : this.renderPage(data)
+        : `Load error: ${error.message}`;
     }
 
     return super.render((loader: string) => `

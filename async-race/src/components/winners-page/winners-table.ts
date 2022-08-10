@@ -38,7 +38,7 @@ export class WinnersTable extends ComponentWithOverlay {
   }
 
   private handleLoadWinners = (e: CustomEvent<WinnersLoadEventData>) => {
-    this.onLoadingEnd({ ...e.detail, error: null, sortHandler: this.handleSort });
+    this.onLoadingEnd({ ...e.detail, sortHandler: this.handleSort });
   }
 
   private handleSort = (e: Event) => {

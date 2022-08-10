@@ -13,10 +13,7 @@ export class WinnersPageView extends View {
   public render(): string {
     return super.render(`
       <div class="winners">
-        <div class="winners__container container">
-          <h2 class="winners__title page-title">Winners</h2>
-          ${this.renderChild('winnersTable', WinnersTable)}
-        </div>
+        ${this.renderChild('winnersTable', WinnersTable)}
       </div>
     `);
   }

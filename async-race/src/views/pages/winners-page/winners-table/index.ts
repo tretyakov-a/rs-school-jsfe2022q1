@@ -13,7 +13,7 @@ export class WinnersTableView extends LoaderView {
   constructor(options: ViewOptions) {
     super({
       ...options,
-      root: '.winners__content',
+      root: '.winners__container',
     })
   }
 
@@ -69,27 +69,38 @@ export class WinnersTableView extends LoaderView {
     `;
   }
 
+  private renderPage(data: WinnersLoadEventData): string {
+    const { winnersPageNumber, winnersAmount } = data;
+    const renderWinnersPaginator = renderPaginator.bind(this, winnersPageNumber, winnersAmount, 'winners');
+    return `
+      <h2 class="winners__title page-title">
+      Winners <span class="page-title__total-amount">(${winnersAmount})</span>
+      </h2>
+      <div class="winners__content">
+        ${renderWinnersPaginator()}
+        <div class="winners__table-container">
+          ${this.renderChild('overlay', Component, {
+            viewConstructor: LoadingOverlayView
+          })}
+          ${this.renderTable(data)}
+        </div>
+        ${renderWinnersPaginator()}
+      </div>`
+  }
+
   public render(data: WinnersLoadEventData): string {
     let html = '';
     if (data !== undefined) {
-      const { error, winnersPageNumber, winnersAmount } = data;
-      const renderWinnersPaginator = renderPaginator.bind(this, winnersPageNumber, winnersAmount, 'winners');
+      const { error, winnersAmount } = data;
       html = !error
-        ? `${renderWinnersPaginator()}
-          <div class="winners__table-container">
-            ${this.renderChild('overlay', Component, {
-              viewConstructor: LoadingOverlayView
-            })}
-            ${this.renderTable(data)}
-          </div>
-          ${renderWinnersPaginator()}`
-        : `Load error`;
+        ? winnersAmount === 0 ? 'No winners yet' : this.renderPage(data)
+        : `Load error: ${error.message}`;
     }
 
     return super.render((loader: string) => `
-      <div class="winners__content">
+      <div class="winners__container container">
         ${loader !== '' ? loader : html}
-      </div>
+      <div>
     `);
   }
 }
